@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astra Designs | Innovative Digital Solutions for the Future</title>
+    <meta name="description" content="Astra Designs: Revolutionizing digital experiences with cutting-edge web solutions, AI-powered designs, and unparalleled expertise. Transform your brand and stay ahead in the digital landscape.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2C3E50;
+            --secondary-color: #3498DB;
+            --accent-color: #E74C3C;
+            --text-color: #333333;
+            --bg-color: #FFFFFF;
+            --card-bg: #F8F9FA;
+            --gradient-bg: linear-gradient(135deg, #2C3E50, #3498DB);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 4rem;
+            position: relative;
+            color: var(--primary-color);
+        }
+        .section-titleh2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 4rem;
+            position: relative;
+            color: white;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--gradient-bg);
+        }
+        header {
+            position: absolute;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 0;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-link {
+            font-weight: 500;
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .nav-link:hover {
+            color: var(--accent-color);
+        }
+        .hero {
+            height: 100vh;
+            background: url('https://cdn-uploads.huggingface.co/production/uploads/noauth/dV88Yqr-vmqZRXgfZHHMi.webp') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.7), rgba(52, 152, 219, 0.7));
+        }
+        .hero-content {
+            max-width: 60%;
+            text-align: left;
+            margin-left: 5%;
+            position: relative;
+            z-index: 1;
+        }
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: var(--bg-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            color: var(--bg-color);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .cta-button {
+            display: inline-block;
+            background: var(--accent-color);
+            color: var(--bg-color);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .cta-button:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .testimonials {
+    background: linear-gradient(135deg, #2C3E50, #3498DB);
+    color: #fff;
+    padding: 100px 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.portfolio-item {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.portfolio-item:hover {
+    transform: translateY(-10px);
+}
+
+.portfolio-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.portfolio-title {
+    color: white;
+    font-size: 1.2rem;
+    margin: 15px;
+}
+
+.portfolio-description {
+    font-size: 0.9rem;
+    margin: 0 15px 15px;
+    opacity: 0.8;
+}
+
+.testimonial-slider {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.testimonial-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 30px;
+    margin: 20px;
+    backdrop-filter: blur(10px);
+    transition: all 0.5s ease;
+    opacity: 0;
+    transform: scale(0.9);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% - 40px);
+}
+
+.testimonial-card.active {
+    opacity: 1;
+    transform: scale(1);
+    position: relative;
+}
+
+.star-rating {
+    text-align: left;
+    color: #E74C3C;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.testimonial-text {
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+}
+
+.author-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.author-name {
+    text-align: left;
+    font-weight: bold;
+}
+
+.author-title {
+    text-align: left;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.testimonial-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.prev-btn, .next-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.prev-btn:hover, .next-btn:hover {
+    color: #E74C3C;
+}
+
+.testimonial-dots {
+    display: flex;
+    justify-content: center;
+    margin: 0 20px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dot.active {
+    background-color: #E74C3C;
+}
+
+.add-testimonial {
+    max-width: 600px;
+    margin: 50px auto 0;
+    text-align: center;
+}
+
+.star-rating-input {
+    font-size: 2rem;
+    color: #ccc;
+    margin-bottom: 20px;
+}
+
+.star-rating-input i {
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.star-rating-input i.fas {
+    color: #E74C3C;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.submit-testimonial {
+    background: #E74C3C;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-testimonial:hover {
+    background: #c0392b;
+}
+
+@media (max-width: 768px) {
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+    }
+}
+        .features, .benefits, .services, .testimonials, .how-it-works, .team {
+            padding: 8rem 0;
+        }
+        .features, .services, .how-it-works {
+            background-color: var(--bg-color);
+        }
+        .benefits, .testimonials, .team {
+            background: var(--gradient-bg);
+            color: var(--bg-color);
+        }
+        .benefits {
+        background: linear-gradient(135deg, #2C3E50, #3498DB);
+        padding: 100px 0;
+        position: relative;
+        z-index: 1;
+    }
+    .benefits .section-title {
+        color: white;
+        margin-bottom: 60px;
+    }
+    .benefits-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+    .benefit-card {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 40px;
+        text-align: center;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+    }
+    
+    .benefits-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+    .benefit-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+    .icon-wrapper {
+        background-color: rgba(52, 152, 219, 0.2);
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto 30px;
+        transition: all 0.3s ease;
+    }
+    .benefit-card:hover .icon-wrapper {
+        background-color: #E74C3C;
+    }
+    .icon-wrapper i {
+        font-size: 40px;
+        color: #fff;
+    }
+    .benefit-title {
+        color: #fff;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    .benefit-card p {
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 30px;
+    }
+    .learn-more {
+        color: #E74C3C;
+        text-decoration: none;
+        font-weight: bold;
+        display: inline-flex;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+    .learn-more i {
+        margin-left: 5px;
+        transition: all 0.3s ease;
+    }
+    .learn-more:hover {
+        color: #fff;
+    }
+    .learn-more:hover i {
+        transform: translateX(5px);
+    }
+    @media (max-width: 768px) {
+        .benefits-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    .how-it-works {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f6f8fa 0%, #e9ecef 100%);
+        }
+
+
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .step {
+            flex-basis: calc(25% - 30px);
+            background-color: var(--bg-color);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .step::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+        }
+
+        .step-number {
+            font-size: 4rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .step:hover .step-number {
+            transform: scale(1.2);
+        }
+
+        .step h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .step p {
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+
+        .step-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+            transition: all 0.3s ease;
+        }
+
+        .step:hover .step-icon {
+            transform: rotateY(180deg);
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            position: relative;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: #e9ecef;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .progress {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 0;
+            height: 4px;
+            background-color: var(--accent-color);
+            transform: translateY(-50%);
+            transition: width 0.5s ease;
+            z-index: 2;
+        }
+
+        .checkpoint {
+            width: 20px;
+            height: 20px;
+            background-color: #e9ecef;
+            border: 4px solid var(--bg-color);
+            border-radius: 50%;
+            z-index: 3;
+            transition: all 0.3s ease;
+        }
+
+        .checkpoint.active {
+            background-color: var(--accent-color);
+            transform: scale(1.2);
+        }
+
+        @media (max-width: 1024px) {
+            .step {
+                flex-basis: calc(50% - 30px);
+                margin-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .step {
+                flex-basis: 100%;
+            }
+        }
+        .benefits .section-title, .testimonials .section-title, .team .section-title {
+            color: var(--bg-color);
+        }
+        .features-grid, .benefits-grid, .services-grid, .team-grid {
+            display: grid;
+            gap: 2rem;
+        }
+        .features-grid, .services-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        .benefits-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        .team-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        .feature-card, .service-card {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .feature-card:hover, .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(44, 62, 80, 0.2);
+        }
+        .feature-icon, .benefit-icon, .service-icon {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+        .feature-title, .benefit-title, .service-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .benefit-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .icon-wrapper {
+            background-color: rgba(52, 152, 219, 0.2);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .icon-wrapper svg {
+            color: #3498DB;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            padding: 1rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .testimonial-text {
+            text-align: left;
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+        .testimonial-author {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        .steps {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .step {
+            text-align: center;
+            max-width: 250px;
+        }
+        .step-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+        .pricing {
+    background: var(--gradient-bg);
+    color: var(--bg-color);
+    padding: 8rem 0;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.pricing-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.pricing-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.pricing-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--bg-color);
+}
+
+.price {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.pricing-card ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+}
+
+.pricing-card li {
+    margin-bottom: 0.5rem;
+}
+
+.pricing-card .cta-button {
+    width: 100%;
+}
+
+@media (max-width: 1024px) {
+    .pricing-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .pricing-grid {
+        grid-template-columns: 1fr;
+    }
+}
+        .team-member {
+            text-align: center;
+        }
+        .team-member img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 4px solid var(--accent-color);
+            transition: all 0.3s ease;
+        }
+        .team-member:hover img {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .team-member-name {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--bg-color);
+        }
+        .team-member-role {
+            font-size: 0.75;
+            font-weight: 500;
+            color: white;
+        }
+        .cta {
+            padding: 8rem 0;
+            background: var(--gradient-bg);
+            color: var(--bg-color);
+            text-align: center;
+        }
+        .cta h2 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            color: var(--bg-color);
+        }
+        footer {
+            background-color: var(--primary-color);
+            padding: 4rem 0 2rem;
+            color: var(--bg-color);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+        }
+        .footer-section p{
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            width: 50%;
+            text-align: left;
+        }
+        .footer-links {
+            list-style: none;
+        }
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        .social-links a {
+            color: var(--bg-color);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .contact {
+            background: linear-gradient(135deg, #2C3E50, #3498DB);
+            color: #fff;
+            padding: 100px 0;
+        }
+        .contact-wrapper {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .contact-info {
+            flex: 1;
+            padding-right: 50px;
+        }
+        .contact-info h3 {
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        .contact-info p {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+        .contact-details {
+            margin-top: 40px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .contact-item i {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: var(--accent-color);
+        }
+        .contact-form {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 50px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        .form-group {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 0;
+            font-size: 1rem;
+            color: #fff;
+            background: transparent;
+            border: none;
+            outline: none;
+        }
+        .form-group label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 10px 0;
+            font-size: 1rem;
+            color: #fff;
+            pointer-events: none;
+            transition: 0.5s;
+        }
+        .form-group input:focus ~ label,
+        .form-group input:valid ~ label,
+        .form-group textarea:focus ~ label,
+        .form-group textarea:valid ~ label {
+            top: -20px;
+            left: 0;
+            color: var(--accent-color);
+            font-size: 0.8rem;
+        }
+        .form-group .line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #fff;
+        }
+        .form-group .line::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: 0.5s;
+        }
+        .form-group input:focus ~ .line::after,
+        .form-group textarea:focus ~ .line::after {
+            width: 100%;
+        }
+        .submit-btn {
+            background: var(--accent-color);
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+        .submit-btn:hover {
+            background: #fff;
+            color: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+        }
+        @media (max-width: 768px) {
+            .contact-wrapper {
+                flex-direction: column;
+            }
+            .contact-info, .contact-form {
+                padding: 20px;
+            }
+        }
+        @media (max-width: 1200px) {
+            .features-grid,
+            .benefits-grid,
+            .services-grid,
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            .features-grid,
+            .benefits-grid,
+            .services-grid,
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-content {
+                margin-left: 0;
+                text-align: center;
+                max-width: 90%;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--accent-color);
+            color: var(--bg-color);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+        .scroll-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .scroll-to-top:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Astra</a>
+                <div class="nav-links">
+                    <a href="#home" class="nav-link">Home</a>
+                    <a href="#features" class="nav-link">Features</a>
+                    <a href="#benefits" class="nav-link">Benefits</a>
+                    <a href="#services" class="nav-link">Services</a>
+                    <a href="#testimonials" class="nav-link">Testimonials</a>
+                    <a href="#team" class="nav-link">Team</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Revolutionize Your Digital Presence</h1>
+                    <p>Harness the power of cutting-edge web solutions and AI-driven designs. Let's propel your brand into the future of digital excellence.</p>
+                    <a href="#contact" class="cta-button">Start Your Transformation</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="services">
+            <div class="container">
+                <h2 class="section-title">Our Comprehensive Services</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <i class="fas fa-laptop-code service-icon"></i>
+                        <h3 class="service-title">Web Design & Development</h3>
+                        <p>Create stunning, responsive websites tailored to your brand and user needs, optimized for performance and exceptional user experience.</p>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-mobile-alt service-icon"></i>
+                        <h3 class="service-title">Mobile App Development</h3>
+                        <p>Build innovative and user-friendly mobile applications for iOS and Android platforms, designed to engage and retain users in the mobile-first era.</p>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-search service-icon"></i>
+                        <h3 class="service-title">SEO Optimization</h3>
+                        <p>Improve your online visibility and drive organic traffic to your website with our comprehensive SEO strategies and cutting-edge techniques.</p>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-bullhorn service-icon"></i>
+                        <h3 class="service-title">Digital Marketing</h3>
+                        <p>Develop and execute comprehensive digital marketing strategies to grow your brand, increase customer engagement, and drive conversions across all channels.</p>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-shopping-cart service-icon"></i>
+                        <h3 class="service-title">E-Commerce Solutions</h3>
+                        <p>Create powerful, secure, and user-friendly e-commerce platforms that drive sales and enhance the online shopping experience for your customers.</p>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-chart-bar service-icon"></i>
+                        <h3 class="service-title">Data Analytics</h3>
+                        <p>Harness the power of data with our advanced analytics solutions, providing actionable insights to drive informed business decisions and strategy.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+          <section id="how-it-works" class="how-it-works">
+            <div class="container">
+                <h2 class="section-title">Our Proven Process</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Discovery</h3>
+                        <p>We take dive deep into your ideal vision, desired goals, and unique challenges to design a tailormade digital strategy.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Strategy</h3>
+                        <p>We then create a comprehensive plan, outlining  milestones, technologies, and innovative approaches to achieve your goals.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Creation</h3>
+                        <p>We bring your idea to life, leveraging cutting-edge technologies and creative expertise to deliver exceptional results.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h3>Growth</h3>
+                        <p>We ensure a smooth launch, provide thorough training, and offer ongoing support to drive continuous growth and success.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <section id="testimonials" class="testimonials">
+    <div class="container">
+        <h2 class="section-title">Client Success Stories</h2>
+        <div class="portfolio-grid">
+            <div class="portfolio-item">
+                <a href="https://goldenslippercleaningservices.com/" class="portfolio-link">
+                    <img src="https://i.ibb.co/n6XLQp1/1.png" alt="E-commerce Redesign" class="portfolio-image">
+                </a>
+                <h3 class="portfolio-title">E-commerce Redesign</h3>
+                <p class="portfolio-description">A complete overhaul of an outdated e-commerce platform, resulting in a 200% increase in sales.</p>
+            </div>
+            <div class="portfolio-item">
+                <a href="https://drh2oplumbing.com/" class="portfolio-link">
+                    <img src="https://i.ibb.co/wK4HQ1K/2.png" alt="Mobile App Development" class="portfolio-image">
+                </a>
+                <h3 class="portfolio-title">Mobile App Development</h3>
+                <p class="portfolio-description">Innovative app for a startup, garnering over 1 million downloads in the first month.</p>
+            </div>
+            <div class="portfolio-item">
+                <a href="https://memoshotsauce.com/" class="portfolio-link">
+                    <img src="https://i.ibb.co/YTJLFCL/4.png" alt="AI-Driven Analytics Dashboard" class="portfolio-image">
+                </a>
+                <h3 class="portfolio-title">AI-Driven Analytics Dashboard</h3>
+                <p class="portfolio-description">Custom analytics solution that reduced decision-making time by 60% for a Fortune 500 company.</p>
+            </div>
+        </div>
+        </div>
+        <div class="testimonial-slider">
+            <div class="testimonial-card active">
+                <div class="testimonial-content">
+                    <p class="testimonial-text">"Astra Designs transformed our online presence. Their innovative approach led to a 150% increase in traffic and 200% boost in lead generation!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <p class="author-name">John Doe</p>
+                            <p class="author-title">CEO of TechCorp</p>
+                   <div class="star-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p class="testimonial-text">"Partnering with Astra was a game-changer. We've seen a 300% increase in conversions and our e-commerce revenue has doubled!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <p class="author-name">Jane Smith</p>
+                            <p class="author-title">Marketing Director at GrowthCo</p>
+            <div class="star-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p class="testimonial-text">"Astra's AI-driven solutions gave us a competitive edge. We've seen a 50% reduction in costs and 100% improvement in customer satisfaction!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <p class="author-name">Alex Johnson</p>
+                            <p class="author-title">CTO of InnovateTech</p>
+                         <div class="star-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-nav">
+            <button class="prev-btn" aria-label="Previous testimonial"><i class="fas fa-chevron-left"></i></button>
+            <div class="testimonial-dots"></div>
+            <button class="next-btn" aria-label="Next testimonial"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+</section>
+       
+<section id="pricing" class="pricing">
+    <div class="container">
+        <h2 class="section-titleh2 ">Choose Your Plan</h2>
+        <div class="pricing-grid">
+            <div class="pricing-card" data-price-id="price_1NiIxXDuUZGXXXXXXXXXXXXX">
+                <h3>Basic Plan</h3>
+                <p class="price">$495/month</p>
+                <ul>
+                    <li>Custom Website Design</li>
+                    <li>Responsive Development</li>
+                    <li>Basic SEO Optimization</li>
+                    <li>1 Month of Maintenance</li>
+                </ul>
+                <button class="cta-button checkout-button">Get Started</button>
+            </div>
+            <div class="pricing-card" data-price-id="price_1NiIxYDuUZGXXXXXXXXXXXXX">
+                <h3>Pro Plan</h3>
+                <p class="price">$995/month</p>
+                <ul>
+                    <li>Advanced Website Design</li>
+                    <li>E-commerce Integration</li>
+                    <li>Comprehensive SEO Package</li>
+                    <li>3 Months of Maintenance</li>
+                </ul>
+                <button class="cta-button checkout-button">Get Started</button>
+            </div>
+            <div class="pricing-card" data-price-id="price_1NiIxZDuUZGXXXXXXXXXXXXX">
+                <h3>Enterprise Plan</h3>
+                <p class="price">$1,995/month</p>
+                <ul>
+                    <li>Custom Web Application</li>
+                    <li>AI-Driven Analytics Dashboard</li>
+                    <li>Full-Scale Digital Marketing</li>
+                    <li>6 Months of Maintenance</li>
+                </ul>
+                <button class="cta-button checkout-button">Get Started</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <section id="team" class="team">
+            <div class="container">
+                <h2 class="section-title">Meet Our Visionary Team</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <img src="https://media.licdn.com/dms/image/v2/D5603AQEVS_xKNOQY8w/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1678890067865?e=1732147200&v=beta&t=bxRHYGrluJeY3vhWV61YManx2MTXO2GTba-AggjHEWU" alt="Lawrence Brennan">
+                        <h3 class="team-member-name">Lawrence Brennan</h3>
+                        <p class="team-member-role">Founder</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://media.licdn.com/dms/image/v2/D4D03AQHFBdoEineqKg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1694125043172?e=1732147200&v=beta&t=DTTlLA9nH4Ffc_HHhy9MqW9LQ8gYjkUD4DgpDf-TGIM" alt="Haylee Mandarino">
+                        <h3 class="team-member-name">Haylee Mandarino</h3>
+                        <p class="team-member-role">Head of Sales</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://pps.whatsapp.net/v/t61.24694-24/439401828_1278486246513121_7666441605707619191_n.jpg?ccb=11-4&oh=01_Q5AaIHyrlq7xg86TCgcjqQiKrtRjAluzk-94Brhvg4sFVaCm&oe=66F7A58F&_nc_sid=5e03e0&_nc_cat=103" alt="Sheyne Quimpo">
+                        <h3 class="team-member-name">Sheyne Quimpo</h3>
+                        <p class="team-member-role">Head of Operations</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+    <div class="container">
+        <h2 class="section-titleh2">Get in Touch</h2>
+        <div class="contact-wrapper">
+            <div class="contact-info">
+                <h3>Let's Create Something Amazing Together</h3>
+                <p>Ready to elevate your digital presence? Our team of experts is here to bring your vision to life. Reach out to us and let's start crafting your success story.</p>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>117 Australia StCamperdown NSW 2050</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+61 473 259 052</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>lawrencebrennan@gmail.com</span>
+                    </div>
+                </div>
+            </div>
+            <form class="contact-form" action="#" method="POST">
+                <div class="form-group">
+                    <input type="text" id="name" name="name" required>
+                    <label for="name">Full Name</label>
+                    <div class="line"></div>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" name="email" required>
+                    <label for="email">Email Address</label>
+                    <div class="line"></div>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="phone" name="phone">
+                    <label for="phone">Phone Number</label>
+                    <div class="line"></div>
+                </div>
+                <div class="form-group">
+                    <textarea id="message" name="message" required></textarea>
+                    <label for="message">Your Message</label>
+                    <div class="line"></div>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>Astra Designs</h3>
+                    <p>Pioneering digital solutions for forward-thinking businesses. Elevate your brand with our expertise and innovation.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#testimonials">Testimonials</a></li>
+                        <li><a href="#team">Team</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect With Us</h3>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Astra Designs. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="scroll-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Testimonial slider functionality
+    const slider = document.querySelector('.testimonial-slider');
+    const cards = slider.querySelectorAll('.testimonial-card');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    const dotsContainer = document.querySelector('.testimonial-dots');
+    let currentIndex = 0;
+
+    // Create dots
+    cards.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(index));
+        dotsContainer.appendChild(dot);
+    });
+
+    function updateSlider() {
+        cards.forEach((card, index) => {
+            if (index === currentIndex) {
+                card.classList.add('active');
+            } else {
+                card.classList.remove('active');
+            }
+        });
+        updateDots();
+    }
+
+    function updateDots() {
+        const dots = dotsContainer.querySelectorAll('.dot');
+        dots.forEach((dot, index) => {
+            if (index === currentIndex) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+    }
+
+    function goToSlide(index) {
+        currentIndex = index;
+        updateSlider();
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % cards.length;
+        updateSlider();
+    }
+
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+        updateSlider();
+    }
+
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+
+    // Auto-play functionality
+    let intervalId = setInterval(nextSlide, 5000);
+
+    slider.addEventListener('mouseenter', () => clearInterval(intervalId));
+    slider.addEventListener('mouseleave', () => intervalId = setInterval(nextSlide, 5000));
+
+    // Star rating functionality
+    const starRating = document.querySelector('.star-rating-input');
+    const stars = starRating.querySelectorAll('i');
+
+    stars.forEach(star => {
+        star.addEventListener('mouseover', function() {
+            const rating = this.getAttribute('data-rating');
+            highlightStars(rating);
+        });
+
+        star.addEventListener('mouseout', function() {
+            resetStars();
+        });
+
+        star.addEventListener('click', function() {
+            const rating = this.getAttribute('data-rating');
+            setRating(rating);
+        });
+    });
+
+    function highlightStars(rating) {
+        stars.forEach(star => {
+            if (star.getAttribute('data-rating') <= rating) {
+                star.classList.remove('far');
+                star.classList.add('fas');
+            } else {
+                star.classList.remove('fas');
+                star.classList.add('far');
+            }
+        });
+    }
+
+    function resetStars() {
+        stars.forEach(star => {
+            if (!star.classList.contains('selected')) {
+                star.classList.remove('fas');
+                star.classList.add('far');
+            }
+        });
+    }
+
+    function setRating(rating) {
+        stars.forEach(star => {
+            star.classList.remove('selected');
+            if (star.getAttribute('data-rating') <= rating) {
+                star.classList.add('selected');
+                star.classList.remove('far');
+                star.classList.add('fas');
+            } else {
+                star.classList.remove('fas');
+                star.classList.add('far');
+            }
+        });
+    }
+
+    // GSAP Animations
+    gsap.registerPlugin(ScrollTrigger);
+
+    // How it works section animations
+    const steps = document.querySelectorAll('.step');
+    const checkpoints = document.querySelectorAll('.checkpoint');
+    const progress = document.querySelector('.progress');
+
+    steps.forEach((step, index) => {
+        gsap.from(step, {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            scrollTrigger: {
+                trigger: step,
+                start: 'top 80%',
+                end: 'bottom 20%',
+                toggleActions: 'play none none reverse',
+                onEnter: () => updateProgress(index + 1),
+                onLeaveBack: () => updateProgress(index)
+            }
+        });
+    });
+
+    function updateProgress(step) {
+        gsap.to(progress, {
+            width: `${(step - 1) * 33.33}%`,
+            duration: 0.5
+        });
+
+        checkpoints.forEach((checkpoint, index) => {
+            if (index < step) {
+                checkpoint.classList.add('active');
+            } else {
+                checkpoint.classList.remove('active');
+            }
+        });
+    }
+
+    // Hover animations for step icons
+    steps.forEach(step => {
+        const icon = step.querySelector('.step-icon');
+        step.addEventListener('mouseenter', () => {
+            gsap.to(icon, { rotationY: 180, duration: 0.5 });
+        });
+        step.addEventListener('mouseleave', () => {
+            gsap.to(icon, { rotationY: 0, duration: 0.5 });
+        });
+    });
+
+    // Smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Hero section animations
+    gsap.from('.hero-content', {opacity: 0, y: 50, duration: 1, delay: 0.5});
+
+    // Animate elements when they come into view
+    gsap.utils.toArray('.feature-card, .benefit-item, .service-card, .testimonial-card, .step, .team-member').forEach((elem) => {
+        gsap.from(elem, {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            scrollTrigger: {
+                trigger: elem,
+                start: 'top 80%',
+            }
+        });
+    });
+
+    // Parallax effect for hero section
+    gsap.to('.hero', {
+        backgroundPosition: '50% 100%',
+        ease: 'none',
+        scrollTrigger: {
+            trigger: '.hero',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true
+        }
+    });
+
+    // Scroll to top button
+    const scrollToTopButton = document.querySelector('.scroll-to-top');
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            scrollToTopButton.classList.add('show');
+        } else {
+            scrollToTopButton.classList.remove('show');
+        }
+    });
+
+    scrollToTopButton.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    // Initialize AOS (Animate on Scroll)
+    AOS.init({
+        duration: 1000,
+        once: true
+    });
+});
+</script>
+</body>
+</html>
