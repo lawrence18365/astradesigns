@@ -1041,6 +1041,27 @@ textarea {
             background: var(--secondary-color);
             transform: translateY(-3px);
         }
+        @media (max-width: 768px) {
+    .hero-content {
+        margin-left: 0;
+        text-align: center;
+        max-width: 90%;
+        margin: 0 auto;
+    }
+
+    .hero-content h1,
+    .hero-content p {
+        text-align: center;
+    }
+
+    .hero-content .cta-button {
+        display: inline-block;
+        margin: 0 auto;
+        width: auto;
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+    }
+}
     </style>
 </head>
 <body>
@@ -1158,70 +1179,7 @@ textarea {
                 </a>
                 <h3 class="portfolio-title">MEMO'S HOT SAUCE</h3>
                 <p class="portfolio-description">Built a custom sales dashboard for a growing hot sauce brand, enabling real-time insights into sales and inventory, which improved overall operational efficiency by 25%.</p>
-            </div>
-        </div>
-        </div>
-        <div class="testimonial-slider">
-            <div class="testimonial-card active">
-                <div class="testimonial-content">
-                    <p class="testimonial-text">"Astra Designs transformed our online presence. Their innovative approach led to a 150% increase in traffic and 200% boost in lead generation!"</p>
-                    <div class="testimonial-author">
-                        <div class="author-info">
-                            <p class="author-name">John Doe</p>
-                            <p class="author-title">CEO of TechCorp</p>
-                   <div class="star-rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-content">
-                    <p class="testimonial-text">"Partnering with Astra was a game-changer. We've seen a 300% increase in conversions and our e-commerce revenue has doubled!"</p>
-                    <div class="testimonial-author">
-                        <div class="author-info">
-                            <p class="author-name">Jane Smith</p>
-                            <p class="author-title">Marketing Director at GrowthCo</p>
-            <div class="star-rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-content">
-                    <p class="testimonial-text">"Astra's AI-driven solutions gave us a competitive edge. We've seen a 50% reduction in costs and 100% improvement in customer satisfaction!"</p>
-                    <div class="testimonial-author">
-                        <div class="author-info">
-                            <p class="author-name">Alex Johnson</p>
-                            <p class="author-title">CTO of InnovateTech</p>
-                         <div class="star-rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="testimonial-nav">
-            <button class="prev-btn" aria-label="Previous testimonial"><i class="fas fa-chevron-left"></i></button>
-            <div class="testimonial-dots"></div>
-            <button class="next-btn" aria-label="Next testimonial"><i class="fas fa-chevron-right"></i></button>
-        </div>
+       
     </div>
 </section>
        
@@ -1288,8 +1246,7 @@ textarea {
                 </div>
             </div>
         </section>
-
-        <section id="contact" class="contact">
+<section id="contact" class="contact">
     <div class="container">
         <h2 class="section-titleh2">Get in Touch</h2>
         <div class="contact-wrapper">
@@ -1323,7 +1280,7 @@ textarea {
                     <div class="line"></div>
                 </div>
                 <div class="form-group">
-                    <input type="tel" id="phone" name="phone">
+                    <input type="tel" id="phone" name="phone" required>
                     <label for="phone">Phone Number</label>
                     <div class="line"></div>
                 </div>
@@ -1336,6 +1293,7 @@ textarea {
             </form>
         </div>
     </div>
+</section>
         </section>
     </main>
 
