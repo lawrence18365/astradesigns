@@ -49,7 +49,7 @@
         }
         .section-title {
             text-align: center;
-            font-size: 2.5rem;
+            font-size: 18px;
             margin-bottom: 4rem;
             position: relative;
             color: var(--primary-color);
@@ -121,14 +121,16 @@
         .nav-link:hover {
             color: var(--accent-color);
         }
-        .hero {
-            height: 100vh;
-            background: url('https://cdn-uploads.huggingface.co/production/uploads/noauth/dV88Yqr-vmqZRXgfZHHMi.webp') center/cover no-repeat;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
+       .hero {
+    height: 100vh;
+    background: url('https://cdn-uploads.huggingface.co/production/uploads/noauth/dV88Yqr-vmqZRXgfZHHMi.webp') center/cover no-repeat;
+    display: flex;
+    align-items: center; 
+    justify-content: flex-start; 
+    position: relative;
+    overflow: hidden;
+    padding-left: 15%; /* Adjust the padding as needed */
+}
         .hero::before {
             content: '';
             position: absolute;
@@ -136,7 +138,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(44, 62, 80, 0.7), rgba(52, 152, 219, 0.7));
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4));
         }
          /* Add this new style for the gradient overlay */
         .hero::after {
@@ -147,18 +149,20 @@
             bottom: 0;
             height: 150px; /* Adjust this value to control the height of the gradient */
             background: linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+            
 
         }
-        
-        .hero-content {
-            max-width: 60%;
-            text-align: left;
-            margin-left: 5%;
-            position: relative;
-            z-index: 1;
-        }
-        .hero h1 {
-            font-size: 4rem;
+.hero-content {
+    max-width: 40%; /* Reduce max-width */
+    margin-left: -7%; /* Move content further to the left */
+    position: relative;
+    z-index: 1;
+    color: #FFFFFF;
+    
+}
+
+         .hero h1 {
+            font-size: 67px;
             font-weight: 700;
             line-height: 1.2;
             margin-bottom: 1rem;
@@ -166,21 +170,22 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
         .hero p {
-            font-size: 1.5rem;
+            font-size: 18px;
             margin-bottom: 2rem;
             max-width: 600px;
             color: var(--bg-color);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2)
+}
         .cta-button {
             display: inline-block;
-            background: var(--accent-color);
+            background: linear-gradient(135deg, #FF6E6E, #FF4A4A);
             color: var(--bg-color);
             padding: 1rem 2.5rem;
             border-radius: 50px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
+            text-align: center;
             text-decoration: none;
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -190,6 +195,12 @@
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
+      .hero .container {
+    max-width: none !important; /* Remove width restrictions */
+    padding: 0; /* Remove additional padding */
+    margin: 0; /* Remove centering */
+    width: 100% /* Allow the container to stretch with high priority */
+}
         .testimonials {
     background: linear-gradient(135deg, #2C3E50, #3498DB);
     color: #fff;
@@ -204,7 +215,7 @@
 
 .section-title {
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 18px;
     margin-bottom: 50px;
 }
 
@@ -407,7 +418,14 @@ textarea {
     .portfolio-grid {
         grid-template-columns: 1fr;
     }
+.hero .container {
+    max-width: none; /* Remove width restrictions */
+    padding: 0; /* Remove additional padding */
+    margin: 0; /* Remove centering */
+    width: auto; /* Allow the container to stretch */
 }
+}
+
   /* Update the services section */
         .services {
             background-color: var(--bg-color);
@@ -508,7 +526,7 @@ textarea {
         }
     }
     .how-it-works {
-            padding: 80px 0;
+            padding: 80px 5;
             background: linear-gradient(135deg, #f6f8fa 0%, #e9ecef 100%);
         }
 
@@ -728,7 +746,20 @@ textarea {
         .pricing {
     background: var(--gradient-bg);
     color: var(--bg-color);
-    padding: 8rem 0;
+    padding: 6rem 0;
+}
+
+.pricing-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-titleh2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--bg-color);
 }
 
 .pricing-grid {
@@ -743,6 +774,10 @@ textarea {
     padding: 2rem;
     text-align: center;
     transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
     backdrop-filter: blur(10px);
 }
 
@@ -752,30 +787,51 @@ textarea {
 }
 
 .pricing-card h3 {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     margin-bottom: 1rem;
     color: var(--bg-color);
 }
 
 .price {
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 700;
-    margin-bottom: 1.5rem;
-    color: white;
+    margin-bottom: 2rem;
+    color: var(--accent-color);
 }
 
 .pricing-card ul {
     list-style: none;
     padding: 0;
     margin-bottom: 2rem;
+    flex-grow: 1;
 }
 
 .pricing-card li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+    opacity: 0.9;
 }
 
-.pricing-card .cta-button {
+.cta-button {
+    display: inline-block;
+    background: linear-gradient(135deg, #FF6E6E, #FF4A4A);
+    color: var(--bg-color);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
     width: 100%;
+    margin-top: auto;
+}
+
+.cta-button:hover {
+    background: var(--secondary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 1024px) {
@@ -788,11 +844,16 @@ textarea {
     .pricing-grid {
         grid-template-columns: 1fr;
     }
+    
+    .pricing-card {
+        max-width: 400px;
+        margin: 0 auto;
+    }
 }
 .testimonials {
     background: linear-gradient(135deg, #2C3E50, #3498DB);
     color: #fff;
-    padding: 100px 0;
+    padding: 100px 5;
 }
 
 .container {
@@ -800,11 +861,17 @@ textarea {
     margin: 0 auto;
     padding: 0 20px;
 }
-
+.contact .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    margin-top: -2%;
+} 
 .section-title {
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 48px;
     margin-bottom: 50px;
+    margin-top: -70px;
     color: #2c3e51;
 }
 
@@ -826,21 +893,24 @@ textarea {
 }
 
 .star-rating {
-    color: #E74C3C;
-    font-size: 1.2rem;
-    margin-bottom: 15px;
+    color: #ffcd3c;
+    font-size: 2rem;
+    margin-bottom: 0.1px;
 }
 
 .testimonial-text {
-    font-style: italic;
+font-family: 'Montserrat', sans-serif;
+font-style: italic;
     margin-bottom: 20px;
-    font-size: 1.1rem;
-    line-height: 1.6;
+    font-size: 1.2rem;
+    line-height: 1.8;
 }
 
 .testimonial-author {
     display: flex;
     align-items: center;
+    font-size: 1.8rem;
+
 }
 
 .author-info {
@@ -850,7 +920,7 @@ textarea {
 
 .author-name {
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     margin-bottom: 5px;
 }
 
@@ -1151,26 +1221,29 @@ textarea {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-        @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 3rem;
+       @media (max-width: 768px) {
+            .hero {
+                padding-left: 0;
+                justify-content: center;
             }
-            .nav-links {
-                display: none;
-            }
-            .features-grid,
-            .benefits-grid,
-            .services-grid,
-            .team-grid {
-                grid-template-columns: 1fr;
-            }
+
             .hero-content {
+                max-width: 90%;
                 margin-left: 0;
                 text-align: center;
-                max-width: 90%;
             }
-            .footer-grid {
-                grid-template-columns: 1fr;
+
+            .hero h1 {
+                font-size: 2.5rem; /* Reduce font size for mobile */
+            }
+
+            .hero p {
+                font-size: 1rem; /* Reduce font size for mobile */
+            }
+
+            .cta-button {
+                display: inline-block;
+                margin-top: 1rem;
             }
         }
         .scroll-to-top {
@@ -1241,7 +1314,7 @@ textarea {
         <section id="home" class="hero">
             <div class="container">
                 <div class="hero-content">
-                    <h1>Perfect Your Digital Presence</h1>
+                    <h1>Quick, Reliable, Afordable, Web-Design</h1>
                     <p>Cutting-edge web solutions and data driven design.</p>
                     <a href="#contact" class="cta-button">Free Digital Audit</a>
                 </div>
@@ -1264,7 +1337,7 @@ textarea {
 </div>
                     <div class="service-card">
                         <i class="fas fa-search service-icon"></i>
-                        <h3 class="service-title">SEO Optimization</h3>
+                        <h3 class="service-title">SEO<br>Optimization</h3>
                         <p>Improve your online visibility and drive organic traffic to your website with our comprehensive SEO strategies and cutting-edge techniques.</p>
                     </div>
                     <div class="service-card">
@@ -1340,53 +1413,54 @@ textarea {
        
     </div>
 </section>
-       
-<section id="pricing" class="pricing">
-    <div class="container">
-        <h2 class="section-titleh2 ">Packages</h2>
+   <section id="pricing" class="pricing">
+    <div class="pricing-container">
+        <h2 class="section-titleh2">Packages</h2>
         <div class="pricing-grid">
-            <div class="pricing-card" data-price-id="price_1NiIxXDuUZGXXXXXXXXXXXXX">
+            <div class="pricing-card">
                 <h3>Basic Plan</h3>
                 <p class="price">$495</p>
                 <ul>
-                    <li>Custom Website Design</li>
                     <li>3 Page Website</li>
+                    <li>No Business Email</li>
+                    <li>No Domain Included</li>
+                    <li>No Hosting Included</li>
+                    <li>Custom Website Design</li>
                     <li>Basic SEO Optimization</li>
-                    <li>6 Month of Maintenance</li>
+                    <li>6 Months of Maintenance</li>
+                    <li>No E-commerce Integration</li>
                 </ul>
-                <button class="cta-button checkout-button">Get Started</button>
+                <a href="#contact" class="cta-button">Get Started</a>
             </div>
-            <div class="pricing-card" data-price-id="price_1NiIxYDuUZGXXXXXXXXXXXXX">
+            <div class="pricing-card">
                 <h3>Pro Plan</h3>
                 <p class="price">$995</p>
                 <ul>
-                    <li>Advanced Website Design</li>
                     <li>5 Page Website</li>
-                    <li>E-commerce Integration</li>
-                    <li>Comprehensive SEO Package</li>
-                    <li>1 year of Maintenance</li>
-                    <li>1 year of Hosting</li>
                     <li>1 Business Email</li>
-                    <li>1 year of Domain</li>
+                    <li>1 Year of Domain</li>
+                    <li>1 Year of Hosting</li>
+                    <li>1 Year of Maintenance</li>
+                    <li>E-commerce Integration</li>
+                    <li>Advanced Website Design</li>
+                    <li>Comprehensive SEO Package</li>
                 </ul>
-                <button class="cta-button checkout-button">Get Started</button>
+                <a href="#contact" class="cta-button">Get Started</a>
             </div>
-            <div class="pricing-card" data-price-id="price_1NiIxZDuUZGXXXXXXXXXXXXX">
+            <div class="pricing-card">
                 <h3>Enterprise Plan</h3>
                 <p class="price">$1,995</p>
                 <ul>
-                   <li>Advanced Website Design</li>
-                    <li>10 Page Website</li>
                     <li>Blog Included</li>
+                    <li>10 Page Website</li>
+                    <li>1 Year of Hosting</li>
+                    <li>1 Year of Maintenance</li>
                     <li>E-commerce Integration</li>
-                    <li>Comprehensive SEO Package</li>
-                    <li>1 year of Maintenance</li>
-                    <li>1 year of Hosting</li>
-                    <li>1 Business Email</li>
-                    <li>1 year of Domain</li>
+                    <li>Advanced Website Design</li>
                     <li>6 Months of Custom Chat Bot</li>
+                    <li>Comprehensive SEO Package</li>
                 </ul>
-                <button class="cta-button checkout-button">Get Started</button>
+                <a href="#contact" class="cta-button">Get Started</a>
             </div>
         </div>
     </div>
@@ -1438,7 +1512,7 @@ textarea {
                     <div class="testimonial-author">
                         <div class="author-info">
                             <p class="author-name">John Guthrie</p>
-                            <p class="author-title">Satisfied Customer</p>
+                            <p class="author-title">Dr. H2O</p>
                             <div class="star-rating">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
@@ -1455,8 +1529,8 @@ textarea {
                     <p class="testimonial-text">"Super Professional, organised, fast, amazing attention to detail, responsive and friendly and supportive. Astra Designs built our business website from start to finish. Amazing and beautiful result!"</p>
                     <div class="testimonial-author">
                         <div class="author-info">
-                            <p class="author-name">Pro Clean Professional Services</p>
-                            <p class="author-title">Local Guide</p>
+                            <p class="author-name">Peter Martyn</p>
+                            <p class="author-title">Pro Clean Professional Services</p>
                             <div class="star-rating">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
@@ -1474,7 +1548,7 @@ textarea {
                     <div class="testimonial-author">
                         <div class="author-info">
                             <p class="author-name">Rebecca Jackson</p>
-                            <p class="author-title">Satisfied Customer</p>
+                            <p class="author-title">Happy Tails Dog Walking</p>
                             <div class="star-rating">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
