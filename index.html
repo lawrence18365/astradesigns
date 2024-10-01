@@ -138,6 +138,18 @@
             bottom: 0;
             background: linear-gradient(135deg, rgba(44, 62, 80, 0.7), rgba(52, 152, 219, 0.7));
         }
+         /* Add this new style for the gradient overlay */
+        .hero::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 150px; /* Adjust this value to control the height of the gradient */
+            background: linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+
+        }
+        
         .hero-content {
             max-width: 60%;
             text-align: left;
@@ -396,6 +408,12 @@ textarea {
         grid-template-columns: 1fr;
     }
 }
+  /* Update the services section */
+        .services {
+            background-color: var(--bg-color);
+            position: relative;
+            z-index: 1; /* Ensure the services section is above the hero gradient */
+        }
         .features, .benefits, .services, .testimonials, .how-it-works, .team {
             padding: 8rem 0;
         }
@@ -787,7 +805,7 @@ textarea {
     text-align: center;
     font-size: 2.5rem;
     margin-bottom: 50px;
-    color: #3490ce;
+    color: #2c3e51;
 }
 
 .testimonial-slider {
@@ -959,8 +977,7 @@ textarea {
             gap: 2rem;
         }
         .footer-section h3 {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
+            font-size: 2rem;
             color: var(--accent-color);
         }
         .footer-section p{
@@ -968,7 +985,7 @@ textarea {
             margin-bottom: 1.5rem;
             color: white;
             width: 50%;
-            text-align: center;
+            text-align: left;
         }
         .footer-links {
             list-style: none;
@@ -1224,7 +1241,7 @@ textarea {
         <section id="home" class="hero">
             <div class="container">
                 <div class="hero-content">
-                    <h1>Master Your Online Presence</h1>
+                    <h1>Perfect Your Digital Presence</h1>
                     <p>Cutting-edge web solutions and data driven design.</p>
                     <a href="#contact" class="cta-button">Free Digital Audit</a>
                 </div>
@@ -1241,7 +1258,7 @@ textarea {
                         <p>We build safe, reliable, and beautiful websites that are fast and user-friendly. Perfect for any business looking for a improve online presence!</p>
                     </div>
                  <div class="service-card">
-    <i class="fas fa-mobile-alt service-icon"></i>
+                       <i class="fas fa-mobile-alt service-icon"></i>
     <h3 class="service-title">Mobile-Friendly Design</h3>
     <p>We create websites that look stunning and perform flawlessly on every device. With a mobile-first approach, each site is built to be responsive, ensuring your users have a smooth and engaging experience whether they're on a smartphone, tablet, or desktop.</p>
 </div>
@@ -1319,7 +1336,7 @@ textarea {
                     <img src="https://i.ibb.co/F3LwmgL/Screenshot-2024-09-18-at-9-36-01-PM.png" alt="MEMO'S HOT SAUCE" class="portfolio-image">
                 </a>
                 <h3 class="portfolio-title">MEMO'S HOT SAUCE</h3>
-                <p class="portfolio-description">Built a custom sales dashboard for a growing hot sauce brand.</p>
+                <p class="portfolio-description">Built a custom sales dashboard for a growing hot sauce brand. Direct stripe integration to avoid costly shopify fee's</p>
        
     </div>
 </section>
@@ -1551,7 +1568,7 @@ textarea {
             <div class="footer-grid">
                 <div class="footer-section">
                     <h3>Astra Designs</h3>
-                    <p>Pioneering digital solutions for forward-thinking businesses. Elevate your brand with our expertise and innovation.</p>
+                    <p>Providing afordable digital solutions for local businesses. Elevate your<br>brand and<br> business<br>
                 </div>
                 <div class="footer-section">
                     <h3>Quick Links</h3>
