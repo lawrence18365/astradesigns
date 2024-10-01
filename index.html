@@ -231,20 +231,19 @@
     margin: 0 15px 15px;
     opacity: 0.8;
 }
-
 .testimonial-slider {
     position: relative;
     max-width: 800px;
     margin: 0 auto;
     overflow: hidden;
+    height: 400px; /* Set a fixed height for the slider */
 }
 
 .testimonial-card {
-    background: rgba(255, 255, 255, 0.1);
+    background: white;
     border-radius: 10px;
     padding: 30px;
     margin: 20px;
-    backdrop-filter: blur(10px);
     transition: all 0.5s ease;
     opacity: 0;
     transform: scale(0.9);
@@ -252,12 +251,24 @@
     top: 0;
     left: 0;
     width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    color: #333; /* Dark text color for contrast */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .testimonial-card.active {
     opacity: 1;
     transform: scale(1);
     position: relative;
+}
+
+.testimonial-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .star-rating {
@@ -270,6 +281,9 @@
 .testimonial-text {
     font-style: italic;
     margin-bottom: 20px;
+    color: #333;
+    flex-grow: 1;
+    overflow: auto;
 }
 
 .testimonial-author {
@@ -277,20 +291,23 @@
     align-items: center;
 }
 
-.author-image {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    margin-right: 15px;
+.author-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.author-name, .author-title {
+    color: #333;
+    text-align: left;
 }
 
 .author-name {
-    text-align: left;
     font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
 }
 
 .author-title {
-    text-align: left;
     font-size: 0.9rem;
     opacity: 0.8;
 }
@@ -309,6 +326,7 @@
     font-size: 1.5rem;
     cursor: pointer;
     transition: color 0.3s ease;
+    padding: 10px;
 }
 
 .prev-btn:hover, .next-btn:hover {
@@ -334,13 +352,6 @@
 .dot.active {
     background-color: #E74C3C;
 }
-
-.add-testimonial {
-    max-width: 600px;
-    margin: 50px auto 0;
-    text-align: center;
-}
-
 .star-rating-input {
     font-size: 2rem;
     color: #ccc;
@@ -402,7 +413,7 @@ textarea {
         z-index: 1;
     }
     .benefits .section-title {
-        color: white;
+        color: rgba(255, 255, 255, 0.1);
         margin-bottom: 60px;
     }
     .benefits-grid {
@@ -670,17 +681,7 @@ textarea {
         .icon-wrapper svg {
             color: #3498DB;
         }
-        .testimonial-card {
-            background-color: var(--card-bg);
-            padding: 1rem;
-            border-radius: 15px;
-            text-align: center;
-            margin-bottom: 2rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+       
         .testimonial-text {
             text-align: left;
             font-style: italic;
@@ -770,32 +771,172 @@ textarea {
         grid-template-columns: 1fr;
     }
 }
-        .team-member {
-            text-align: center;
-        }
-        .team-member img {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 1rem;
-            border: 4px solid var(--accent-color);
-            transition: all 0.3s ease;
-        }
-        .team-member:hover img {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-        .team-member-name {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--bg-color);
-        }
-        .team-member-role {
-            font-size: 0.75;
-            font-weight: 500;
-            color: white;
-        }
+.testimonials {
+    background: linear-gradient(135deg, #2C3E50, #3498DB);
+    color: #fff;
+    padding: 100px 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+    color: #2c3f51;
+}
+
+.testimonial-slider {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.testimonial-card.active {
+    opacity: 1;
+    transform: scale(1);
+    position: relative;
+}
+
+.testimonial-content {
+    text-align: left;
+}
+
+.star-rating {
+    color: #E74C3C;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.testimonial-text {
+    font-style: italic;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+}
+
+.author-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.author-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.author-title {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.testimonial-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.prev-btn, .next-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    padding: 10px;
+}
+
+.prev-btn:hover, .next-btn:hover {
+    color: #E74C3C;
+}
+
+.testimonial-dots {
+    display: flex;
+    justify-content: center;
+    margin: 0 20px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dot.active {
+    background-color: #E74C3C;
+}
+
+@media (max-width: 768px) {
+    .testimonial-card {
+        padding: 20px;
+    }
+
+    .testimonial-text {
+        font-size: 1rem;
+    }
+
+    .author-name {
+        font-size: 1rem;
+    }
+
+    .author-title {
+        font-size: 0.8rem;
+    }
+}
+       .team-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem; /* Spacing between team members */
+    padding: 2rem;
+}
+
+.team-member {
+    text-align: center;
+}
+
+.team-member img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+    border: 4px solid var(--accent-color);
+    transition: all 0.3s ease;
+}
+
+.team-member:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.team-member-name {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.team-member-role {
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+}
         .cta {
             padding: 8rem 0;
             background: var(--gradient-bg);
@@ -1234,23 +1375,126 @@ textarea {
     </div>
 </section>
 
-        <section id="team" class="team">
-            <div class="container">
-                <h2 class="section-title">Meet Our Visionary Team</h2>
-                <div class="team-grid">
-                    <div class="team-member">
-                        <img src="https://media.licdn.com/dms/image/v2/D5603AQEVS_xKNOQY8w/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1678890067865?e=1732147200&v=beta&t=bxRHYGrluJeY3vhWV61YManx2MTXO2GTba-AggjHEWU" alt="Lawrence Brennan">
-                        <h3 class="team-member-name">Lawrence Brennan</h3>
-                        <p class="team-member-role">Founder</p>
-                    </div>
-                    <div class="team-member">
-                        <img src="https://media.licdn.com/dms/image/v2/D4D03AQHFBdoEineqKg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1694125043172?e=1732147200&v=beta&t=DTTlLA9nH4Ffc_HHhy9MqW9LQ8gYjkUD4DgpDf-TGIM" alt="Haylee Mandarino">
-                        <h3 class="team-member-name">Haylee Mandarino</h3>
-                        <p class="team-member-role">Sales</p>
+     <section id="team" class="team">
+    <div class="container">
+        <h2 class="section-title" style="text-align: center;">Meet Our Team</h2>
+        <div class="team-container" style="display: flex; justify-content: center; align-items: center; gap: 2rem; padding: 2rem;">
+            <div class="team-member" style="text-align: center;">
+                <img src="https://media.licdn.com/dms/image/v2/D5603AQEVS_xKNOQY8w/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1678890067865?e=1732147200&v=beta&t=bxRHYGrluJeY3vhWV61YManx2MTXO2GTba-AggjHEWU" alt="Lawrence Brennan" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; border: 4px solid #FF6347; transition: all 0.3s ease;">
+                <h3 class="team-member-name" style="font-size: 1.5rem; margin-bottom: 0.5rem; color: white;">Lawrence Brennan</h3>
+                <p class="team-member-role" style="font-size: 1rem; font-weight: 500; color: white;">Founder</p>
+            </div>
+            <div class="team-member" style="text-align: center;">
+                <img src="https://media.licdn.com/dms/image/v2/D4D03AQHFBdoEineqKg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1694125043172?e=1732147200&v=beta&t=DTTlLA9nH4Ffc_HHhy9MqW9LQ8gYjkUD4DgpDf-TGIM" alt="Haylee Mandarino" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; border: 4px solid #FF6347; transition: all 0.3s ease;">
+                <h3 class="team-member-name" style="font-size: 1.5rem; margin-bottom: 0.5rem; color: white;">Haylee Mandarino</h3>
+                <p class="team-member-role" style="font-size: 1rem; font-weight: 500; color: white;">Sales</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <section id="testimonials" class="testimonials">
+    <div class="container">
+        <h2 class="section-title">Client Success Stories</h2>
+        <div class="testimonial-slider">
+            <div class="testimonial-card active">
+                <div class="testimonial-content">
+                    <p class="testimonial-text">"I am absolutely delighted with the phenomenal service provided by Lawrence and the team at Astra Designs! They designed and launched my stunning new website for my Eco friendly cleaning business, exceeding my expectations in every way."</p>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <p class="author-name">Abbie Murphy</p>
+                            <p class="author-title">Golden Slipper Cleaning Services</p>
+                            <div class="star-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p class="testimonial-text">"Hayley at Astra Designs was great in creating a website I loved and brought my online presence to the next level. Very efficient and professional. Couldn't recommend any higher."</p>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <p class="author-name">John Guthrie</p>
+                            <p class="author-title">Satisfied Customer</p>
+                            <div class="star-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p class="testimonial-text">"Super Professional, organised, fast, amazing attention to detail, responsive and friendly and supportive. Astra Designs built our business website from start to finish. Amazing and beautiful result!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <p class="author-name">Pro Clean Professional Services</p>
+                            <p class="author-title">Local Guide</p>
+                            <div class="star-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p class="testimonial-text">"Highly recommend. Professional, innovative & efficient."</p>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <p class="author-name">Rebecca Jackson</p>
+                            <p class="author-title">Satisfied Customer</p>
+                            <div class="star-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p class="testimonial-text">"Amazing work by Astra Designs! They brought my vision to life with a stunning website that perfectly captures my brand's essence. Friendly communication, attention to detail, and a wholesome approach. Exceeded my expectations!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <p class="author-name">Guillermo Padilla</p>
+                            <p class="author-title">Memo's Hot Sauce Founder</p>
+                            <div class="star-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-nav">
+            <button class="prev-btn" aria-label="Previous testimonial"><i class="fas fa-chevron-left"></i></button>
+            <div class="testimonial-dots"></div>
+            <button class="next-btn" aria-label="Next testimonial"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+</section>
 <section id="contact" class="contact">
     <div class="container">
         <h2 class="section-titleh2">Get in Touch</h2>
@@ -1407,171 +1651,187 @@ document.addEventListener('DOMContentLoaded', function() {
     slider.addEventListener('mouseenter', () => clearInterval(intervalId));
     slider.addEventListener('mouseleave', () => intervalId = setInterval(nextSlide, 5000));
 
+    // Initial setup for slider
+    updateSlider();
+
     // Star rating functionality
     const starRating = document.querySelector('.star-rating-input');
-    const stars = starRating.querySelectorAll('i');
+    if (starRating) {
+        const stars = starRating.querySelectorAll('i');
 
-    stars.forEach(star => {
-        star.addEventListener('mouseover', function() {
-            const rating = this.getAttribute('data-rating');
-            highlightStars(rating);
-        });
-
-        star.addEventListener('mouseout', function() {
-            resetStars();
-        });
-
-        star.addEventListener('click', function() {
-            const rating = this.getAttribute('data-rating');
-            setRating(rating);
-        });
-    });
-
-    function highlightStars(rating) {
         stars.forEach(star => {
-            if (star.getAttribute('data-rating') <= rating) {
-                star.classList.remove('far');
-                star.classList.add('fas');
-            } else {
-                star.classList.remove('fas');
-                star.classList.add('far');
-            }
-        });
-    }
+            star.addEventListener('mouseover', function() {
+                const rating = this.getAttribute('data-rating');
+                highlightStars(rating);
+            });
 
-    function resetStars() {
-        stars.forEach(star => {
-            if (!star.classList.contains('selected')) {
-                star.classList.remove('fas');
-                star.classList.add('far');
-            }
-        });
-    }
+            star.addEventListener('mouseout', function() {
+                resetStars();
+            });
 
-    function setRating(rating) {
-        stars.forEach(star => {
-            star.classList.remove('selected');
-            if (star.getAttribute('data-rating') <= rating) {
-                star.classList.add('selected');
-                star.classList.remove('far');
-                star.classList.add('fas');
-            } else {
-                star.classList.remove('fas');
-                star.classList.add('far');
-            }
+            star.addEventListener('click', function() {
+                const rating = this.getAttribute('data-rating');
+                setRating(rating);
+            });
         });
+
+        function highlightStars(rating) {
+            stars.forEach(star => {
+                if (star.getAttribute('data-rating') <= rating) {
+                    star.classList.remove('far');
+                    star.classList.add('fas');
+                } else {
+                    star.classList.remove('fas');
+                    star.classList.add('far');
+                }
+            });
+        }
+
+        function resetStars() {
+            stars.forEach(star => {
+                if (!star.classList.contains('selected')) {
+                    star.classList.remove('fas');
+                    star.classList.add('far');
+                }
+            });
+        }
+
+        function setRating(rating) {
+            stars.forEach(star => {
+                star.classList.remove('selected');
+                if (star.getAttribute('data-rating') <= rating) {
+                    star.classList.add('selected');
+                    star.classList.remove('far');
+                    star.classList.add('fas');
+                } else {
+                    star.classList.remove('fas');
+                    star.classList.add('far');
+                }
+            });
+        }
     }
 
     // GSAP Animations
-    gsap.registerPlugin(ScrollTrigger);
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
 
-    // How it works section animations
-    const steps = document.querySelectorAll('.step');
-    const checkpoints = document.querySelectorAll('.checkpoint');
-    const progress = document.querySelector('.progress');
+        // How it works section animations
+        const steps = document.querySelectorAll('.step');
+        const checkpoints = document.querySelectorAll('.checkpoint');
+        const progress = document.querySelector('.progress');
 
-    steps.forEach((step, index) => {
-        gsap.from(step, {
-            opacity: 0,
-            y: 50,
-            duration: 1,
-            scrollTrigger: {
-                trigger: step,
-                start: 'top 80%',
-                end: 'bottom 20%',
-                toggleActions: 'play none none reverse',
-                onEnter: () => updateProgress(index + 1),
-                onLeaveBack: () => updateProgress(index)
+        steps.forEach((step, index) => {
+            gsap.from(step, {
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: step,
+                    start: 'top 80%',
+                    end: 'bottom 20%',
+                    toggleActions: 'play none none reverse',
+                    onEnter: () => updateProgress(index + 1),
+                    onLeaveBack: () => updateProgress(index)
+                }
+            });
+        });
+
+        function updateProgress(step) {
+            gsap.to(progress, {
+                width: `${(step - 1) * 33.33}%`,
+                duration: 0.5
+            });
+
+            checkpoints.forEach((checkpoint, index) => {
+                if (index < step) {
+                    checkpoint.classList.add('active');
+                } else {
+                    checkpoint.classList.remove('active');
+                }
+            });
+        }
+
+        // Hover animations for step icons
+        steps.forEach(step => {
+            const icon = step.querySelector('.step-icon');
+            if (icon) {
+                step.addEventListener('mouseenter', () => {
+                    gsap.to(icon, { rotationY: 180, duration: 0.5 });
+                });
+                step.addEventListener('mouseleave', () => {
+                    gsap.to(icon, { rotationY: 0, duration: 0.5 });
+                });
             }
         });
-    });
 
-    function updateProgress(step) {
-        gsap.to(progress, {
-            width: `${(step - 1) * 33.33}%`,
-            duration: 0.5
+        // Hero section animations
+        gsap.from('.hero-content', {opacity: 0, y: 50, duration: 1, delay: 0.5});
+
+        // Animate elements when they come into view
+        gsap.utils.toArray('.feature-card, .benefit-item, .service-card, .testimonial-card, .step, .team-member').forEach((elem) => {
+            gsap.from(elem, {
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: elem,
+                    start: 'top 80%',
+                }
+            });
         });
 
-        checkpoints.forEach((checkpoint, index) => {
-            if (index < step) {
-                checkpoint.classList.add('active');
-            } else {
-                checkpoint.classList.remove('active');
+        // Parallax effect for hero section
+        gsap.to('.hero', {
+            backgroundPosition: '50% 100%',
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.hero',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
             }
         });
     }
-
-    // Hover animations for step icons
-    steps.forEach(step => {
-        const icon = step.querySelector('.step-icon');
-        step.addEventListener('mouseenter', () => {
-            gsap.to(icon, { rotationY: 180, duration: 0.5 });
-        });
-        step.addEventListener('mouseleave', () => {
-            gsap.to(icon, { rotationY: 0, duration: 0.5 });
-        });
-    });
 
     // Smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
-    });
-
-    // Hero section animations
-    gsap.from('.hero-content', {opacity: 0, y: 50, duration: 1, delay: 0.5});
-
-    // Animate elements when they come into view
-    gsap.utils.toArray('.feature-card, .benefit-item, .service-card, .testimonial-card, .step, .team-member').forEach((elem) => {
-        gsap.from(elem, {
-            opacity: 0,
-            y: 50,
-            duration: 1,
-            scrollTrigger: {
-                trigger: elem,
-                start: 'top 80%',
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         });
     });
 
-    // Parallax effect for hero section
-    gsap.to('.hero', {
-        backgroundPosition: '50% 100%',
-        ease: 'none',
-        scrollTrigger: {
-            trigger: '.hero',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true
-        }
-    });
-
     // Scroll to top button
     const scrollToTopButton = document.querySelector('.scroll-to-top');
-    window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) {
-            scrollToTopButton.classList.add('show');
-        } else {
-            scrollToTopButton.classList.remove('show');
-        }
-    });
-
-    scrollToTopButton.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
+    if (scrollToTopButton) {
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopButton.classList.add('show');
+            } else {
+                scrollToTopButton.classList.remove('show');
+            }
         });
-    });
+
+        scrollToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
 
     // Initialize AOS (Animate on Scroll)
-    AOS.init({
-        duration: 1000,
-        once: true
-    });
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+    }
 });
 </script>
 </body>
