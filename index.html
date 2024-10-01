@@ -525,34 +525,61 @@ textarea {
             grid-template-columns: 1fr;
         }
     }
-    .how-it-works {
-            padding: 80px 5;
+   
+        .how-it-works {
+            padding: 100px 0;
             background: linear-gradient(135deg, #f6f8fa 0%, #e9ecef 100%);
+            overflow: hidden;
         }
 
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+        }
 
         .steps {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: stretch;
             flex-wrap: wrap;
         }
 
         .step {
             flex-basis: calc(25% - 30px);
             background-color: var(--bg-color);
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+            border-radius: 15px;
+            padding: 40px 30px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s ease;
             text-align: center;
             position: relative;
             overflow: hidden;
+            margin-bottom: 30px;
         }
 
         .step:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
 
         .step::before {
@@ -566,37 +593,52 @@ textarea {
         }
 
         .step-number {
-            font-size: 4rem;
+            font-size: 5rem;
             font-weight: bold;
             color: var(--accent-color);
             margin-bottom: 20px;
-            transition: all 0.3s ease;
+            transition: all 0.5s ease;
+            opacity: 0.2;
+            position: absolute;
+            top: 10px;
+            right: 20px;
         }
 
         .step:hover .step-number {
-            transform: scale(1.2);
+            transform: scale(1.2) rotate(15deg);
+            opacity: 0.4;
         }
 
         .step h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
             color: var(--primary-color);
+            position: relative;
+            z-index: 1;
         }
 
         .step p {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: var(--text-color);
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
         }
 
         .step-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
+            font-size: 3.5rem;
+            margin-bottom: 25px;
             color: var(--secondary-color);
-            transition: all 0.3s ease;
+            transition: all 0.5s ease;
         }
 
         .step:hover .step-icon {
             transform: rotateY(180deg);
+        }
+
+        .progress-container {
+            margin-top: 80px;
+            position: relative;
         }
 
         .progress-bar {
@@ -624,20 +666,33 @@ textarea {
             left: 0;
             width: 0;
             height: 4px;
-            background-color: var(--accent-color);
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
             transform: translateY(-50%);
-            transition: width 0.5s ease;
+            transition: width 1s ease;
             z-index: 2;
         }
 
         .checkpoint {
-            width: 20px;
-            height: 20px;
+            width: 30px;
+            height: 30px;
             background-color: #e9ecef;
-            border: 4px solid var(--bg-color);
+            border: 5px solid var(--bg-color);
             border-radius: 50%;
             z-index: 3;
-            transition: all 0.3s ease;
+            transition: all 0.5s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .checkpoint::after {
+            content: attr(data-step);
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1rem;
+            color: var(--primary-color);
+            white-space: nowrap;
         }
 
         .checkpoint.active {
@@ -648,15 +703,9 @@ textarea {
         @media (max-width: 1024px) {
             .step {
                 flex-basis: calc(50% - 30px);
-                margin-bottom: 30px;
             }
         }
 
-        @media (max-width: 768px) {
-            .step {
-                flex-basis: 100%;
-            }
-        }
         .benefits .section-title, .testimonials .section-title, .team .section-title {
             color: var(--bg-color);
         }
@@ -1205,14 +1254,8 @@ font-style: italic;
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
         }
-        @media (max-width: 768px) {
-            .contact-wrapper {
-                flex-direction: column;
-            }
-            .contact-info, .contact-form {
-                padding: 20px;
-            }
-        }
+      
+      
         @media (max-width: 1200px) {
             .features-grid,
             .benefits-grid,
@@ -1272,25 +1315,112 @@ font-style: italic;
             background: var(--secondary-color);
             transform: translateY(-3px);
         }
-        @media (max-width: 768px) {
+      @media (max-width: 768px) {
+    /* Navigation */
+    .nav-links {
+        display: none;
+    }
+
+    /* Hero Section */
+    .hero {
+        height: auto;
+        min-height: 100vh;
+        padding: 100px 0 50px;
+    }
     .hero-content {
-        margin-left: 0;
-        text-align: center;
         max-width: 90%;
         margin: 0 auto;
-    }
-
-    .hero-content h1,
-    .hero-content p {
         text-align: center;
+        padding: 0 20px;
     }
-
-    .hero-content .cta-button {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    .hero p {
+        font-size: 1rem;
+    }
+    .cta-button {
         display: inline-block;
         margin: 0 auto;
         width: auto;
         padding: 0.8rem 1.5rem;
         font-size: 1rem;
+    }
+
+    /* Grid Layouts */
+    .features-grid,
+    .benefits-grid,
+    .services-grid,
+    .team-grid,
+    .pricing-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Section Titles */
+    .section-title,
+    .section-titleh2 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+
+   /* How it Works Section */
+    .how-it-works .container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .process-content {
+        max-width: 100%;
+        text-align: center;
+    }
+    .steps {
+        flex-direction: column;
+        align-items: center;
+        width: 100%; /* Ensure full width */
+    }
+    .step {
+        text-align: center;
+        margin-bottom: 2rem;
+        max-width: 90%; /* Increase max-width to make steps wider */
+        width: 100%; /* Ensure full width within the container */
+    }
+    .progress-container {
+        display: none;
+    }
+
+    /* Testimonial Section */
+    .testimonial-slider {
+        height: auto;
+    }
+    .testimonial-card {
+        height: auto;
+        padding: 20px;
+    }
+    .testimonial-text {
+        font-size: 1rem;
+    }
+    .author-name {
+        font-size: 1rem;
+    }
+    .author-title {
+        font-size: 0.8rem;
+    }
+
+    /* Contact Section */
+    .contact-wrapper {
+        flex-direction: column;
+    }
+    .contact-info,
+    .contact-form {
+        width: 100%;
+        padding: 20px;
+    }
+
+    /* Footer */
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+    .footer-section {
+        margin-bottom: 2rem;
     }
 }
     </style>
@@ -1309,6 +1439,7 @@ font-style: italic;
             </nav>
         </div>
     </header>
+
 
     <main>
         <section id="home" class="hero">
@@ -1358,34 +1489,46 @@ font-style: italic;
                 </div>
             </div>
         </section>
-          <section id="how-it-works" class="how-it-works">
-    <div class="container">
-        <h2 class="section-title">Our Process</h2>
-        <div class="steps">
-            <div class="step">
-                <div class="step-number">1</div>
-                <h3>Chat<br>and Plan</h3>
-                <p>We meet virtually or in-person to talk about what you’re looking for and about your brand. We try to keep it casual and just get a feel for your style.</p>
+         <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">Our Process</h2>
+            <div class="steps">
+                <div class="step" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">💬</div>
+                    <h3>Chat and Plan</h3>
+                    <p>We meet virtually or in-person to discuss your vision and brand. Our casual conversation helps us understand your unique style and requirements.</p>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">🗺️</div>
+                    <h3>Mapping It Out</h3>
+                    <p>We create a tailored plan that aligns with your needs and budget. This step ensures we have a clear roadmap for your perfect website.</p>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">🚀</div>
+                    <h3>Bringing It to Life</h3>
+                    <p>Our team gets to work, crafting your site with precision and creativity. We keep you involved throughout, ensuring it matches your vision perfectly.</p>
+                </div>
+                <div class="step" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">🌟</div>
+                    <h3>Launch and Support</h3>
+                    <p>We launch your site with flair, ensure smooth operations, and provide ongoing management. Plus, we're always just a call away for any assistance!</p>
+                </div>
             </div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <h3>Mapping It Out</h3>
-                <p>We then sketch out a plan that fits your needs and budget. Not a technical conversation. Just getting a clear idea of what we’re building and what you want.</p>
-            </div>
-            <div class="step">
-                <div class="step-number">3</div>
-                <h3>Bringing It to Life</h3>
-                <p>This is where we roll<br>up our sleeves and build your site, keeping you in the loop the entire time so it's exactly how you imagined.</p>
-            </div>
-            <div class="step">
-                <div class="step-number">4</div>
-                <h3>Launch and Support</h3>
-                <p>We launch the site, make sure everything runs smoothly, and manage it for you. Plus, we’re always a phone call away!</p>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                    <div class="checkpoint" data-step="Chat"></div>
+                    <div class="checkpoint" data-step="Plan"></div>
+                    <div class="checkpoint" data-step="Build"></div>
+                    <div class="checkpoint" data-step="Launch"></div>
+                </div>
             </div>
         </div>
-    </div>
-</section>
-
+    </section>
     <section id="testimonials" class="testimonials">
     <div class="container">
         <h2 class="section-title">Client Success Stories</h2>
@@ -1688,13 +1831,15 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentIndex = 0;
 
     // Create dots
-    cards.forEach((_, index) => {
-        const dot = document.createElement('div');
-        dot.classList.add('dot');
-        if (index === 0) dot.classList.add('active');
-        dot.addEventListener('click', () => goToSlide(index));
-        dotsContainer.appendChild(dot);
-    });
+    if (cards.length > 0 && dotsContainer) {
+        cards.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(index));
+            dotsContainer.appendChild(dot);
+        });
+    }
 
     function updateSlider() {
         cards.forEach((card, index) => {
@@ -1733,14 +1878,18 @@ document.addEventListener('DOMContentLoaded', function() {
         updateSlider();
     }
 
-    nextBtn.addEventListener('click', nextSlide);
-    prevBtn.addEventListener('click', prevSlide);
+    if (nextBtn && prevBtn) {
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+    }
 
     // Auto-play functionality
-    let intervalId = setInterval(nextSlide, 5000);
-
-    slider.addEventListener('mouseenter', () => clearInterval(intervalId));
-    slider.addEventListener('mouseleave', () => intervalId = setInterval(nextSlide, 5000));
+    let intervalId;
+    if (slider) {
+        intervalId = setInterval(nextSlide, 5000);
+        slider.addEventListener('mouseenter', () => clearInterval(intervalId));
+        slider.addEventListener('mouseleave', () => intervalId = setInterval(nextSlide, 5000));
+    }
 
     // Initial setup for slider
     updateSlider();
@@ -1881,6 +2030,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 end: 'bottom top',
                 scrub: true
             }
+        });
+
+        // Progress bar animation
+        if (progress) {
+            gsap.to(progress, {
+                width: '100%',
+                duration: 2,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '.progress-container',
+                    start: 'top 80%',
+                    end: 'bottom 20%',
+                    scrub: true
+                }
+            });
+        }
+
+        // Checkpoint animations
+        checkpoints.forEach((checkpoint, index) => {
+            gsap.to(checkpoint, {
+                scale: 1.2,
+                backgroundColor: 'var(--accent-color)',
+                duration: 0.5,
+                scrollTrigger: {
+                    trigger: '.progress-container',
+                    start: `top ${80 - (index * 20)}%`,
+                    end: `bottom ${20 - (index * 20)}%`,
+                    toggleActions: 'play reverse play reverse'
+                }
+            });
         });
     }
 
