@@ -254,166 +254,191 @@
     margin: 0 15px 15px;
     opacity: 0.8;
 }
-.testimonial-slider {
-    position: relative;
-    max-width: 800px;
-    margin: 0 auto;
-    overflow: hidden;
-    height: 400px; /* Set a fixed height for the slider */
-}
 
-.testimonial-card {
-    background: white;
-    border-radius: 10px;
-    padding: 30px;
-    margin: 20px;
-    transition: all 0.5s ease;
-    opacity: 0;
-    transform: scale(0.9);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: calc(100% - 40px);
-    height: calc(100% - 40px);
-    color: #333; /* Dark text color for contrast */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.testimonial-card.active {
-    opacity: 1;
-    transform: scale(1);
-    position: relative;
-}
-
-.testimonial-content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.star-rating {
-    text-align: left;
-    color: #E74C3C;
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-}
-
-.testimonial-text {
-    font-style: italic;
-    margin-bottom: 20px;
-    color: #333;
-    flex-grow: 1;
-    overflow: auto;
-}
-
-.testimonial-author {
-    display: flex;
-    align-items: center;
-}
-
-.author-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.author-name, .author-title {
-    color: #333;
-    text-align: left;
-}
-
-.author-name {
-    font-weight: bold;
-    font-size: 1.1rem;
-    margin-bottom: 5px;
-}
-
-.author-title {
-    font-size: 0.9rem;
-    opacity: 0.8;
-}
-
-.testimonial-nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
-}
-
-.prev-btn, .next-btn {
-    background: transparent;
-    border: none;
-    color: #fff;
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: color 0.3s ease;
-    padding: 10px;
-}
-
-.prev-btn:hover, .next-btn:hover {
-    color: #E74C3C;
-}
-
-.testimonial-dots {
-    display: flex;
-    justify-content: center;
-    margin: 0 20px;
-}
-
-.dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.5);
-    margin: 0 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.dot.active {
-    background-color: #E74C3C;
-}
-.star-rating-input {
-    font-size: 2rem;
-    color: #ccc;
-    margin-bottom: 20px;
-}
-
-.star-rating-input i {
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-.star-rating-input i.fas {
-    color: #E74C3C;
-}
-
-textarea {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    margin-bottom: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-}
-
-.submit-testimonial {
-    background: #E74C3C;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.submit-testimonial:hover {
-    background: #c0392b;
-}
-
+        .testimonials {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section-title {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--bg-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 5px;
+            background: var(--accent-color);
+        }
+        
+        .testimonial-carousel {
+            position: relative;
+            overflow: hidden;
+            height: 600px;
+        }
+        
+        .testimonial-card {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s ease;
+        }
+        
+        .testimonial-card.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .testimonial-content {
+            text-align: center;
+            max-width: 800px;
+        }
+        
+        .testimonial-text {
+            font-size: 1.5rem;
+            color: var(--bg-color);
+            margin-bottom: 30px;
+            font-style: italic;
+            line-height: 1.8;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .author-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--accent-color);
+            margin-bottom: 15px;
+        }
+        
+        .author-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--bg-color);
+            margin-bottom: 5px;
+        }
+        
+        .author-title {
+            font-size: 1rem;
+            color: white;
+        }
+        
+        .star-rating {
+            font-size: 1.5rem;
+            color: gold;
+            margin-top: 15px;
+        }
+        
+        .testimonial-nav {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-dot.active {
+            background: var(--accent-color);
+            transform: scale(1.2);
+        }
+        
+        .testimonial-arrows {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+        
+        .arrow {
+            font-size: 2rem;
+            color: var(--bg-color);
+            background: rgba(0, 0, 0, 0.3);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            pointer-events: auto;
+        }
+        
+        .arrow:hover {
+            background: var(--accent-color);
+        }
+        
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .testimonial-text {
+                font-size: 1.2rem;
+            }
+            
+            .author-name {
+                font-size: 1.2rem;
+            }
+            
+            .author-title {
+                font-size: 0.9rem;
+            }
+            
+            .testimonial-carousel {
+                height: 500px;
+            }
+        }
 @media (max-width: 768px) {
     .portfolio-grid {
         grid-template-columns: 1fr;
@@ -771,7 +796,7 @@ textarea {
             text-align: left;
             font-style: italic;
             margin-bottom: 1rem;
-            color: var(--text-color);
+            color: white;
         }
         .testimonial-author {
             font-weight: 700;
@@ -1626,16 +1651,14 @@ font-style: italic;
         </div>
     </div>
 </section>
-
-    <section id="testimonials" class="testimonials">
-    <div class="container">
-        <h2 class="section-title">Testimonials </h2>
-        <div class="testimonial-slider">
-            <div class="testimonial-card active">
-                <div class="testimonial-content">
-                    <p class="testimonial-text">"I am absolutely delighted with the phenomenal service provided by Lawrence and the team at Astra Designs! They designed and launched my stunning new website for my Eco friendly cleaning business, exceeding my expectations in every way."</p>
-                    <div class="testimonial-author">
-                        <div class="author-info">
+ <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">Client Success Stories</h2>
+            <div class="testimonial-carousel">
+                <div class="testimonial-card active">
+                    <div class="testimonial-content">
+                        <p class="testimonial-text">"I am absolutely delighted with the phenomenal service provided by Lawrence and the team at Astra Designs! They designed and launched my stunning new website for my Eco friendly cleaning business, exceeding my expectations in every way."</p>
+                        <div class="testimonial-author">
                             <p class="author-name">Abbie Murphy</p>
                             <p class="author-title">Golden Slipper Cleaning Services</p>
                             <div class="star-rating">
@@ -1648,12 +1671,10 @@ font-style: italic;
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-content">
-                    <p class="testimonial-text">"Hayley at Astra Designs was great in creating a website I loved and brought my online presence to the next level. Very efficient and professional. Couldn't recommend any higher."</p>
-                    <div class="testimonial-author">
-                        <div class="author-info">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p class="testimonial-text">"Hayley at Astra Designs was great in creating a website I loved and brought my online presence to the next level. Very efficient and professional. Couldn't recommend any higher."</p>
+                        <div class="testimonial-author">
                             <p class="author-name">John Guthrie</p>
                             <p class="author-title">Dr. H2O</p>
                             <div class="star-rating">
@@ -1666,12 +1687,10 @@ font-style: italic;
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-content">
-                    <p class="testimonial-text">"Super Professional, organised, fast, amazing attention to detail, responsive and friendly and supportive. Astra Designs built our business website from start to finish. Amazing and beautiful result!"</p>
-                    <div class="testimonial-author">
-                        <div class="author-info">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p class="testimonial-text">"Super Professional, organised, fast, amazing attention to detail, responsive and friendly and supportive. Astra Designs built our business website from start to finish. Amazing and beautiful result!"</p>
+                        <div class="testimonial-author">
                             <p class="author-name">Peter Martyn</p>
                             <p class="author-title">Pro Clean Professional Services</p>
                             <div class="star-rating">
@@ -1684,12 +1703,10 @@ font-style: italic;
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-content">
-                    <p class="testimonial-text">"Highly recommend. Professional, innovative & efficient."</p>
-                    <div class="testimonial-author">
-                        <div class="author-info">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p class="testimonial-text">"Highly recommend. Professional, innovative & efficient."</p>
+                        <div class="testimonial-author">
                             <p class="author-name">Rebecca Jackson</p>
                             <p class="author-title">Happy Tails Dog Walking</p>
                             <div class="star-rating">
@@ -1702,12 +1719,10 @@ font-style: italic;
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-content">
-                    <p class="testimonial-text">"Amazing work by Astra Designs! They brought my vision to life with a stunning website that perfectly captures my brand's essence. Friendly communication, attention to detail, and a wholesome approach. Exceeded my expectations!"</p>
-                    <div class="testimonial-author">
-                        <div class="author-info">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p class="testimonial-text">"Amazing work by Astra Designs! They brought my vision to life with a stunning website that perfectly captures my brand's essence. Friendly communication, attention to detail, and a wholesome approach. Exceeded my expectations!"</p>
+                        <div class="testimonial-author">
                             <p class="author-name">Guillermo Padilla</p>
                             <p class="author-title">Memo's Hot Sauce Founder</p>
                             <div class="star-rating">
@@ -1720,15 +1735,14 @@ font-style: italic;
                         </div>
                     </div>
                 </div>
+                <div class="testimonial-nav"></div>
+                <div class="testimonial-arrows">
+                    <div class="arrow prev"><i class="fas fa-chevron-left"></i></div>
+                    <div class="arrow next"><i class="fas fa-chevron-right"></i></div>
+                </div>
             </div>
         </div>
-        <div class="testimonial-nav">
-            <button class="prev-btn" aria-label="Previous testimonial"><i class="fas fa-chevron-left"></i></button>
-            <div class="testimonial-dots"></div>
-            <button class="next-btn" aria-label="Next testimonial"><i class="fas fa-chevron-right"></i></button>
-        </div>
-    </div>
-</section>
+    </section>
 <section id="contact" class="contact">
     <div class="container">
         <h2 class="section-titleh2">Contact</h2>
@@ -1818,102 +1832,88 @@ font-style: italic;
     <div class="scroll-to-top">
         <i class="fas fa-arrow-up"></i>
     </div>
-    
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+    <script>
+ document.addEventListener('DOMContentLoaded', function() {
     // Testimonial slider functionality
-    const slider = document.querySelector('.testimonial-slider');
-    const cards = slider.querySelectorAll('.testimonial-card');
-    const prevBtn = document.querySelector('.prev-btn');
-    const nextBtn = document.querySelector('.next-btn');
-    const dotsContainer = document.querySelector('.testimonial-dots');
+    const carousel = document.querySelector('.testimonial-carousel');
+    const cards = document.querySelectorAll('.testimonial-card');
+    const prevBtn = document.querySelector('.arrow.prev');
+    const nextBtn = document.querySelector('.arrow.next');
+    const navDots = document.querySelector('.testimonial-nav');
     let currentIndex = 0;
 
-    // Create dots
-    if (cards.length > 0 && dotsContainer) {
-        cards.forEach((_, index) => {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            if (index === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => goToSlide(index));
-            dotsContainer.appendChild(dot);
-        });
-    }
+    function initializeTestimonialSlider() {
+        if (!carousel || !cards.length) return;
 
-    function updateSlider() {
-        cards.forEach((card, index) => {
-            if (index === currentIndex) {
-                card.classList.add('active');
-            } else {
-                card.classList.remove('active');
-            }
-        });
-        updateDots();
-    }
+        // Create dots
+        if (navDots) {
+            cards.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('nav-dot');
+                if (index === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(index));
+                navDots.appendChild(dot);
+            });
+        }
 
-    function updateDots() {
-        const dots = dotsContainer.querySelectorAll('.dot');
-        dots.forEach((dot, index) => {
-            if (index === currentIndex) {
-                dot.classList.add('active');
-            } else {
-                dot.classList.remove('active');
-            }
-        });
-    }
+        function updateSlider() {
+            cards.forEach((card, index) => {
+                if (index === currentIndex) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
+            updateDots();
+        }
 
-    function goToSlide(index) {
-        currentIndex = index;
+        function updateDots() {
+            if (!navDots) return;
+            const dots = navDots.querySelectorAll('.nav-dot');
+            dots.forEach((dot, index) => {
+                if (index === currentIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        function goToSlide(index) {
+            currentIndex = index;
+            updateSlider();
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % cards.length;
+            updateSlider();
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+            updateSlider();
+        }
+
+        if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+        if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+
+        // Auto-play functionality
+        let intervalId = setInterval(nextSlide, 5000);
+        carousel.addEventListener('mouseenter', () => clearInterval(intervalId));
+        carousel.addEventListener('mouseleave', () => intervalId = setInterval(nextSlide, 5000));
+
+        // Initial setup
         updateSlider();
     }
 
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % cards.length;
-        updateSlider();
-    }
-
-    function prevSlide() {
-        currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-        updateSlider();
-    }
-
-    if (nextBtn && prevBtn) {
-        nextBtn.addEventListener('click', nextSlide);
-        prevBtn.addEventListener('click', prevSlide);
-    }
-
-    // Auto-play functionality
-    let intervalId;
-    if (slider) {
-        intervalId = setInterval(nextSlide, 5000);
-        slider.addEventListener('mouseenter', () => clearInterval(intervalId));
-        slider.addEventListener('mouseleave', () => intervalId = setInterval(nextSlide, 5000));
-    }
-
-    // Initial setup for slider
-    updateSlider();
+    initializeTestimonialSlider();
 
     // Star rating functionality
-    const starRating = document.querySelector('.star-rating-input');
-    if (starRating) {
+    function initializeStarRating() {
+        const starRating = document.querySelector('.star-rating-input');
+        if (!starRating) return;
+
         const stars = starRating.querySelectorAll('i');
-
-        stars.forEach(star => {
-            star.addEventListener('mouseover', function() {
-                const rating = this.getAttribute('data-rating');
-                highlightStars(rating);
-            });
-
-            star.addEventListener('mouseout', function() {
-                resetStars();
-            });
-
-            star.addEventListener('click', function() {
-                const rating = this.getAttribute('data-rating');
-                setRating(rating);
-            });
-        });
 
         function highlightStars(rating) {
             stars.forEach(star => {
@@ -1949,10 +1949,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }
+
+        stars.forEach(star => {
+            star.addEventListener('mouseover', function() {
+                highlightStars(this.getAttribute('data-rating'));
+            });
+            star.addEventListener('mouseout', resetStars);
+            star.addEventListener('click', function() {
+                setRating(this.getAttribute('data-rating'));
+            });
+        });
     }
 
+    initializeStarRating();
+
     // GSAP Animations
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    function initializeGSAPAnimations() {
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
         gsap.registerPlugin(ScrollTrigger);
 
         // How it works section animations
@@ -1977,6 +1991,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         function updateProgress(step) {
+            if (!progress) return;
             gsap.to(progress, {
                 width: `${(step - 1) * 33.33}%`,
                 duration: 0.5
@@ -2063,6 +2078,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    initializeGSAPAnimations();
+
     // Smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -2077,8 +2094,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Scroll to top button
-    const scrollToTopButton = document.querySelector('.scroll-to-top');
-    if (scrollToTopButton) {
+    function initializeScrollToTopButton() {
+        const scrollToTopButton = document.querySelector('.scroll-to-top');
+        if (!scrollToTopButton) return;
+
         window.addEventListener('scroll', () => {
             if (window.pageYOffset > 300) {
                 scrollToTopButton.classList.add('show');
@@ -2094,6 +2113,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    initializeScrollToTopButton();
 
     // Initialize AOS (Animate on Scroll)
     if (typeof AOS !== 'undefined') {
