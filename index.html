@@ -227,42 +227,105 @@
     margin-bottom: 50px;
 }
 
-.portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+.portfolio-showcase {
+    background: linear-gradient(135deg, #2C3E50, #3498DB);
+    padding: 100px 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.portfolio-slider-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 40px 0;
+}
+
+.portfolio-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     gap: 30px;
-    margin-bottom: 50px;
+    position: relative;
 }
 
 .portfolio-item {
+    min-width: 400px;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
+    border-radius: 15px;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
     overflow: hidden;
+}
+
+.portfolio-item a {
+    text-decoration: none;
+    color: white;
+}
+
+.portfolio-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
     transition: transform 0.3s ease;
 }
 
-.portfolio-item:hover {
-    transform: translateY(-10px);
+.portfolio-item:hover img {
+    transform: scale(1.05);
 }
 
-.portfolio-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+.portfolio-item h3 {
+    padding: 20px 20px 10px;
+    margin: 0;
+    font-size: 1.5rem;
+    color: white;
 }
 
-.portfolio-title {
+.portfolio-item p {
+    padding: 0 20px 20px;
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.slider-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.slider-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: white;
     font-size: 1.2rem;
-    margin: 15px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
 }
 
-.portfolio-description {
-    font-size: 0.9rem;
-    margin: 0 15px 15px;
-    opacity: 0.8;
+.slider-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
 }
 
+.slider-btn:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .portfolio-item {
+        min-width: 300px;
+    }
+}
         .testimonials {
             min-height: 100vh;
             display: flex;
@@ -1629,12 +1692,11 @@ font-style: italic;
             </div>
         </div>
     </section>
-   <section id="testimonials" class="testimonials">
+   <section id="portfolio" class="portfolio-showcase">
     <div class="container">
         <h2 class="section-title">CLIENT SUCCESS STORIES</h2>
         <div class="portfolio-slider-container">
             <div class="portfolio-track">
-                <!-- Original items -->
                 <div class="portfolio-item">
                     <a href="https://goldenslippercleaningservices.com/" class="portfolio-link">
                         <img src="https://i.ibb.co/R3LzsVP/Screenshot-2024-09-18-at-9-37-34-PM.png" alt="Golden Slipper Cleaning">
@@ -1656,7 +1718,6 @@ font-style: italic;
                         <p>Built a custom sales dashboard with direct stripe integration to avoid costly shopify fees.</p>
                     </a>
                 </div>
-                <!-- New items -->
                 <div class="portfolio-item">
                     <a href="https://www.aaapluscleaning.com.au/" class="portfolio-link">
                         <img src="/path-to-aaaplus-image.jpg" alt="AAAPlus Cleaning">
@@ -2356,6 +2417,61 @@ document.querySelectorAll('.pricing-card').forEach(card => {
             c.style.transform = 'scale(1)';
             c.style.filter = 'blur(0)';
         });
+    });
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const track = document.querySelector('.portfolio-track');
+    const items = document.querySelectorAll('.portfolio-item');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    
+    // Clone items for infinite effect
+    items.forEach(item => {
+        const clone = item.cloneNode(true);
+        track.appendChild(clone);
+    });
+
+    let currentIndex = 0;
+    const itemWidth = items[0].offsetWidth + 30; // Including gap
+    const totalItems = items.length;
+    
+    // Center the first item initially
+    track.style.transform = `translateX(${window.innerWidth / 2 - itemWidth / 2}px)`;
+
+    function updateSlider(direction) {
+        currentIndex = (currentIndex + direction) % totalItems;
+        if (currentIndex < 0) currentIndex = totalItems - 1;
+        
+        const offset = window.innerWidth / 2 - itemWidth / 2 - (currentIndex * itemWidth);
+        track.style.transform = `translateX(${offset}px)`;
+        
+        if (currentIndex === 0 && direction === 1) {
+            setTimeout(() => {
+                track.style.transition = 'none';
+                track.style.transform = `translateX(${window.innerWidth / 2 - itemWidth / 2}px)`;
+                setTimeout(() => {
+                    track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                }, 50);
+            }, 500);
+        }
+    }
+
+    nextBtn.addEventListener('click', () => updateSlider(1));
+    prevBtn.addEventListener('click', () => updateSlider(-1));
+
+    // Auto-play
+    let autoPlayInterval = setInterval(() => updateSlider(1), 5000);
+
+    // Pause auto-play on hover
+    track.addEventListener('mouseenter', () => clearInterval(autoPlayInterval));
+    track.addEventListener('mouseleave', () => {
+        autoPlayInterval = setInterval(() => updateSlider(1), 5000);
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        const offset = window.innerWidth / 2 - itemWidth / 2 - (currentIndex * itemWidth);
+        track.style.transform = `translateX(${offset}px)`;
     });
 });
 </script>
