@@ -100,88 +100,69 @@
             text-transform: uppercase;
             letter-spacing: 2px;
         }
- .loading-screen {
+.loading-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #2C3E50, #3498DB);
+            background: linear-gradient(135deg, #1d3347, #2b5174);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
             opacity: 1;
-            transition: opacity 0.5s ease-out;
+            transition: opacity 0.3s ease-out;
         }
 
         .loading-screen.fade-out {
             opacity: 0;
-            pointer-events: none;
         }
 
-        .loading-content {
-            text-align: center;
-            position: relative;
-        }
-
-        .logo-container {
-            width: 150px;
-            height: 150px;
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .logo {
+        .logo-text {
             font-family: 'Montserrat', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 700;
+            font-size: 3.5rem;
+            font-weight: 600;
             color: white;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            position: relative;
-            z-index: 2;
+            letter-spacing: 4px;
+            margin-bottom: 40px;
         }
 
-        .spinner {
+        .loading-indicator {
+            width: 60px;
+            height: 60px;
+            position: relative;
+        }
+
+        .loading-circle {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 120px;
-            height: 120px;
-            margin-top: -60px;
-            margin-left: -60px;
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-left-color: #E74C3C;
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-circle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-left-color: #E74C3C;
+            transform-origin: center;
+            animation: loadProgress 1.5s linear infinite;
         }
 
         .loading-text {
-            color: white;
+            color: rgba(255, 255, 255, 0.8);
             font-family: 'Montserrat', sans-serif;
             font-size: 1rem;
-            margin-top: 20px;
-            opacity: 0.8;
+            margin-top: 30px;
+            font-weight: 300;
         }
 
-        .progress-bar {
-            width: 200px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            margin-top: 20px;
-            overflow: hidden;
-        }
-
-        .progress {
-            width: 0%;
-            height: 100%;
-            background: #E74C3C;
-            transition: width 0.3s ease-out;
-        }
-
-        @keyframes spin {
+        @keyframes loadProgress {
             0% {
                 transform: rotate(0deg);
             }
@@ -1679,18 +1660,15 @@ font-style: italic;
 </head>
 <body>
     <header>
- <div class="loading-screen">
-        <div class="loading-content">
-            <div class="logo-container">
-                <div class="spinner"></div>
-                <div class="logo">Astra</div>
-            </div>
-            <div class="loading-text">Loading amazing things...</div>
-            <div class="progress-bar">
-                <div class="progress"></div>
-            </div>
+<div class="loading-screen">
+        <div class="logo-text">ASTRA</div>
+        <div class="loading-indicator">
+            <div class="loading-circle"></div>
+            <div class="progress-circle"></div>
         </div>
+        <div class="loading-text">Almost there...</div>
     </div>
+
         <div class="container">
             <nav>
                 <a href="#" class="logo">Astra</a>
@@ -2575,52 +2553,16 @@ document.addEventListener('DOMContentLoaded', function() {
         track.style.transform = `translateX(${offset}px)`;
     });
 });
- document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() {
             const loadingScreen = document.querySelector('.loading-screen');
-            const progress = document.querySelector('.progress');
-            const loadingText = document.querySelector('.loading-text');
             
-            let loadProgress = 0;
-            const texts = [
-                'Loading amazing things...',
-                'Getting everything ready...',
-                'Almost there...',
-                'Final touches...'
-            ];
-            
-            // Simulate loading progress
-            const progressInterval = setInterval(() => {
-                loadProgress += Math.random() * 15;
-                if (loadProgress > 100) loadProgress = 100;
-                
-                progress.style.width = `${loadProgress}%`;
-                
-                // Update loading text based on progress
-                const textIndex = Math.floor((loadProgress / 100) * texts.length);
-                if (textIndex < texts.length) {
-                    loadingText.textContent = texts[textIndex];
-                }
-                
-                if (loadProgress === 100) {
-                    clearInterval(progressInterval);
-                    setTimeout(() => {
-                        loadingScreen.classList.add('fade-out');
-                        setTimeout(() => {
-                            loadingScreen.style.display = 'none';
-                        }, 500);
-                    }, 500);
-                }
-            }, 500);
-            
-            // Ensure loading screen is removed even if content loads very quickly
+            // Remove loading screen when content is loaded
             window.addEventListener('load', function() {
-                loadProgress = 100;
-                progress.style.width = '100%';
                 setTimeout(() => {
                     loadingScreen.classList.add('fade-out');
                     setTimeout(() => {
                         loadingScreen.style.display = 'none';
-                    }, 500);
+                    }, 300);
                 }, 500);
             });
         });
