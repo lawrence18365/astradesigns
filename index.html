@@ -2395,7 +2395,9 @@ font-style: italic;
         if (typeof AOS !== 'undefined') {
             AOS.init({
                 duration: 1000,
-                once: true
+                once: true,
+                offset: 50,
+                easing: 'ease-in-out'
             });
         }
     }
@@ -2405,6 +2407,10 @@ font-style: italic;
         const loadingScreen = document.querySelector('.loading-screen');
         if (!loadingScreen) return;
 
+        // Show loading screen immediately
+        loadingScreen.style.display = 'flex';
+        
+        // Handle page load
         window.addEventListener('load', () => {
             setTimeout(() => {
                 loadingScreen.classList.add('fade-out');
@@ -2415,6 +2421,24 @@ font-style: italic;
         });
     }
 
+    // Trust badges initialization
+    function initializeTrustBadges() {
+        const trustBadges = document.querySelectorAll('.trust-badge');
+        if (!trustBadges.length) return;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        trustBadges.forEach(badge => {
+            observer.observe(badge);
 
             // Add hover effects
             badge.addEventListener('mouseenter', () => {
@@ -2443,6 +2467,11 @@ font-style: italic;
         if (!track || !items.length) return;
 
         let currentIndex = 0;
+        let isDragging = false;
+        let startPos = 0;
+        let currentTranslate = 0;
+        let prevTranslate = 0;
+
         const itemWidth = items[0].offsetWidth + 30;
         const totalItems = items.length;
 
@@ -2451,9 +2480,6 @@ font-style: italic;
             const clone = item.cloneNode(true);
             track.appendChild(clone);
         });
-
-        // Center first item
-        updateSliderPosition();
 
         function updateSliderPosition(direction = 0) {
             currentIndex = (currentIndex + direction + totalItems) % totalItems;
@@ -2471,20 +2497,65 @@ font-style: italic;
             }
         }
 
+        // Initialize position
+        updateSliderPosition();
+
         // Event listeners
         if (nextBtn) nextBtn.addEventListener('click', () => updateSliderPosition(1));
         if (prevBtn) prevBtn.addEventListener('click', () => updateSliderPosition(-1));
+
+        // Touch events
+        track.addEventListener('touchstart', touchStart);
+        track.addEventListener('touchmove', touchMove);
+        track.addEventListener('touchend', touchEnd);
+
+        function touchStart(event) {
+            isDragging = true;
+            startPos = event.touches[0].clientX;
+            track.style.transition = 'none';
+        }
+
+        function touchMove(event) {
+            if (!isDragging) return;
+            const currentPosition = event.touches[0].clientX;
+            currentTranslate = prevTranslate + currentPosition - startPos;
+            track.style.transform = `translateX(${currentTranslate}px)`;
+        }
+
+        function touchEnd() {
+            isDragging = false;
+            const movedBy = currentTranslate - prevTranslate;
+
+            if (Math.abs(movedBy) > itemWidth / 4) {
+                if (movedBy < 0) {
+                    updateSliderPosition(1);
+                } else {
+                    updateSliderPosition(-1);
+                }
+            } else {
+                updateSliderPosition(0);
+            }
+
+            track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+        }
 
         // Auto-play
         let autoPlayInterval = setInterval(() => updateSliderPosition(1), 5000);
 
         track.addEventListener('mouseenter', () => clearInterval(autoPlayInterval));
+        track.addEventListener('touchstart', () => clearInterval(autoPlayInterval));
+
         track.addEventListener('mouseleave', () => {
+            autoPlayInterval = setInterval(() => updateSliderPosition(1), 5000);
+        });
+        track.addEventListener('touchend', () => {
             autoPlayInterval = setInterval(() => updateSliderPosition(1), 5000);
         });
 
         // Handle window resize
-        window.addEventListener('resize', () => updateSliderPosition());
+        window.addEventListener('resize', () => {
+            updateSliderPosition();
+        });
     }
 
     // Testimonial slider initialization
@@ -2498,6 +2569,8 @@ font-style: italic;
         if (!carousel || !cards.length) return;
 
         let currentIndex = 0;
+        let touchStartX = 0;
+        let touchEndX = 0;
 
         // Create navigation dots
         if (navDots) {
@@ -2538,32 +2611,54 @@ font-style: italic;
             updateSlider();
         }
 
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex + 1) % cards.length;
-                updateSlider();
-            });
-        }
-
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-                updateSlider();
-            });
-        }
-
-        // Auto-play
-        let intervalId = setInterval(() => {
+        function nextSlide() {
             currentIndex = (currentIndex + 1) % cards.length;
             updateSlider();
-        }, 5000);
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+            updateSlider();
+        }
+
+        // Touch events
+        carousel.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+        });
+
+        carousel.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].clientX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }
+        }
+
+        // Button controls
+        if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+        if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+
+        // Auto-play
+        let intervalId = setInterval(nextSlide, 5000);
 
         carousel.addEventListener('mouseenter', () => clearInterval(intervalId));
+        carousel.addEventListener('touchstart', () => clearInterval(intervalId));
+
         carousel.addEventListener('mouseleave', () => {
-            intervalId = setInterval(() => {
-                currentIndex = (currentIndex + 1) % cards.length;
-                updateSlider();
-            }, 5000);
+            intervalId = setInterval(nextSlide, 5000);
+        });
+        carousel.addEventListener('touchend', () => {
+            intervalId = setInterval(nextSlide, 5000);
         });
 
         // Initial state
@@ -2610,7 +2705,8 @@ font-style: italic;
                 }
             });
         }, {
-            threshold: 0.1
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
         });
 
         processItems.forEach(item => {
@@ -2658,8 +2754,21 @@ font-style: italic;
 
     // Navigation initialization
     function initializeNavigation() {
+        const header = document.querySelector('header');
         const links = document.querySelectorAll('.nav-link');
         
+        // Sticky header
+        if (header) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    header.classList.add('sticky');
+                } else {
+                    header.classList.remove('sticky');
+                }
+            });
+        }
+
+        // Nav link hover effects
         links.forEach(link => {
             link.addEventListener('mouseenter', () => {
                 link.style.transform = 'translateY(-2px)';
@@ -2678,10 +2787,10 @@ font-style: italic;
                 if (target) {
                     const headerOffset = 100;
                     const elementPosition = target.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition - headerOffset;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
                     window.scrollTo({
-                        top: window.pageYOffset + offsetPosition,
+                        top: offsetPosition,
                         behavior: 'smooth'
                     });
                 }
@@ -2695,7 +2804,11 @@ font-style: italic;
         if (!scrollBtn) return;
 
         window.addEventListener('scroll', () => {
-            scrollBtn.classList.toggle('show', window.pageYOffset > 300);
+            if (window.pageYOffset > 300) {
+                scrollBtn.classList.add('show');
+            } else {
+                scrollBtn.classList.remove('show');
+            }
         });
 
         scrollBtn.addEventListener('click', () => {
@@ -2720,34 +2833,213 @@ font-style: italic;
     // Contact form initialization
     function initializeContactForm() {
         const form = document.querySelector('.contact-form');
+        const inputs = document.querySelectorAll('.form-group input, .form-group textarea');
+        
         if (!form) return;
 
+        // Handle floating labels
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('focused');
+            });
+
+            input.addEventListener('blur', () => {
+                if (!input.value) {
+                    input.parentElement.classList.remove('focused');
+                }
+            });
+
+            // Check initial state
+            if (input.value) {
+                input.parentElement.classList.add('focused');
+            }
+        });
+
+        // Form submission
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            // Add your form submission logic here
+            
+            // Basic validation
+            let isValid = true;
+            inputs.forEach(input => {
+                if (!input.value.trim()) {isValid = false;
+                    input.classList.add('error');
+                } else {
+                    input.classList.remove('error');
+                }
+            });
+
+            if (!isValid) {
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+
+            // Email validation
+            const emailInput = form.querySelector('input[type="email"]');
+            if (emailInput && !isValidEmail(emailInput.value)) {
+                showNotification('Please enter a valid email address', 'error');
+                emailInput.classList.add('error');
+                return;
+            }
+
+            // Simulate form submission
+            const submitBtn = form.querySelector('.submit-btn');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
+
+                // Simulate API call
+                setTimeout(() => {
+                    showNotification('Message sent successfully!', 'success');
+                    form.reset();
+                    inputs.forEach(input => {
+                        input.parentElement.classList.remove('focused');
+                    });
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Send Message';
+                }, 1500);
+            }
+        });
+
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Trigger animation
+            setTimeout(() => notification.classList.add('show'), 100);
+            
+            // Remove notification
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+    }
+
+    // Add notification styles if they don't exist
+    function addNotificationStyles() {
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = `
+            .notification {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                border-radius: 5px;
+                color: white;
+                font-weight: 500;
+                transform: translateX(120%);
+                transition: transform 0.3s ease;
+                z-index: 1000;
+                box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+            }
+            .notification.show {
+                transform: translateX(0);
+            }
+            .notification.success {
+                background-color: #4CAF50;
+            }
+            .notification.error {
+                background-color: #f44336;
+            }
+            .form-group.error input,
+            .form-group.error textarea {
+                border-color: #f44336;
+            }
+        `;
+        document.head.appendChild(styleSheet);
+    }
+
+    // Dynamic loading indicator for buttons
+    function initializeLoadingButtons() {
+        const buttons = document.querySelectorAll('.cta-button');
+        
+        buttons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                if (this.getAttribute('href')?.startsWith('#')) return;
+                
+                const originalText = this.textContent;
+                this.textContent = 'Loading...';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.disabled = false;
+                }, 1500);
+            });
         });
     }
 
-    // Start initialization
-    initializeWebsite();
+    // Lazy loading images
+    function initializeLazyLoading() {
+        const images = document.querySelectorAll('img[data-src]');
+        
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.removeAttribute('data-src');
+                    observer.unobserve(img);
+                }
+            });
+        }, {
+            rootMargin: '50px 0px',
+            threshold: 0.1
+        });
+
+        images.forEach(img => imageObserver.observe(img));
+    }
+
+    // Handle window resize events
+    function initializeResizeHandler() {
+        let resizeTimeout;
+        
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                // Update any necessary layout calculations
+                updateLayoutOnResize();
+            }, 250);
+        });
+    }
+
+    function updateLayoutOnResize() {
+        // Update layout-specific calculations here
+        const windowWidth = window.innerWidth;
+        const processSection = document.querySelector('.process-grid');
+        
+        if (processSection) {
+            if (windowWidth < 768) {
+                processSection.style.gridTemplateColumns = '1fr';
+            } else if (windowWidth < 1200) {
+                processSection.style.gridTemplateColumns = 'repeat(2, 1fr)';
+            } else {
+                processSection.style.gridTemplateColumns = 'repeat(4, 1fr)';
+            }
+        }
+    }
+
+    // Initialize all necessary styles and start the app
+    function init() {
+        addNotificationStyles();
+        initializeWebsite();
+        initializeLoadingButtons();
+        initializeLazyLoading();
+        initializeResizeHandler();
+        updateLayoutOnResize(); // Initial layout setup
+    }
+
+    // Start the application
+    init();
 });
-function initializeLoadingScreen() {
-    const loadingScreen = document.querySelector('.loading-screen');
-    if (!loadingScreen) return;
-    
-    // Show loading screen immediately
-    loadingScreen.style.display = 'flex';
-    
-    // Handle page load
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            loadingScreen.classList.add('fade-out');
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-            }, 300);
-        }, 800);
-    });
-}
 </script>
 </body>
 </html>
