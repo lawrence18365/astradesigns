@@ -1827,18 +1827,59 @@ font-style: italic;
         margin-bottom: 2rem;
     }
 
-   .process-section {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 100px 0;
-            position: relative;
-            overflow: hidden;
-        }
+/* Fix for process section background and spacing */
+.process-section {
+    background: #fff;  /* Change from gradient to solid white */
+    padding: 100px 0;
+    position: relative;
+    z-index: 1;
+}
 
-        .process-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+/* Fix the section title styling */
+.process-section .section-titleh2 {
+    color: var(--secondary-color);  /* Change from white to dark color */
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 60px;
+    position: relative;
+}
+
+/* Fix the process grid layout and spacing */
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+/* Fix individual process item styling */
+.process-item {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+/* Fix process item text colors */
+.process-item h3 {
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+}
+
+.process-item p {
+    color: #555;
+}
+
+/* Fix container width */
+.process-section .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
 .section-title-primary {
     text-align: center;
     font-size: 3rem;
