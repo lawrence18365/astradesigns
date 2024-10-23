@@ -1596,29 +1596,168 @@ font-style: italic;
         margin-bottom: 2rem;
     }
 
-   /* How it Works Section */
-    .how-it-works .container {
-        flex-direction: column;
-        align-items: center;
-    }
-    .process-content {
-        max-width: 100%;
-        text-align: center;
-    }
-    .steps {
-        flex-direction: column;
-        align-items: center;
-        width: 100%; /* Ensure full width */
-    }
-    .step {
-        text-align: center;
-        margin-bottom: 2rem;
-        max-width: 90%; /* Increase max-width to make steps wider */
-        width: 100%; /* Ensure full width within the container */
-    }
-    .progress-container {
-        display: none;
-    }
+   .process-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .process-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .process-title {
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .process-title h2 {
+            font-size: 2.5rem;
+            color: #00174f;
+            font-weight: 600;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .process-title::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #cb0b2e, #00174f);
+            border-radius: 2px;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            position: relative;
+        }
+
+        .process-item {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .process-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .process-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #cb0b2e, #00174f);
+            border-radius: 15px 15px 0 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .process-item:hover::before {
+            opacity: 1;
+        }
+
+        .process-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .process-item:hover .process-icon {
+            background: linear-gradient(135deg, #cb0b2e, #00174f);
+        }
+
+        .process-icon svg {
+            width: 35px;
+            height: 35px;
+            color: #00174f;
+            transition: all 0.3s ease;
+        }
+
+        .process-item:hover .process-icon svg {
+            color: white;
+        }
+
+        .process-number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 4rem;
+            font-weight: 700;
+            color: rgba(0, 23, 79, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .process-item:hover .process-number {
+            color: rgba(203, 11, 46, 0.1);
+        }
+
+        .process-title-text {
+            font-size: 1.5rem;
+            color: #00174f;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .process-description {
+            color: #555;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .connector {
+            position: absolute;
+            top: 40%;
+            left: 25%;
+            right: 25%;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(203, 11, 46, 0.1), rgba(0, 23, 79, 0.1));
+            z-index: 0;
+        }
+
+        @media (max-width: 1200px) {
+            .process-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .connector {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .process-grid {
+                grid-template-columns: 1fr;
+            }
+            .process-title h2 {
+                font-size: 2rem;
+            }
+            .process-item {
+                padding: 30px;
+            }
+        }
 
     /* Testimonial Section */
     .testimonial-slider {
@@ -1731,42 +1870,52 @@ font-style: italic;
                 </div>
             </div>
         </section>
-         <section class="how-it-works">
-        <div class="container">
-            <h2 class="section-title">Our Process</h2>
-            <div class="steps">
-                <div class="step" data-step="1">
-                    <div class="step-number">1</div>
-                    <div class="step-icon">💬</div>
-                    <h3>Chat and Plan</h3>
-                    <p>We meet virtually or in-person to discuss your vision and brand. Our casual conversation helps us understand your unique style and requirements.</p>
-                </div>
-                <div class="step" data-step="2">
-                    <div class="step-number">2</div>
-                    <div class="step-icon">🗺️</div>
-                    <h3>Mapping It Out</h3>
-                    <p>We create a tailored plan that aligns with your needs and budget. This step ensures we have a clear roadmap for your perfect website.</p>
-                </div>
-                <div class="step" data-step="3">
-                    <div class="step-number">3</div>
-                    <div class="step-icon">🚀</div>
-                    <h3>Bringing It to Life</h3>
-                    <p>Our team gets to work, crafting your site with precision and creativity. We keep you involved throughout, ensuring it matches your vision perfectly.</p>
-                </div>
-                <div class="step" data-step="4">
-                    <div class="step-number">4</div>
-                    <div class="step-icon">🌟</div>
-                    <h3>Launch and Support</h3>
-                    <p>We launch your site with flair, ensure smooth operations, and provide ongoing management. Plus, we're always just a call away for any assistance!</p>
-                </div>
+       <section class="process-section">
+        <div class="process-container">
+            <div class="process-title">
+                <h2>Our Process</h2>
             </div>
-            <div class="progress-container">
-                <div class="progress-bar">
-                    <div class="progress"></div>
-                    <div class="checkpoint" data-step="Chat"></div>
-                    <div class="checkpoint" data-step="Plan"></div>
-                    <div class="checkpoint" data-step="Build"></div>
-                    <div class="checkpoint" data-step="Launch"></div>
+            <div class="process-grid">
+                <div class="connector"></div>
+                <div class="process-item" data-aos="fade-up" data-aos-delay="0">
+                    <div class="process-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <div class="process-number">01</div>
+                    <h3 class="process-title-text">Strategic Consultation</h3>
+                    <p class="process-description">In-depth analysis of your business objectives, market position, and technical requirements to develop a comprehensive digital strategy.</p>
+                </div>
+                <div class="process-item" data-aos="fade-up" data-aos-delay="100">
+                    <div class="process-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                        </svg>
+                    </div>
+                    <div class="process-number">02</div>
+                    <h3 class="process-title-text">Blueprint Development</h3>
+                    <p class="process-description">Creating detailed technical specifications and design frameworks aligned with your business goals and industry standards.</p>
+                </div>
+                <div class="process-item" data-aos="fade-up" data-aos-delay="200">
+                    <div class="process-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg>
+                    </div>
+                    <div class="process-number">03</div>
+                    <h3 class="process-title-text">Execution & Development</h3>
+                    <p class="process-description">Implementing your digital solution with precision engineering and innovative design methodologies.</p>
+                </div>
+                <div class="process-item" data-aos="fade-up" data-aos-delay="300">
+                    <div class="process-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <div class="process-number">04</div>
+                    <h3 class="process-title-text">Launch & Optimization</h3>
+                    <p class="process-description">Deploying your solution with comprehensive testing and continuous optimization for peak performance.</p>
                 </div>
             </div>
         </div>
@@ -2564,6 +2713,42 @@ document.addEventListener('DOMContentLoaded', function() {
                         loadingScreen.style.display = 'none';
                     }, 300);
                 }, 500);
+            });
+        });
+ // Intersection Observer for smooth animations
+        const processItems = document.querySelectorAll('.process-item');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        processItems.forEach(item => {
+            item.style.opacity = 0;
+            item.style.transform = 'translateY(20px)';
+            observer.observe(item);
+        });
+
+        // Hover effects
+        processItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                processItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.style.opacity = '0.7';
+                    }
+                });
+            });
+
+            item.addEventListener('mouseleave', () => {
+                processItems.forEach(otherItem => {
+                    otherItem.style.opacity = '1';
+                });
             });
         });
 </script>
