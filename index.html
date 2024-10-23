@@ -1110,101 +1110,6 @@
             color: var(--accent-color);
             margin-bottom: 1rem;
         }
-.trust-badges-section {
-    background: linear-gradient(135deg, rgba(44, 62, 80, 0.95), rgba(52, 152, 219, 0.95));
-    padding: 40px 0 20px;
-    position: relative;
-    overflow: hidden;
-}
-
-.trust-badges-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    gap: 60px;
-    padding: 0 20px;
-}
-
-.trust-badge {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    position: relative;
-    padding: 20px;
-    min-width: 200px;
-}
-
-.trust-badge::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40px;
-    height: 3px;
-    background: var(--primary-color);
-    border-radius: 2px;
-    transition: width 0.3s ease;
-}
-
-.trust-badge:hover::after {
-    width: 60px;
-}
-
-.trust-icon {
-    width: 60px;
-    height: 60px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 15px;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
-}
-
-.trust-badge:hover .trust-icon {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.trust-icon i {
-    font-size: 24px;
-    color: #ffffff;
-}
-
-.trust-text {
-    color: #ffffff;
-    font-size: 1.1rem;
-    font-weight: 500;
-    margin-top: 10px;
-    letter-spacing: 0.5px;
-}
-
-.section-transition {
-    height: 100px;
-    background: linear-gradient(to bottom, transparent, rgba(44, 62, 80, 0.1));
-    position: absolute;
-    bottom: -50px;
-    left: 0;
-    right: 0;
-    z-index: 1;
-}
-
-@media (max-width: 768px) {
-    .trust-badges-container {
-        flex-direction: column;
-        gap: 30px;
-        padding: 0 15px;
-    }
-
-    .trust-badge {
-        padding: 15px;
-    }
-}
        .pricing {
     background: linear-gradient(135deg, #2C3E50, #3498DB);
     padding: 100px 0;
@@ -2219,28 +2124,7 @@ font-style: italic;
         </div>
     </div>
 </section>
-    <div class="trust-badges-container">
-        <div class="trust-badge">
-            <div class="trust-icon">
-                <i class="fas fa-shield-alt"></i>
-            </div>
-            <div class="trust-text">Secure & Reliable</div>
-        </div>
-        <div class="trust-badge">
-            <div class="trust-icon">
-                <i class="fas fa-clock"></i>
-            </div>
-            <div class="trust-text">24/7 Support</div>
-        </div>
-        <div class="trust-badge">
-            <div class="trust-icon">
-                <i class="fas fa-users"></i>
-            </div>
-            <div class="trust-text">100+ Happy Clients</div>
-        </div>
-    </div>
-    <div class="section-transition"></div>
-</div>
+ 
    <section id="pricing" class="pricing">
     <div class="pricing-container">
         <h2 class="section-titleh2">Packages</h2>
@@ -2531,24 +2415,6 @@ font-style: italic;
         });
     }
 
-    // Trust badges initialization
-    function initializeTrustBadges() {
-        const trustBadges = document.querySelectorAll('.trust-badge');
-        if (!trustBadges.length) return;
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate');
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        });
-
-        trustBadges.forEach(badge => {
-            observer.observe(badge);
 
             // Add hover effects
             badge.addEventListener('mouseenter', () => {
