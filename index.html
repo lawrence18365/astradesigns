@@ -958,6 +958,101 @@
             color: var(--accent-color);
             margin-bottom: 1rem;
         }
+.trust-badges-section {
+    background: linear-gradient(135deg, rgba(44, 62, 80, 0.95), rgba(52, 152, 219, 0.95));
+    padding: 40px 0 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.trust-badges-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    padding: 0 20px;
+}
+
+.trust-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    padding: 20px;
+    min-width: 200px;
+}
+
+.trust-badge::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background: var(--primary-color);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.trust-badge:hover::after {
+    width: 60px;
+}
+
+.trust-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.trust-badge:hover .trust-icon {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.trust-icon i {
+    font-size: 24px;
+    color: #ffffff;
+}
+
+.trust-text {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+}
+
+.section-transition {
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgba(44, 62, 80, 0.1));
+    position: absolute;
+    bottom: -50px;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    .trust-badges-container {
+        flex-direction: column;
+        gap: 30px;
+        padding: 0 15px;
+    }
+
+    .trust-badge {
+        padding: 15px;
+    }
+}
        .pricing {
     background: linear-gradient(135deg, #2C3E50, #3498DB);
     padding: 100px 0;
@@ -1975,6 +2070,29 @@ font-style: italic;
         </div>
     </div>
 </section>
+<div class="trust-badges-section">
+    <div class="trust-badges-container">
+        <div class="trust-badge">
+            <div class="trust-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="trust-text">Secure & Reliable</div>
+        </div>
+        <div class="trust-badge">
+            <div class="trust-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="trust-text">24/7 Support</div>
+        </div>
+        <div class="trust-badge">
+            <div class="trust-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="trust-text">100+ Happy Clients</div>
+        </div>
+    </div>
+    <div class="section-transition"></div>
+</div>
    <section id="pricing" class="pricing">
     <div class="pricing-container">
         <h2 class="section-titleh2">Packages</h2>
@@ -2226,20 +2344,65 @@ font-style: italic;
     <div class="scroll-to-top">
         <i class="fas fa-arrow-up"></i>
     </div>
-    <script>
  document.addEventListener('DOMContentLoaded', function() {
-    // Testimonial slider functionality
-    const carousel = document.querySelector('.testimonial-carousel');
-    const cards = document.querySelectorAll('.testimonial-card');
-    const prevBtn = document.querySelector('.arrow.prev');
-    const nextBtn = document.querySelector('.arrow.next');
-    const navDots = document.querySelector('.testimonial-nav');
-    let currentIndex = 0;
+    // Initialize trust badges section
+    function initializeTrustBadges() {
+        const trustBadgesSection = document.querySelector('.trust-badges-section');
+        if (!trustBadgesSection) return;
 
+        const trustBadges = document.querySelectorAll('.trust-badge');
+        
+        // Animate trust badges on scroll
+        const trustObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        trustBadges.forEach((badge, index) => {
+            badge.style.opacity = '0';
+            badge.style.transform = 'translateY(20px)';
+            trustObserver.observe(badge);
+            
+            setTimeout(() => {
+                badge.style.transition = 'all 0.6s ease';
+            }, 200 * (index + 1));
+        });
+
+        // Hover effects for trust badge icons
+        trustBadges.forEach(badge => {
+            const icon = badge.querySelector('.trust-icon');
+            if (icon) {
+                badge.addEventListener('mouseenter', () => {
+                    icon.style.transform = 'translateY(-5px)';
+                    icon.style.background = 'rgba(255, 255, 255, 0.2)';
+                });
+
+                badge.addEventListener('mouseleave', () => {
+                    icon.style.transform = 'translateY(0)';
+                    icon.style.background = 'rgba(255, 255, 255, 0.1)';
+                });
+            }
+        });
+    }
+
+    // Initialize testimonial slider
     function initializeTestimonialSlider() {
+        const carousel = document.querySelector('.testimonial-carousel');
+        const cards = document.querySelectorAll('.testimonial-card');
+        const prevBtn = document.querySelector('.arrow.prev');
+        const nextBtn = document.querySelector('.arrow.next');
+        const navDots = document.querySelector('.testimonial-nav');
+        let currentIndex = 0;
+
         if (!carousel || !cards.length) return;
 
-        // Create dots
+        // Create navigation dots
         if (navDots) {
             cards.forEach((_, index) => {
                 const dot = document.createElement('div');
@@ -2288,207 +2451,90 @@ font-style: italic;
             updateSlider();
         }
 
+        // Event listeners for navigation
         if (nextBtn) nextBtn.addEventListener('click', nextSlide);
         if (prevBtn) prevBtn.addEventListener('click', prevSlide);
 
         // Auto-play functionality
         let intervalId = setInterval(nextSlide, 5000);
+        
         carousel.addEventListener('mouseenter', () => clearInterval(intervalId));
-        carousel.addEventListener('mouseleave', () => intervalId = setInterval(nextSlide, 5000));
+        carousel.addEventListener('mouseleave', () => {
+            intervalId = setInterval(nextSlide, 5000);
+        });
 
-        // Initial setup
         updateSlider();
     }
 
-    initializeTestimonialSlider();
-
-    // Star rating functionality
-    function initializeStarRating() {
-        const starRating = document.querySelector('.star-rating-input');
-        if (!starRating) return;
-
-        const stars = starRating.querySelectorAll('i');
-
-        function highlightStars(rating) {
-            stars.forEach(star => {
-                if (star.getAttribute('data-rating') <= rating) {
-                    star.classList.remove('far');
-                    star.classList.add('fas');
-                } else {
-                    star.classList.remove('fas');
-                    star.classList.add('far');
-                }
+    // Initialize pricing cards
+    function initializePricingCards() {
+        const pricingCards = document.querySelectorAll('.pricing-card');
+        
+        pricingCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-10px)';
+                const otherCards = Array.from(pricingCards).filter(c => c !== card);
+                otherCards.forEach(c => {
+                    c.style.opacity = '0.8';
+                    c.style.transform = 'scale(0.95)';
+                    c.style.filter = 'blur(2px)';
+                });
             });
-        }
-
-        function resetStars() {
-            stars.forEach(star => {
-                if (!star.classList.contains('selected')) {
-                    star.classList.remove('fas');
-                    star.classList.add('far');
-                }
-            });
-        }
-
-        function setRating(rating) {
-            stars.forEach(star => {
-                star.classList.remove('selected');
-                if (star.getAttribute('data-rating') <= rating) {
-                    star.classList.add('selected');
-                    star.classList.remove('far');
-                    star.classList.add('fas');
-                } else {
-                    star.classList.remove('fas');
-                    star.classList.add('far');
-                }
-            });
-        }
-
-        stars.forEach(star => {
-            star.addEventListener('mouseover', function() {
-                highlightStars(this.getAttribute('data-rating'));
-            });
-            star.addEventListener('mouseout', resetStars);
-            star.addEventListener('click', function() {
-                setRating(this.getAttribute('data-rating'));
+            
+            card.addEventListener('mouseleave', () => {
+                pricingCards.forEach(c => {
+                    c.style.transform = 'translateY(0) scale(1)';
+                    c.style.opacity = '1';
+                    c.style.filter = 'blur(0)';
+                });
             });
         });
     }
 
-    initializeStarRating();
+    // Initialize scroll animations
+    function initializeScrollAnimations() {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
 
-    // GSAP Animations
-    function initializeGSAPAnimations() {
-        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-
-        gsap.registerPlugin(ScrollTrigger);
-
-        // How it works section animations
-        const steps = document.querySelectorAll('.step');
-        const checkpoints = document.querySelectorAll('.checkpoint');
-        const progress = document.querySelector('.progress');
-
-        steps.forEach((step, index) => {
-            gsap.from(step, {
-                opacity: 0,
-                y: 50,
-                duration: 1,
-                scrollTrigger: {
-                    trigger: step,
-                    start: 'top 80%',
-                    end: 'bottom 20%',
-                    toggleActions: 'play none none reverse',
-                    onEnter: () => updateProgress(index + 1),
-                    onLeaveBack: () => updateProgress(index)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                    observer.unobserve(entry.target);
                 }
             });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.pricing-card, .service-card, .testimonial-card, .team-member, .process-item').forEach(el => {
+            observer.observe(el);
         });
+    }
 
-        function updateProgress(step) {
-            if (!progress) return;
-            gsap.to(progress, {
-                width: `${(step - 1) * 33.33}%`,
-                duration: 0.5
-            });
+    // Initialize smooth scrolling
+    function initializeSmoothScrolling() {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerOffset = 100;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition - headerOffset;
 
-            checkpoints.forEach((checkpoint, index) => {
-                if (index < step) {
-                    checkpoint.classList.add('active');
-                } else {
-                    checkpoint.classList.remove('active');
-                }
-            });
-        }
-
-        // Hover animations for step icons
-        steps.forEach(step => {
-            const icon = step.querySelector('.step-icon');
-            if (icon) {
-                step.addEventListener('mouseenter', () => {
-                    gsap.to(icon, { rotationY: 180, duration: 0.5 });
-                });
-                step.addEventListener('mouseleave', () => {
-                    gsap.to(icon, { rotationY: 0, duration: 0.5 });
-                });
-            }
-        });
-
-        // Hero section animations
-        gsap.from('.hero-content', {opacity: 0, y: 50, duration: 1, delay: 0.5});
-
-        // Animate elements when they come into view
-        gsap.utils.toArray('.feature-card, .benefit-item, .service-card, .testimonial-card, .step, .team-member').forEach((elem) => {
-            gsap.from(elem, {
-                opacity: 0,
-                y: 50,
-                duration: 1,
-                scrollTrigger: {
-                    trigger: elem,
-                    start: 'top 80%',
-                }
-            });
-        });
-
-        // Parallax effect for hero section
-        gsap.to('.hero', {
-            backgroundPosition: '50% 100%',
-            ease: 'none',
-            scrollTrigger: {
-                trigger: '.hero',
-                start: 'top top',
-                end: 'bottom top',
-                scrub: true
-            }
-        });
-
-        // Progress bar animation
-        if (progress) {
-            gsap.to(progress, {
-                width: '100%',
-                duration: 2,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: '.progress-container',
-                    start: 'top 80%',
-                    end: 'bottom 20%',
-                    scrub: true
-                }
-            });
-        }
-
-        // Checkpoint animations
-        checkpoints.forEach((checkpoint, index) => {
-            gsap.to(checkpoint, {
-                scale: 1.2,
-                backgroundColor: 'var(--accent-color)',
-                duration: 0.5,
-                scrollTrigger: {
-                    trigger: '.progress-container',
-                    start: `top ${80 - (index * 20)}%`,
-                    end: `bottom ${20 - (index * 20)}%`,
-                    toggleActions: 'play reverse play reverse'
+                    window.scrollTo({
+                        top: window.pageYOffset + offsetPosition,
+                        behavior: 'smooth'
+                    });
                 }
             });
         });
     }
 
-    initializeGSAPAnimations();
-
-    // Smooth scrolling
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-
-    // Scroll to top button
-    function initializeScrollToTopButton() {
+    // Initialize scroll-to-top button
+    function initializeScrollToTop() {
         const scrollToTopButton = document.querySelector('.scroll-to-top');
         if (!scrollToTopButton) return;
 
@@ -2508,10 +2554,31 @@ font-style: italic;
         });
     }
 
+    // Initialize loading screen
+    function initializeLoadingScreen() {
+        const loadingScreen = document.querySelector('.loading-screen');
+        if (!loadingScreen) return;
 
-    initializeScrollToTopButton();
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                loadingScreen.classList.add('fade-out');
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 300);
+            }, 500);
+        });
+    }
 
-    // Initialize AOS (Animate on Scroll)
+    // Initialize all components
+    initializeTrustBadges();
+    initializeTestimonialSlider();
+    initializePricingCards();
+    initializeScrollAnimations();
+    initializeSmoothScrolling();
+    initializeScrollToTop();
+    initializeLoadingScreen();
+
+    // Initialize AOS if available
     if (typeof AOS !== 'undefined') {
         AOS.init({
             duration: 1000,
@@ -2519,238 +2586,6 @@ font-style: italic;
         });
     }
 });
-
-document.addEventListener('DOMContentLoaded', function() {
-    const pricingCards = document.querySelectorAll('.pricing-card');
-    
-    pricingCards.forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            card.style.transform = 'translateY(-10px)';
-            const otherCards = Array.from(pricingCards).filter(c => c !== card);
-            otherCards.forEach(c => {
-                c.style.opacity = '0.8';
-            });
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'translateY(0)';
-            pricingCards.forEach(c => {
-                c.style.opacity = '1';
-            });
-        });
-    });
-});
-// Add smooth scroll with enhanced easing
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            const headerOffset = 100;
-            const elementPosition = target.getBoundingClientRect().top;
-            const offsetPosition = elementPosition - headerOffset;
-
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-            });
-        }
-    });
-});
-
-// Add reveal animations on scroll
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: "0px 0px -50px 0px"
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('animate');
-            observer.unobserve(entry.target);
-        }
-    });
-}, observerOptions);
-
-document.querySelectorAll('.pricing-card, .service-card, .testimonial-card, .team-member').forEach(el => {
-    observer.observe(el);
-});
-
-// Add parallax effect to hero section
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        hero.style.backgroundPosition = `50% ${scrolled * 0.5}px`;
-    }
-});
-
-// Add subtle hover effects to navigation
-document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('mouseenter', (e) => {
-        link.style.transform = 'translateY(-2px)';
-        link.style.transition = 'all 0.3s ease';
-    });
-    
-    link.addEventListener('mouseleave', (e) => {
-        link.style.transform = 'translateY(0)';
-    });
-});
-
-// Add loading animation
-window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
-});
-
-// Add trust indicators animation
-const trustBadges = [
-    { icon: 'shield-check', text: 'Secure & Reliable' },
-    { icon: 'clock', text: '24/7 Support' },
-    { icon: 'users', text: '100+ Happy Clients' }
-];
-
-const trustContainer = document.createElement('div');
-trustContainer.className = 'trust-badges';
-trustContainer.style.textAlign = 'center';
-trustContainer.style.marginTop = '30px';
-
-trustBadges.forEach(badge => {
-    const badgeElement = document.createElement('div');
-    badgeElement.className = 'trust-badge';
-    badgeElement.innerHTML = `
-        <i class="fas fa-${badge.icon}"></i>
-        <span>${badge.text}</span>
-    `;
-    trustContainer.appendChild(badgeElement);
-});
-
-document.querySelector('.pricing-container').prepend(trustContainer);
-
-// Add smooth hover transitions to pricing cards
-document.querySelectorAll('.pricing-card').forEach(card => {
-    card.addEventListener('mouseenter', (e) => {
-        const cards = document.querySelectorAll('.pricing-card');
-        cards.forEach(c => {
-            if (c !== card) {
-                c.style.transform = 'scale(0.95)';
-                c.style.filter = 'blur(2px)';
-            }
-        });
-    });
-    
-    card.addEventListener('mouseleave', () => {
-        const cards = document.querySelectorAll('.pricing-card');
-        cards.forEach(c => {
-            c.style.transform = 'scale(1)';
-            c.style.filter = 'blur(0)';
-        });
-    });
-});
-document.addEventListener('DOMContentLoaded', function() {
-    const track = document.querySelector('.portfolio-track');
-    const items = document.querySelectorAll('.portfolio-item');
-    const prevBtn = document.querySelector('.prev-btn');
-    const nextBtn = document.querySelector('.next-btn');
-    
-    // Clone items for infinite effect
-    items.forEach(item => {
-        const clone = item.cloneNode(true);
-        track.appendChild(clone);
-    });
-
-    let currentIndex = 0;
-    const itemWidth = items[0].offsetWidth + 30; // Including gap
-    const totalItems = items.length;
-    
-    // Center the first item initially
-    track.style.transform = `translateX(${window.innerWidth / 2 - itemWidth / 2}px)`;
-
-    function updateSlider(direction) {
-        currentIndex = (currentIndex + direction) % totalItems;
-        if (currentIndex < 0) currentIndex = totalItems - 1;
-        
-        const offset = window.innerWidth / 2 - itemWidth / 2 - (currentIndex * itemWidth);
-        track.style.transform = `translateX(${offset}px)`;
-        
-        if (currentIndex === 0 && direction === 1) {
-            setTimeout(() => {
-                track.style.transition = 'none';
-                track.style.transform = `translateX(${window.innerWidth / 2 - itemWidth / 2}px)`;
-                setTimeout(() => {
-                    track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-                }, 50);
-            }, 500);
-        }
-    }
-
-    nextBtn.addEventListener('click', () => updateSlider(1));
-    prevBtn.addEventListener('click', () => updateSlider(-1));
-
-    // Auto-play
-    let autoPlayInterval = setInterval(() => updateSlider(1), 5000);
-
-    // Pause auto-play on hover
-    track.addEventListener('mouseenter', () => clearInterval(autoPlayInterval));
-    track.addEventListener('mouseleave', () => {
-        autoPlayInterval = setInterval(() => updateSlider(1), 5000);
-    });
-
-    // Handle window resize
-    window.addEventListener('resize', () => {
-        const offset = window.innerWidth / 2 - itemWidth / 2 - (currentIndex * itemWidth);
-        track.style.transform = `translateX(${offset}px)`;
-    });
-});
-  document.addEventListener('DOMContentLoaded', function() {
-            const loadingScreen = document.querySelector('.loading-screen');
-            
-            // Remove loading screen when content is loaded
-            window.addEventListener('load', function() {
-                setTimeout(() => {
-                    loadingScreen.classList.add('fade-out');
-                    setTimeout(() => {
-                        loadingScreen.style.display = 'none';
-                    }, 300);
-                }, 500);
-            });
-        });
- // Intersection Observer for smooth animations
-        const processItems = document.querySelectorAll('.process-item');
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = 1;
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, {
-            threshold: 0.1
-        });
-
-        processItems.forEach(item => {
-            item.style.opacity = 0;
-            item.style.transform = 'translateY(20px)';
-            observer.observe(item);
-        });
-
-        // Hover effects
-        processItems.forEach(item => {
-            item.addEventListener('mouseenter', () => {
-                processItems.forEach(otherItem => {
-                    if (otherItem !== item) {
-                        otherItem.style.opacity = '0.7';
-                    }
-                });
-            });
-
-            item.addEventListener('mouseleave', () => {
-                processItems.forEach(otherItem => {
-                    otherItem.style.opacity = '1';
-                });
-            });
-        });
 </script>
 </body>
 </html>
