@@ -631,7 +631,159 @@
         transition: all 0.3s ease;
         backdrop-filter: blur(10px);
     }
+    /* Process Section Base */
+.process-section {
+    padding: 100px 0;
+    background-color: #fff;
+    position: relative;
+    z-index: 1;
+}
+
+/* Section Title */
+.process-section .section-titleh2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 60px;
+    color: var(--secondary-color);
+    position: relative;
+}
+
+.process-section .section-titleh2::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    border-radius: 2px;
+}
+
+/* Grid Layout */
+.process-section .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Process Items */
+.process-section .process-item {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 15px;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.process-section .process-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Process Item Top Border */
+.process-section .process-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    border-radius: 15px 15px 0 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.process-section .process-item:hover::before {
+    opacity: 1;
+}
+
+/* Process Icons */
+.process-section .process-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.process-section .process-icon i,
+.process-section .process-icon svg {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+    color: var(--secondary-color);
+    transition: all 0.3s ease;
+}
+
+.process-section .process-item:hover .process-icon {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
+
+.process-section .process-item:hover .process-icon i,
+.process-section .process-item:hover .process-icon svg {
+    color: #ffffff;
+}
+
+/* Process Numbers */
+.process-section .process-number {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 4rem;
+    font-weight: 700;
+    color: rgba(0, 23, 79, 0.05);
+    transition: all 0.3s ease;
+}
+
+.process-section .process-item:hover .process-number {
+    color: rgba(203, 11, 46, 0.1);
+}
+
+/* Process Text */
+.process-section .process-title-text {
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.process-section .process-description {
+    color: #555;
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .process-section .process-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .process-section .process-grid {
+        grid-template-columns: 1fr;
+    }
     
+    .process-section .section-titleh2 {
+        font-size: 2rem;
+    }
+    
+    .process-section .process-item {
+        padding: 30px;
+    }
+}
     .benefits-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -1826,229 +1978,6 @@ font-style: italic;
         font-size: 2rem;
         margin-bottom: 2rem;
     }
-
-/* Fix for process section background and spacing */
-.process-section {
-    background: #fff;  /* Change from gradient to solid white */
-    padding: 100px 0;
-    position: relative;
-    z-index: 1;
-}
-
-/* Fix the section title styling */
-.process-section .section-titleh2 {
-    color: var(--secondary-color);  /* Change from white to dark color */
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 60px;
-    position: relative;
-}
-
-/* Fix the process grid layout and spacing */
-.process-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
-    margin: 0 auto;
-    max-width: 1200px;
-    padding: 0 20px;
-}
-
-/* Fix individual process item styling */
-.process-item {
-    background: white;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    text-align: center;
-    transition: all 0.3s ease;
-}
-
-/* Fix process item text colors */
-.process-item h3 {
-    color: var(--secondary-color);
-    margin-bottom: 15px;
-}
-
-.process-item p {
-    color: #555;
-}
-
-/* Fix container width */
-.process-section .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-.section-title-primary {
-    text-align: center;
-    font-size: 3rem;
-    color: var(--bg-color);
-    margin-bottom: 50px;
-}
-
-.section-title-secondary {
-    text-align: center;
-    font-size: 2.5rem;
-    color: var(--primary-color);
-    margin-bottom: 50px;
-}
-
-.section-title-light {
-    text-align: center;
-    font-size: 2.5rem;
-    color: white;
-    margin-bottom: 50px;
-}
-        .process-title {
-            text-align: center;
-            margin-bottom: 80px;
-            position: relative;
-        }
-
-        .process-title h2 {
-            font-size: 2.5rem;
-            color: #00174f;
-            font-weight: 600;
-            margin: 0;
-            letter-spacing: -0.5px;
-        }
-
-        .process-title::after {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, #cb0b2e, #00174f);
-            border-radius: 2px;
-        }
-
-        .process-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-            position: relative;
-        }
-
-        .process-item {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            position: relative;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-        }
-
-        .process-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .process-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #cb0b2e, #00174f);
-            border-radius: 15px 15px 0 0;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .process-item:hover::before {
-            opacity: 1;
-        }
-
-        .process-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 25px;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .process-item:hover .process-icon {
-            background: linear-gradient(135deg, #cb0b2e, #00174f);
-        }
-
-        .process-icon svg {
-            width: 35px;
-            height: 35px;
-            color: #00174f;
-            transition: all 0.3s ease;
-        }
-
-        .process-item:hover .process-icon svg {
-            color: white;
-        }
-
-        .process-number {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 4rem;
-            font-weight: 700;
-            color: rgba(0, 23, 79, 0.05);
-            transition: all 0.3s ease;
-        }
-
-        .process-item:hover .process-number {
-            color: rgba(203, 11, 46, 0.1);
-        }
-
-        .process-title-text {
-            font-size: 1.5rem;
-            color: #00174f;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .process-description {
-            color: #555;
-            line-height: 1.6;
-            font-size: 1rem;
-        }
-
-        .connector {
-            position: absolute;
-            top: 40%;
-            left: 25%;
-            right: 25%;
-            height: 2px;
-            background: linear-gradient(90deg, rgba(203, 11, 46, 0.1), rgba(0, 23, 79, 0.1));
-            z-index: 0;
-        }
-
-        @media (max-width: 1200px) {
-            .process-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .connector {
-                display: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .process-grid {
-                grid-template-columns: 1fr;
-            }
-            .process-title h2 {
-                font-size: 2rem;
-            }
-            .process-item {
-                padding: 30px;
-            }
-        }
 
     /* Testimonial Section */
     .testimonial-slider {
