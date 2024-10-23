@@ -1839,7 +1839,26 @@ font-style: italic;
             margin: 0 auto;
             padding: 0 20px;
         }
+.section-title-primary {
+    text-align: center;
+    font-size: 3rem;
+    color: var(--bg-color);
+    margin-bottom: 50px;
+}
 
+.section-title-secondary {
+    text-align: center;
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 50px;
+}
+
+.section-title-light {
+    text-align: center;
+    font-size: 2.5rem;
+    color: white;
+    margin-bottom: 50px;
+}
         .process-title {
             text-align: center;
             margin-bottom: 80px;
@@ -2027,6 +2046,7 @@ font-style: italic;
     }
 }
     </style>
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 </head>
 <body>
     <header>
@@ -2228,7 +2248,6 @@ font-style: italic;
         </div>
     </div>
 </section>
-<div class="trust-badges-section">
     <div class="trust-badges-container">
         <div class="trust-badge">
             <div class="trust-icon">
@@ -2461,7 +2480,6 @@ font-style: italic;
         </div>
     </div>
 </section>
-        </section>
     </main>
 
     <footer>
@@ -2876,6 +2894,23 @@ font-style: italic;
     // Start initialization
     initializeWebsite();
 });
+function initializeLoadingScreen() {
+    const loadingScreen = document.querySelector('.loading-screen');
+    if (!loadingScreen) return;
+    
+    // Show loading screen immediately
+    loadingScreen.style.display = 'flex';
+    
+    // Handle page load
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            loadingScreen.classList.add('fade-out');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 300);
+        }, 800);
+    });
+}
 </script>
 </body>
 </html>
