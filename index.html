@@ -2375,7 +2375,7 @@ font-style: italic;
     <div class="scroll-to-top">
         <i class="fas fa-arrow-up"></i>
     </div>
-   <script>
+ <script>
     // Loading screen initialization
     function initializeLoadingScreen() {
         const loadingScreen = document.querySelector('.loading-screen');
@@ -2436,22 +2436,19 @@ font-style: italic;
         document.head.appendChild(styleSheet);
     }
 
-    // Initialize all necessary styles and start the app
-    function init() {
-        addNotificationStyles();
-        initializeLoadingScreen();
-        initializeWebsite();
-        initializeLoadingButtons();
-        initializeLazyLoading();
-        initializeResizeHandler();
-        updateLayoutOnResize(); // Initial layout setup
-    }
-
-    // Start the application
-    init();
-
     // Wait until DOM content is loaded
     document.addEventListener('DOMContentLoaded', function () {
+        // Initialize all necessary styles and start the app
+        function init() {
+            addNotificationStyles();
+            initializeLoadingScreen();
+            initializeWebsite();
+            initializeLoadingButtons();
+            initializeLazyLoading();
+            initializeResizeHandler();
+            updateLayoutOnResize(); // Initial layout setup
+        }
+
         // Main initialization function to handle all features
         function initializeWebsite() {
             initializeTrustBadges();
@@ -2514,57 +2511,47 @@ font-style: italic;
             });
         }
 
-        // Portfolio slider initialization
+        // Define other functions called in init()
         function initializePortfolioSlider() {
             // Your portfolio slider code here
         }
 
-        // Testimonial slider initialization
         function initializeTestimonialSlider() {
             // Your testimonial slider code here
         }
 
-        // Pricing cards initialization
         function initializePricingCards() {
             // Your pricing cards code here
         }
 
-        // Scroll animations initialization
         function initializeScrollAnimations() {
             // Your scroll animations code here
         }
 
-        // Navigation initialization
         function initializeNavigation() {
             // Your navigation code here
         }
 
-        // Scroll to top initialization
         function initializeScrollToTop() {
             // Your scroll to top code here
         }
 
-        // Hero parallax effect
         function initializeHeroParallax() {
             // Your hero parallax code here
         }
 
-        // Contact form initialization
         function initializeContactForm() {
             // Your contact form code here
         }
 
-        // Dynamic loading indicator for buttons
         function initializeLoadingButtons() {
             // Your loading buttons code here
         }
 
-        // Lazy loading images
         function initializeLazyLoading() {
             // Your lazy loading code here
         }
 
-        // Handle window resize events
         function initializeResizeHandler() {
             let resizeTimeout;
 
@@ -2592,7 +2579,11 @@ font-style: italic;
                 }
             }
         }
+
+        // Start the application
+        init();
     });
 </script>
+
 </body>
 </html>
