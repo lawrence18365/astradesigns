@@ -226,7 +226,7 @@
             right: 0;
             bottom: 0;
             height: 150px; /* Adjust this value to control the height of the gradient */
-            background: linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+            background: linear-gradient(to top, #00174f 0%, rgba(255,255,255,0) 100%);
             
 
         }
@@ -298,7 +298,7 @@
 }
 
 .portfolio-showcase {
-    background: linear-gradient(135deg, #2C3E50, #3498DB);
+   background: var(--primary-color);
     padding: 100px 0;
     overflow: hidden;
     position: relative;
@@ -320,7 +320,7 @@
 
 .portfolio-item {
     min-width: 400px;
-    background: rgba(255, 255, 255, 0.1);
+background: var(--secondary-color);
     border-radius: 15px;
     flex-shrink: 0;
     transition: all 0.3s ease;
@@ -594,18 +594,16 @@
 
   /* Update the services section */
         .services {
-            background-color: var(--bg-color);
+            background-color: var(--secondary-color);
             position: relative;
             z-index: 1; /* Ensure the services section is above the hero gradient */
         }
         .features, .benefits, .services, .testimonials, .how-it-works, .team {
             padding: 8rem 0;
         }
-        .features, .services, .how-it-works {
-            background-color: var(--bg-color);
-        }
+       
         .benefits, .testimonials, .team {
-            background: var(--gradient-bg);
+background: var(--primary-color);
             color: var(--bg-color);
         }
         .benefits {
@@ -634,7 +632,7 @@
     /* Process Section Base */
 .process-section {
     padding: 100px 0;
-    background-color: #fff;
+background-color: var(--secondary-color);
     position: relative;
     z-index: 1;
 }
@@ -1111,7 +1109,7 @@
             margin-bottom: 1rem;
         }
        .pricing {
-    background: linear-gradient(135deg, #2C3E50, #3498DB);
+background: var(--secondary-color);
     padding: 100px 0;
     position: relative;
     color: #fff;
@@ -1285,7 +1283,7 @@
     }
 }
 .testimonials {
-    background: linear-gradient(135deg, #2C3E50, #3498DB);
+background: var(--secondary-color);
     color: #fff;
     padding: 100px 5;
 }
@@ -1371,7 +1369,7 @@ font-style: italic;
 }
 
 .prev-btn, .next-btn {
-    background: transparent;
+background: var(--secondary-color);
     border: none;
     color: #fff;
     font-size: 1.5rem;
@@ -1520,7 +1518,7 @@ font-style: italic;
         }
         
         .contact {
-            background: linear-gradient(135deg, #2C3E50, #3498DB);
+background: var(--primary-color);
             color: #fff;
             padding: 100px 0;
         }
