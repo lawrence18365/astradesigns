@@ -2386,39 +2386,38 @@ background: var(--primary-color);
         }
     }
 
-    // Add notification styles if they don't exist
-    function addNotificationStyles() {
-        const styleSheet = document.createElement('style');
-        styleSheet.textContent = `
-            .notification {
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 15px 25px;
-                border-radius: 5px;
-                color: white;
-                font-weight: 500;
-                transform: translateX(120%);
-                transition: transform 0.3s ease;
-                z-index: 1000;
-                box-shadow: 0 3px 6px rgba(0,0,0,0.16);
-            }
-            .notification.show {
-                transform: translateX(0);
-            }
-            .notification.success {
-                background-color: #4CAF50;
-            }
-            .notification.error {
-                background-color: #f44336;
-            }
-            .form-group.error input,
-            .form-group.error textarea {
-                border-color: #f44336;
-            }
-        `;
-        document.head.appendChild(styleSheet);
-    }
+  function addNotificationStyles() {
+    const styleSheet = document.createElement('style');
+    styleSheet.textContent = `
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 5px;
+            color: white;
+            font-weight: 500;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+        }
+        .notification.show {
+            transform: translateX(0);
+        }
+        .notification.success {
+            background-color: #4CAF50;
+        }
+        .notification.error {
+            background-color: #f44336;
+        }
+        .form-group.error input,
+        .form-group.error textarea {
+            border-color: #f44336;
+        }
+    `;
+    document.head.appendChild(styleSheet);
+}
 
     // Wait until DOM content is loaded
     document.addEventListener('DOMContentLoaded', function () {
