@@ -2367,34 +2367,254 @@ background: var(--primary-color);
     <div class="scroll-to-top">
         <i class="fas fa-arrow-up"></i>
     </div>
- <script>
-    // Loading screen initialization
-    function initializeLoadingScreen() {
-        const loadingScreen = document.querySelector('.loading-screen');
-        if (!loadingScreen) return;
+<script>
+// Wait for the DOM to be fully loaded before initializing
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all components
+    initializeLoadingScreen();
+    initializeWebsite();
+    initializeScrollHandlers();
+    initializePortfolioSlider();
+    initializeTestimonialSlider();
+    initializeContactForm();
+    initializeNotifications();
 
-        // Show loading screen immediately
-        loadingScreen.style.display = 'flex';
+    // Initialize AOS animations if available
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 50,
+            easing: 'ease-in-out'
+        });
+    }
+});
 
-        // Handle page load
-        if (document.readyState === 'complete') {
-            // Page has already loaded
-            hideLoadingScreen();
-        } else {
-            window.addEventListener('load', hideLoadingScreen);
-        }
+// Loading Screen
+function initializeLoadingScreen() {
+    const loadingScreen = document.querySelector('.loading-screen');
+    if (!loadingScreen) return;
 
-        function hideLoadingScreen() {
-            setTimeout(() => {
-                loadingScreen.classList.add('fade-out');
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                }, 300);
-            }, 800);
-        }
+    if (document.readyState === 'complete') {
+        hideLoadingScreen();
+    } else {
+        window.addEventListener('load', hideLoadingScreen);
     }
 
-  function addNotificationStyles() {
+    function hideLoadingScreen() {
+        setTimeout(() => {
+            loadingScreen.classList.add('fade-out');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 300);
+        }, 800);
+    }
+}
+
+// Main Website Initialization
+function initializeWebsite() {
+    // Navigation Links
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+
+    // CTA Buttons
+    document.querySelectorAll('.cta-button').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+
+    // Initialize Trust Badges
+    initializeTrustBadges();
+}
+
+// Portfolio Slider
+function initializePortfolioSlider() {
+    const track = document.querySelector('.portfolio-track');
+    const items = document.querySelectorAll('.portfolio-item');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    
+    if (!track || !items.length) return;
+
+    let currentIndex = 0;
+    const itemWidth = items[0].offsetWidth + 30; // Including gap
+    const maxIndex = Math.max(0, items.length - 3);
+
+    function updateSliderPosition() {
+        track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+    }
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            currentIndex = Math.max(0, currentIndex - 1);
+            updateSliderPosition();
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            currentIndex = Math.min(maxIndex, currentIndex + 1);
+            updateSliderPosition();
+        });
+    }
+}
+
+// Testimonial Slider
+function initializeTestimonialSlider() {
+    const cards = document.querySelectorAll('.testimonial-card');
+    const dots = document.querySelector('.testimonial-dots');
+    const prevBtn = document.querySelector('.prev-button');
+    const nextBtn = document.querySelector('.next-button');
+    
+    if (!cards.length) return;
+
+    let currentIndex = 0;
+
+    // Create dots
+    cards.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(index));
+        dots.appendChild(dot);
+    });
+
+    function updateSlider() {
+        cards.forEach((card, index) => {
+            card.style.opacity = index === currentIndex ? '1' : '0';
+            card.style.transform = index === currentIndex ? 'scale(1)' : 'scale(0.8)';
+        });
+
+        document.querySelectorAll('.dot').forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentIndex);
+        });
+    }
+
+    function goToSlide(index) {
+        currentIndex = index;
+        updateSlider();
+    }
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+            updateSlider();
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % cards.length;
+            updateSlider();
+        });
+    }
+}
+
+// Contact Form
+function initializeContactForm() {
+    const form = document.querySelector('.contact-form');
+    if (!form) return;
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Basic form validation
+        let isValid = true;
+        const inputs = form.querySelectorAll('input, textarea');
+        
+        inputs.forEach(input => {
+            if (!input.value.trim()) {
+                isValid = false;
+                input.parentElement.classList.add('error');
+            } else {
+                input.parentElement.classList.remove('error');
+            }
+        });
+
+        if (isValid) {
+            // Here you would typically send the form data to your server
+            showNotification('Message sent successfully!', 'success');
+            form.reset();
+        } else {
+            showNotification('Please fill in all fields.', 'error');
+        }
+    });
+}
+
+// Trust Badges
+function initializeTrustBadges() {
+    const trustBadges = document.querySelectorAll('.trust-badge');
+    if (!trustBadges.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+            }
+        });
+    }, {
+        threshold: 0.2,
+        rootMargin: '0px'
+    });
+
+    trustBadges.forEach(badge => {
+        observer.observe(badge);
+    });
+}
+
+// Scroll Handlers
+function initializeScrollHandlers() {
+    // Scroll to Top Button
+    const scrollTopBtn = document.querySelector('.scroll-to-top');
+    if (scrollTopBtn) {
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('show');
+            } else {
+                scrollTopBtn.classList.remove('show');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    // Header Scroll Effect
+    const header = document.querySelector('header');
+    if (header) {
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 50) {
+                header.style.background = 'var(--secondary-color)';
+                header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            } else {
+                header.style.background = 'transparent';
+                header.style.boxShadow = 'none';
+            }
+        });
+    }
+}
+
+// Notifications
+function initializeNotifications() {
+    // Add notification styles
     const styleSheet = document.createElement('style');
     styleSheet.textContent = `
         .notification {
@@ -2419,143 +2639,59 @@ background: var(--primary-color);
         .notification.error {
             background-color: #f44336;
         }
-        .form-group.error input,
-        .form-group.error textarea {
-            border-color: #f44336;
-        }
     `;
     document.head.appendChild(styleSheet);
 }
 
-    // Wait until DOM content is loaded
-    document.addEventListener('DOMContentLoaded', function () {
-        // Initialize all necessary styles and start the app
-        function init() {
-            addNotificationStyles();
-            initializeLoadingScreen();
-            initializeWebsite();
-            initializeLoadingButtons();
-            initializeLazyLoading();
-            initializeResizeHandler();
-            updateLayoutOnResize(); // Initial layout setup
-        }
+function showNotification(message, type = 'success') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
 
-        // Main initialization function to handle all features
-        function initializeWebsite() {
-            initializeTrustBadges();
-            initializePortfolioSlider();
-            initializeTestimonialSlider();
-            initializePricingCards();
-            initializeScrollAnimations();
-            initializeNavigation();
-            initializeScrollToTop();
-            initializeHeroParallax();
-            initializeContactForm();
+    // Trigger reflow
+    notification.offsetHeight;
 
-            // Initialize AOS if available
-            if (typeof AOS !== 'undefined') {
-                AOS.init({
-                    duration: 1000,
-                    once: true,
-                    offset: 50,
-                    easing: 'ease-in-out',
-                });
-            }
-        }
+    // Show notification
+    notification.classList.add('show');
 
-        // Add this to your initializeTrustBadges function
-function initializeTrustBadges() {
-    const trustBadges = document.querySelectorAll('.trust-badge');
-    if (!trustBadges.length) return;
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate');
-            }
-        });
-    }, {
-        threshold: 0.2,
-        rootMargin: '0px'
-    });
-
-    trustBadges.forEach(badge => {
-        observer.observe(badge);
-    });
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
 }
-        // Define other functions called in init()
-        function initializePortfolioSlider() {
-            // Your portfolio slider code here
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    clearTimeout(window.resizeTimeout);
+    window.resizeTimeout = setTimeout(() => {
+        updateLayoutOnResize();
+    }, 250);
+});
+
+function updateLayoutOnResize() {
+    const windowWidth = window.innerWidth;
+    
+    // Update process section grid
+    const processSection = document.querySelector('.process-grid');
+    if (processSection) {
+        if (windowWidth < 768) {
+            processSection.style.gridTemplateColumns = '1fr';
+        } else if (windowWidth < 1200) {
+            processSection.style.gridTemplateColumns = 'repeat(2, 1fr)';
+        } else {
+            processSection.style.gridTemplateColumns = 'repeat(4, 1fr)';
         }
+    }
 
-        function initializeTestimonialSlider() {
-            // Your testimonial slider code here
-        }
-
-        function initializePricingCards() {
-            // Your pricing cards code here
-        }
-
-        function initializeScrollAnimations() {
-            // Your scroll animations code here
-        }
-
-        function initializeNavigation() {
-            // Your navigation code here
-        }
-
-        function initializeScrollToTop() {
-            // Your scroll to top code here
-        }
-
-        function initializeHeroParallax() {
-            // Your hero parallax code here
-        }
-
-        function initializeContactForm() {
-            // Your contact form code here
-        }
-
-        function initializeLoadingButtons() {
-            // Your loading buttons code here
-        }
-
-        function initializeLazyLoading() {
-            // Your lazy loading code here
-        }
-
-        function initializeResizeHandler() {
-            let resizeTimeout;
-
-            window.addEventListener('resize', () => {
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(() => {
-                    // Update any necessary layout calculations
-                    updateLayoutOnResize();
-                }, 250);
-            });
-        }
-
-        function updateLayoutOnResize() {
-            // Update layout-specific calculations here
-            const windowWidth = window.innerWidth;
-            const processSection = document.querySelector('.process-grid');
-
-            if (processSection) {
-                if (windowWidth < 768) {
-                    processSection.style.gridTemplateColumns = '1fr';
-                } else if (windowWidth < 1200) {
-                    processSection.style.gridTemplateColumns = 'repeat(2, 1fr)';
-                } else {
-                    processSection.style.gridTemplateColumns = 'repeat(4, 1fr)';
-                }
-            }
-        }
-
-        // Start the application
-        init();
-    });
-</script>
+    // Reinitialize sliders for new window size
+    initializePortfolioSlider();
+    initializeTestimonialSlider();
+}
+        </script>
 
 </body>
 </html>
