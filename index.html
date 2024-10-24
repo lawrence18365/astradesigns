@@ -2368,12 +2368,108 @@ background: var(--primary-color);
         <i class="fas fa-arrow-up"></i>
     </div>
 <script>
-// Wait for the DOM to be fully loaded before initializing
+// Smooth Scroll Manager
+class SmoothScroll {
+    constructor() {
+        this.scrollElement = window.document.scrollingElement || 
+                            window.document.documentElement || 
+                            window.document.body;
+        this.isScrolling = false;
+        this.scrollTimeout = null;
+        this.rafId = null;
+        this.currentPosition = 0;
+        this.targetPosition = 0;
+        this.scrollDuration = 1000;
+        
+        this.onScroll = this.onScroll.bind(this);
+        this.smoothScrollTo = this.smoothScrollTo.bind(this);
+        this.animate = this.animate.bind(this);
+        
+        this.init();
+    }
+
+    init() {
+        window.addEventListener('scroll', this.onScroll, { passive: true });
+        this.currentPosition = window.pageYOffset;
+    }
+
+    onScroll() {
+        if (this.rafId) {
+            window.cancelAnimationFrame(this.rafId);
+        }
+
+        this.currentPosition = window.pageYOffset;
+
+        if (this.scrollTimeout) {
+            window.clearTimeout(this.scrollTimeout);
+        }
+
+        this.scrollTimeout = window.setTimeout(() => {
+            this.isScrolling = false;
+        }, 100);
+    }
+
+    scrollToElement(element, offset = 0) {
+        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset - offset;
+        this.smoothScrollTo(elementPosition);
+    }
+
+    smoothScrollTo(targetPosition) {
+        this.isScrolling = true;
+        this.targetPosition = targetPosition;
+
+        const startPosition = window.pageYOffset;
+        const distance = this.targetPosition - startPosition;
+        const startTime = performance.now();
+
+        const animate = (currentTime) => {
+            const elapsedTime = currentTime - startTime;
+            const progress = Math.min(elapsedTime / this.scrollDuration, 1);
+
+            const easeProgress = this.easeOutCubic(progress);
+            const currentPosition = startPosition + (distance * easeProgress);
+
+            window.scrollTo({
+                top: currentPosition,
+                behavior: 'auto'
+            });
+
+            if (progress < 1) {
+                this.rafId = window.requestAnimationFrame(animate);
+            } else {
+                this.isScrolling = false;
+                this.rafId = null;
+            }
+        };
+
+        this.rafId = window.requestAnimationFrame(animate);
+    }
+
+    easeOutCubic(t) {
+        return 1 - Math.pow(1 - t, 3);
+    }
+
+    destroy() {
+        window.removeEventListener('scroll', this.onScroll);
+        if (this.rafId) {
+            window.cancelAnimationFrame(this.rafId);
+        }
+        if (this.scrollTimeout) {
+            window.clearTimeout(this.scrollTimeout);
+        }
+    }
+}
+
+// Main initialization
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize smooth scroll
+    const smoothScroll = new SmoothScroll();
+    window.smoothScroll = smoothScroll;
+
     // Initialize all components
     initializeLoadingScreen();
-    initializeWebsite();
-    initializeScrollHandlers();
+    initializeWebsite(smoothScroll);
+    initializeScrollHandlers(smoothScroll);
     initializePortfolioSlider();
     initializeTestimonialSlider();
     initializeContactForm();
@@ -2412,7 +2508,7 @@ function initializeLoadingScreen() {
 }
 
 // Main Website Initialization
-function initializeWebsite() {
+function initializeWebsite(smoothScroll) {
     // Navigation Links
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', function(e) {
@@ -2420,7 +2516,7 @@ function initializeWebsite() {
             const targetId = this.getAttribute('href');
             const targetSection = document.querySelector(targetId);
             if (targetSection) {
-                targetSection.scrollIntoView({ behavior: 'smooth' });
+                smoothScroll.scrollToElement(targetSection, 80); // 80px offset for header
             }
         });
     });
@@ -2432,16 +2528,15 @@ function initializeWebsite() {
             const targetId = this.getAttribute('href');
             const targetSection = document.querySelector(targetId);
             if (targetSection) {
-                targetSection.scrollIntoView({ behavior: 'smooth' });
+                smoothScroll.scrollToElement(targetSection, 80);
             }
         });
     });
 
-    // Initialize Trust Badges
     initializeTrustBadges();
 }
 
-// Portfolio Slider
+// Portfolio Slider with Performance Optimization
 function initializePortfolioSlider() {
     const track = document.querySelector('.portfolio-track');
     const items = document.querySelectorAll('.portfolio-item');
@@ -2451,11 +2546,18 @@ function initializePortfolioSlider() {
     if (!track || !items.length) return;
 
     let currentIndex = 0;
-    const itemWidth = items[0].offsetWidth + 30; // Including gap
+    const itemWidth = items[0].offsetWidth + 30;
     const maxIndex = Math.max(0, items.length - 3);
+    let rafId = null;
 
     function updateSliderPosition() {
-        track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+        if (rafId) {
+            cancelAnimationFrame(rafId);
+        }
+        
+        rafId = requestAnimationFrame(() => {
+            track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+        });
     }
 
     if (prevBtn) {
@@ -2473,7 +2575,7 @@ function initializePortfolioSlider() {
     }
 }
 
-// Testimonial Slider
+// Testimonial Slider with Performance Optimization
 function initializeTestimonialSlider() {
     const cards = document.querySelectorAll('.testimonial-card');
     const dots = document.querySelector('.testimonial-dots');
@@ -2483,8 +2585,8 @@ function initializeTestimonialSlider() {
     if (!cards.length) return;
 
     let currentIndex = 0;
+    let rafId = null;
 
-    // Create dots
     cards.forEach((_, index) => {
         const dot = document.createElement('div');
         dot.classList.add('dot');
@@ -2494,13 +2596,19 @@ function initializeTestimonialSlider() {
     });
 
     function updateSlider() {
-        cards.forEach((card, index) => {
-            card.style.opacity = index === currentIndex ? '1' : '0';
-            card.style.transform = index === currentIndex ? 'scale(1)' : 'scale(0.8)';
-        });
+        if (rafId) {
+            cancelAnimationFrame(rafId);
+        }
 
-        document.querySelectorAll('.dot').forEach((dot, index) => {
-            dot.classList.toggle('active', index === currentIndex);
+        rafId = requestAnimationFrame(() => {
+            cards.forEach((card, index) => {
+                card.style.opacity = index === currentIndex ? '1' : '0';
+                card.style.transform = index === currentIndex ? 'scale(1)' : 'scale(0.8)';
+            });
+
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
         });
     }
 
@@ -2532,7 +2640,6 @@ function initializeContactForm() {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         
-        // Basic form validation
         let isValid = true;
         const inputs = form.querySelectorAll('input, textarea');
         
@@ -2546,7 +2653,6 @@ function initializeContactForm() {
         });
 
         if (isValid) {
-            // Here you would typically send the form data to your server
             showNotification('Message sent successfully!', 'success');
             form.reset();
         } else {
@@ -2555,7 +2661,7 @@ function initializeContactForm() {
     });
 }
 
-// Trust Badges
+// Trust Badges with Intersection Observer
 function initializeTrustBadges() {
     const trustBadges = document.querySelectorAll('.trust-badge');
     if (!trustBadges.length) return;
@@ -2576,45 +2682,49 @@ function initializeTrustBadges() {
     });
 }
 
-// Scroll Handlers
-function initializeScrollHandlers() {
-    // Scroll to Top Button
+// Optimized Scroll Handlers
+function initializeScrollHandlers(smoothScroll) {
     const scrollTopBtn = document.querySelector('.scroll-to-top');
-    if (scrollTopBtn) {
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                scrollTopBtn.classList.add('show');
-            } else {
-                scrollTopBtn.classList.remove('show');
-            }
-        });
-
-        scrollTopBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    }
-
-    // Header Scroll Effect
     const header = document.querySelector('header');
-    if (header) {
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 50) {
-                header.style.background = 'var(--secondary-color)';
-                header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
-            } else {
-                header.style.background = 'transparent';
-                header.style.boxShadow = 'none';
-            }
+    let ticking = false;
+
+    const handleScroll = () => {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                const scrollPos = window.pageYOffset;
+
+                if (scrollTopBtn) {
+                    scrollTopBtn.classList.toggle('show', scrollPos > 300);
+                }
+
+                if (header) {
+                    if (scrollPos > 50) {
+                        header.style.background = 'var(--secondary-color)';
+                        header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+                    } else {
+                        header.style.background = 'transparent';
+                        header.style.boxShadow = 'none';
+                    }
+                }
+
+                ticking = false;
+            });
+
+            ticking = true;
+        }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    if (scrollTopBtn) {
+        scrollTopBtn.addEventListener('click', () => {
+            smoothScroll.smoothScrollTo(0);
         });
     }
 }
 
 // Notifications
 function initializeNotifications() {
-    // Add notification styles
     const styleSheet = document.createElement('style');
     styleSheet.textContent = `
         .notification {
@@ -2649,13 +2759,10 @@ function showNotification(message, type = 'success') {
     notification.textContent = message;
     document.body.appendChild(notification);
 
-    // Trigger reflow
-    notification.offsetHeight;
+    requestAnimationFrame(() => {
+        notification.classList.add('show');
+    });
 
-    // Show notification
-    notification.classList.add('show');
-
-    // Remove after 3 seconds
     setTimeout(() => {
         notification.classList.remove('show');
         setTimeout(() => {
@@ -2664,18 +2771,35 @@ function showNotification(message, type = 'success') {
     }, 3000);
 }
 
-// Handle window resize
-window.addEventListener('resize', () => {
-    clearTimeout(window.resizeTimeout);
-    window.resizeTimeout = setTimeout(() => {
-        updateLayoutOnResize();
-    }, 250);
-});
+// Optimized Window Resize Handler
+const optimizedResize = {
+    callbacks: [],
+    running: false,
 
-function updateLayoutOnResize() {
+    add(callback) {
+        if (callback) {
+            this.callbacks.push(callback);
+        }
+    },
+
+    run() {
+        this.callbacks.forEach(callback => callback());
+        this.running = false;
+    },
+
+    handleResize() {
+        if (!this.running) {
+            this.running = true;
+            requestAnimationFrame(() => this.run());
+        }
+    }
+};
+
+window.addEventListener('resize', () => optimizedResize.handleResize());
+
+optimizedResize.add(() => {
     const windowWidth = window.innerWidth;
     
-    // Update process section grid
     const processSection = document.querySelector('.process-grid');
     if (processSection) {
         if (windowWidth < 768) {
@@ -2687,11 +2811,9 @@ function updateLayoutOnResize() {
         }
     }
 
-    // Reinitialize sliders for new window size
     initializePortfolioSlider();
     initializeTestimonialSlider();
-}
+});
         </script>
-
 </body>
 </html>
