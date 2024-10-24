@@ -2454,45 +2454,26 @@ background: var(--primary-color);
             }
         }
 
-        // Trust badges initialization
-        function initializeTrustBadges() {
-            const trustBadges = document.querySelectorAll('.trust-badge');
-            if (!trustBadges.length) return;
+        // Add this to your initializeTrustBadges function
+function initializeTrustBadges() {
+    const trustBadges = document.querySelectorAll('.trust-badge');
+    if (!trustBadges.length) return;
 
-            const observer = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('animate');
-                        }
-                    });
-                },
-                {
-                    threshold: 0.1,
-                    rootMargin: '0px 0px -50px 0px',
-                }
-            );
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+            }
+        });
+    }, {
+        threshold: 0.2,
+        rootMargin: '0px'
+    });
 
-            trustBadges.forEach((badge) => {
-                observer.observe(badge);
-
-                // Add hover effects
-                badge.addEventListener('mouseenter', () => {
-                    trustBadges.forEach((otherBadge) => {
-                        if (otherBadge !== badge) {
-                            otherBadge.style.opacity = '0.7';
-                        }
-                    });
-                });
-
-                badge.addEventListener('mouseleave', () => {
-                    trustBadges.forEach((otherBadge) => {
-                        otherBadge.style.opacity = '1';
-                    });
-                });
-            });
-        }
-
+    trustBadges.forEach(badge => {
+        observer.observe(badge);
+    });
+}
         // Define other functions called in init()
         function initializePortfolioSlider() {
             // Your portfolio slider code here
