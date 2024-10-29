@@ -2461,7 +2461,7 @@ class SmoothScroll {
     }
 }
 
-// Loading Screen - Modified for reliability
+// Loading Screen
 function initializeLoadingScreen() {
     const loadingScreen = document.querySelector('.loading-screen');
     if (!loadingScreen) {
@@ -2469,7 +2469,6 @@ function initializeLoadingScreen() {
         return;
     }
 
-    // Set initial state
     loadingScreen.style.opacity = '1';
     loadingScreen.style.display = 'flex';
 
@@ -2479,11 +2478,10 @@ function initializeLoadingScreen() {
         
         setTimeout(() => {
             loadingScreen.style.display = 'none';
-            document.body.style.overflow = 'visible'; // Enable scrolling
+            document.body.style.overflow = 'visible';
         }, 300);
     }
 
-    // Check if page is already loaded
     if (document.readyState === 'complete') {
         setTimeout(hideLoadingScreen, 500);
     } else {
@@ -2493,7 +2491,7 @@ function initializeLoadingScreen() {
     }
 }
 
-// Main initialization with error handling
+// Initialize everything after DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     try {
         console.log('Initializing website...');
@@ -2529,7 +2527,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Main Website Initialization
+// Website Initialization
 function initializeWebsite(smoothScroll) {
     try {
         // Navigation Links
@@ -2566,7 +2564,7 @@ function initializeWebsite(smoothScroll) {
     }
 }
 
-// Portfolio Slider with Performance Optimization
+// Portfolio Slider
 function initializePortfolioSlider() {
     const track = document.querySelector('.portfolio-track');
     const items = document.querySelectorAll('.portfolio-item');
@@ -2605,7 +2603,7 @@ function initializePortfolioSlider() {
     }
 }
 
-// Testimonial Slider with Performance Optimization
+// Testimonial Slider
 function initializeTestimonialSlider() {
     const cards = document.querySelectorAll('.testimonial-card');
     const dots = document.querySelector('.testimonial-dots');
@@ -2617,6 +2615,7 @@ function initializeTestimonialSlider() {
     let currentIndex = 0;
     let rafId = null;
 
+    // Create dots
     cards.forEach((_, index) => {
         const dot = document.createElement('div');
         dot.classList.add('dot');
@@ -2691,7 +2690,7 @@ function initializeContactForm() {
     });
 }
 
-// Trust Badges with Intersection Observer
+// Trust Badges
 function initializeTrustBadges() {
     const trustBadges = document.querySelectorAll('.trust-badge');
     if (!trustBadges.length) return;
@@ -2712,7 +2711,7 @@ function initializeTrustBadges() {
     });
 }
 
-// Optimized Scroll Handlers
+// Scroll Handlers
 function initializeScrollHandlers(smoothScroll) {
     const scrollTopBtn = document.querySelector('.scroll-to-top');
     const header = document.querySelector('header');
@@ -2755,7 +2754,10 @@ function initializeScrollHandlers(smoothScroll) {
 
 // Notifications
 function initializeNotifications() {
+    if (document.querySelector('#notification-styles')) return;
+
     const styleSheet = document.createElement('style');
+    styleSheet.id = 'notification-styles';
     styleSheet.textContent = `
         .notification {
             position: fixed;
@@ -2801,7 +2803,7 @@ function showNotification(message, type = 'success') {
     }, 3000);
 }
 
-// Optimized Window Resize Handler
+// Window Resize Handler
 const optimizedResize = {
     callbacks: [],
     running: false,
@@ -2844,40 +2846,8 @@ optimizedResize.add(() => {
     initializePortfolioSlider();
     initializeTestimonialSlider();
 });
-// Modified Notifications System
-function initializeNotifications() {
-    if (document.querySelector('#notification-styles')) return;
 
-    const styleSheet = document.createElement('style');
-    styleSheet.id = 'notification-styles';
-    styleSheet.textContent = `
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            border-radius: 5px;
-            color: white;
-            font-weight: 500;
-            transform: translateX(120%);
-            transition: transform 0.3s ease;
-            z-index: 1000;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.16);
-        }
-        .notification.show {
-            transform: translateX(0);
-        }
-        .notification.success {
-            background-color: #4CAF50;
-        }
-        .notification.error {
-            background-color: #f44336;
-        }
-    `;
-    document.head.appendChild(styleSheet);
-}
-
-// Required CSS for Loading Screen
+// Loading Screen Styles
 const loadingScreenStyles = document.createElement('style');
 loadingScreenStyles.textContent = `
     .loading-screen {
