@@ -679,7 +679,7 @@ background-color: var(--secondary-color);
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(44, 62, 80, 0.97), rgba(52, 152, 219, 0.97));
+    background: linear-gradient(135deg, var(--secondary-color) 0%, rgba(0, 23, 79, 0.95) 100%);
     z-index: 1;
 }
 
@@ -697,7 +697,6 @@ background-color: var(--secondary-color);
     text-align: center;
     margin-bottom: 20px;
     font-weight: 600;
-    letter-spacing: -0.5px;
 }
 
 .testimonials-underline {
@@ -718,7 +717,6 @@ background-color: var(--secondary-color);
 .testimonial-track {
     position: relative;
     height: 400px;
-    perspective: 1000px;
 }
 
 .testimonial-card {
@@ -727,48 +725,34 @@ background-color: var(--secondary-color);
     height: 100%;
     opacity: 0;
     visibility: hidden;
-    transform: translateX(100px) rotateY(10deg);
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(0.9) translateY(20px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .testimonial-card.active {
     opacity: 1;
     visibility: visible;
-    transform: translateX(0) rotateY(0);
-}
-
-.testimonial-card.prev {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateX(-100px) rotateY(-10deg);
+    transform: scale(1) translateY(0);
 }
 
 .testimonial-inner {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(10px);
-    border-radius: 30px;
-    padding: 60px;
+    border-radius: 20px;
+    padding: 40px;
     height: 100%;
     border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
 }
 
 .testimonial-inner:hover {
     transform: translateY(-10px);
-    border-color: rgba(255, 255, 255, 0.2);
-}
-
-.quote-symbol {
-    font-size: 80px;
-    line-height: 1;
-    font-family: Georgia, serif;
-    color: var(--primary-color);
-    opacity: 0.3;
-    margin-bottom: 20px;
+    border-color: var(--primary-color);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
 }
 
 .testimonial-text {
@@ -778,6 +762,7 @@ background-color: var(--secondary-color);
     font-weight: 300;
     margin-bottom: 40px;
     position: relative;
+    font-style: italic;
 }
 
 .testimonial-footer {
@@ -785,11 +770,13 @@ background-color: var(--secondary-color);
     justify-content: space-between;
     align-items: flex-end;
     margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
 }
 
 .author-name {
     font-size: 1.25rem;
-    color: var(--accent-color);
+    color: var(--primary-color);
     margin-bottom: 5px;
     font-weight: 600;
 }
@@ -804,6 +791,7 @@ background-color: var(--secondary-color);
     color: var(--primary-color);
     font-size: 1.2rem;
     letter-spacing: 2px;
+    margin-top: 10px;
 }
 
 .testimonial-controls {
@@ -818,9 +806,9 @@ background-color: var(--secondary-color);
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    border: none;
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--accent-color);
+    border: 2px solid var(--primary-color);
+    background: transparent;
+    color: var(--primary-color);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -830,6 +818,7 @@ background-color: var(--secondary-color);
 
 .nav-button:hover {
     background: var(--primary-color);
+    color: var(--accent-color);
     transform: translateY(-2px);
 }
 
@@ -839,8 +828,8 @@ background-color: var(--secondary-color);
 }
 
 .dot {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.2);
     cursor: pointer;
@@ -877,11 +866,12 @@ background-color: var(--secondary-color);
     }
     
     .testimonial-inner {
-        padding: 40px 30px;
+        padding: 30px;
     }
     
     .testimonial-text {
         font-size: 1.1rem;
+        margin-bottom: 30px;
     }
     
     .testimonial-track {
@@ -894,18 +884,10 @@ background-color: var(--secondary-color);
         height: 500px;
     }
     
-    .quote-symbol {
-        font-size: 60px;
-    }
-    
     .testimonial-footer {
         flex-direction: column;
         align-items: flex-start;
-        gap: 20px;
-    }
-    
-    .testimonial-rating {
-        align-self: flex-end;
+        gap: 15px;
     }
 }
         .how-it-works {
