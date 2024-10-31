@@ -2566,75 +2566,161 @@ background: var(--primary-color);
     <div class="scroll-to-top">
         <i class="fas fa-arrow-up"></i>
     </div>
-<script>document.addEventListener('DOMContentLoaded', function() {
-    // Initial setup for loading screen
-    const loadingScreen = document.querySelector('.loading-screen');
-    const mainContent = document.querySelector('main');
-    
-    if (mainContent) {
-        mainContent.style.display = 'none';
-    }
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Core site functionality class
+    class SiteController {
+        constructor() {
+            // Initialize components
+            this.initializeLoading();
+            this.initializeScrolling();
+            this.initializePortfolioSlider();
+            this.initializeTestimonialSlider();
+            this.initializeHeader();
+            this.initializeContactForm();
+            this.initializeAOS();
+            
+            // Handle resize events
+            this.handleResize();
+        }
 
-    // Loading screen functionality
-    function hideLoadingScreen() {
-        if (loadingScreen) {
-            loadingScreen.style.opacity = '0';
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-                if (mainContent) {
-                    mainContent.style.display = 'block';
+        initializeLoading() {
+            const loadingScreen = document.querySelector('.loading-screen');
+            const mainContent = document.querySelector('main');
+            
+            if (mainContent) mainContent.style.display = 'none';
+
+            const hideLoading = () => {
+                if (loadingScreen) {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        if (mainContent) mainContent.style.display = 'block';
+                        document.body.style.overflow = 'visible';
+                    }, 500);
                 }
-                document.body.style.overflow = 'visible';
-            }, 500);
+            };
+
+            if (document.readyState === 'complete') {
+                setTimeout(hideLoading, 1000);
+            } else {
+                window.addEventListener('load', () => setTimeout(hideLoading, 1000));
+            }
+        }
+
+        initializeScrolling() {
+            new SmoothScroll();
+        }
+
+        initializePortfolioSlider() {
+            new PortfolioSlider();
+        }
+
+        initializeTestimonialSlider() {
+            new TestimonialSlider();
+        }
+
+        initializeHeader() {
+            const header = document.querySelector('header');
+            if (!header) return;
+
+            window.addEventListener('scroll', () => {
+                const shouldBeVisible = window.scrollY > 50;
+                header.style.background = shouldBeVisible ? 'var(--secondary-color)' : 'transparent';
+                header.style.boxShadow = shouldBeVisible ? '0 2px 10px rgba(0,0,0,0.1)' : 'none';
+            });
+        }
+
+        initializeContactForm() {
+            const form = document.querySelector('.contact-form');
+            if (!form) return;
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.handleFormSubmit(form);
+            });
+        }
+
+        handleFormSubmit(form) {
+            let isValid = true;
+            const inputs = form.querySelectorAll('input, textarea');
+            
+            inputs.forEach(input => {
+                const isFieldValid = input.value.trim() !== '';
+                input.parentElement.classList.toggle('error', !isFieldValid);
+                if (!isFieldValid) isValid = false;
+            });
+
+            if (isValid) {
+                this.showNotification('Message sent successfully!', 'success');
+                form.reset();
+            } else {
+                this.showNotification('Please fill in all fields.', 'error');
+            }
+        }
+
+        showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            requestAnimationFrame(() => notification.classList.add('show'));
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        initializeAOS() {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 1000,
+                    once: true,
+                    offset: 50,
+                    easing: 'ease-in-out'
+                });
+            }
+        }
+
+        handleResize() {
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    this.initializePortfolioSlider();
+                    this.initializeTestimonialSlider();
+                }, 250);
+            });
         }
     }
 
-    // Handle page load
-    if (document.readyState === 'complete') {
-        setTimeout(hideLoadingScreen, 1000);
-    } else {
-        window.addEventListener('load', () => {
-            setTimeout(hideLoadingScreen, 1000);
-        });
-    }
-
-    // Smooth Scroll functionality
+    // Smooth Scroll Class
     class SmoothScroll {
         constructor() {
             this.scrollElement = window.document.scrollingElement || 
                                 window.document.documentElement || 
                                 window.document.body;
-            this.isScrolling = false;
-            this.scrollTimeout = null;
             this.scrollDuration = 1000;
-            
-            this.init();
+            this.bindEvents();
         }
 
-        init() {
-            this.addEventListeners();
-        }
-
-        addEventListeners() {
+        bindEvents() {
             document.querySelectorAll('.nav-link, .cta-button').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     const targetId = link.getAttribute('href');
                     if (targetId && targetId !== '#') {
                         const targetElement = document.querySelector(targetId);
-                        if (targetElement) {
-                            this.scrollToElement(targetElement);
-                        }
+                        if (targetElement) this.scrollToElement(targetElement);
                     }
                 });
             });
 
             const scrollTopBtn = document.querySelector('.scroll-to-top');
             if (scrollTopBtn) {
-                scrollTopBtn.addEventListener('click', () => {
-                    this.scrollToPosition(0);
-                });
-
+                scrollTopBtn.addEventListener('click', () => this.scrollToPosition(0));
                 window.addEventListener('scroll', () => {
                     scrollTopBtn.classList.toggle('show', window.pageYOffset > 300);
                 });
@@ -2654,12 +2740,8 @@ background: var(--primary-color);
             const animation = (currentTime) => {
                 const elapsed = currentTime - startTime;
                 const progress = Math.min(elapsed / this.scrollDuration, 1);
-
                 window.scrollTo(0, startPosition + distance * this.easeOutCubic(progress));
-
-                if (progress < 1) {
-                    requestAnimationFrame(animation);
-                }
+                if (progress < 1) requestAnimationFrame(animation);
             };
 
             requestAnimationFrame(animation);
@@ -2670,490 +2752,323 @@ background: var(--primary-color);
         }
     }
 
-   class PremiumPortfolioSlider {
-    constructor() {
-        this.track = document.querySelector('.portfolio-track');
-        this.items = Array.from(document.querySelectorAll('.portfolio-item'));
-        this.prevBtn = document.querySelector('.prev-btn');
-        this.nextBtn = document.querySelector('.next-btn');
-        this.progressBar = document.querySelector('.slider-progress-bar');
-        
-        this.currentIndex = 0;
-        this.itemWidth = this.items[0].offsetWidth + 30; // Including gap
-        this.totalItems = this.items.length;
-        this.visibleItems = this.calculateVisibleItems();
-        this.isAnimating = false;
-        
-        this.init();
-    }
-    
-    init() {
-        // Clone items for infinite scroll
-        this.setupInfiniteScroll();
-        
-        // Initialize position and states
-        this.updateSliderPosition();
-        this.updateActiveStates();
-        this.updateProgress();
-        
-        // Add event listeners
-        this.addEventListeners();
-        
-        // Add resize handler
-        this.handleResize();
-        
-        // Add intersection observer for viewport checks
-        this.setupIntersectionObserver();
-    }
-    
-    setupInfiniteScroll() {
-        // Clone first and last sets of items
-        const itemsToClone = 2; // Number of items to clone on each end
-        
-        // Clone start items
-        for (let i = 0; i < itemsToClone; i++) {
-            const clone = this.items[i].cloneNode(true);
-            this.track.appendChild(clone);
-        }
-        
-        // Clone end items
-        for (let i = this.items.length - 1; i > this.items.length - 1 - itemsToClone; i--) {
-            const clone = this.items[i].cloneNode(true);
-            this.track.prepend(clone);
-        }
-        
-        this.items = Array.from(document.querySelectorAll('.portfolio-item'));
-        this.totalItems = this.items.length;
-        this.currentIndex = itemsToClone; // Start after cloned items
-    }
-    
-    calculateVisibleItems() {
-        const containerWidth = document.querySelector('.portfolio-slider-container').offsetWidth;
-        return Math.floor(containerWidth / this.itemWidth);
-    }
-    
-    updateSliderPosition(animate = true) {
-        if (!animate) {
-            this.track.style.transition = 'none';
-        }
-        
-        const offset = (window.innerWidth - this.itemWidth) / 2;
-        const position = -(this.currentIndex * this.itemWidth) + offset;
-        
-        requestAnimationFrame(() => {
-            this.track.style.transform = `translateX(${position}px)`;
+    // Portfolio Slider Class
+    class PortfolioSlider {
+        constructor() {
+            this.track = document.querySelector('.portfolio-track');
+            this.items = Array.from(document.querySelectorAll('.portfolio-item'));
+            this.prevBtn = document.querySelector('.prev-btn');
+            this.nextBtn = document.querySelector('.next-btn');
+            this.progressBar = document.querySelector('.slider-progress-bar');
             
-            if (!animate) {
-                // Force reflow
-                this.track.offsetHeight;
-                this.track.style.transition = 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
-            }
-        });
-    }
-    
-    updateActiveStates() {
-        this.items.forEach((item, index) => {
-            const isActive = index === this.currentIndex;
-            item.classList.toggle('active', isActive);
+            if (!this.track || !this.items.length) return;
             
-            // Add classes for items adjacent to active item
-            const isPrev = index === this.currentIndex - 1;
-            const isNext = index === this.currentIndex + 1;
-            item.classList.toggle('prev', isPrev);
-            item.classList.toggle('next', isNext);
-        });
-    }
-    
-    updateProgress() {
-        const progress = (this.currentIndex / (this.totalItems - 1)) * 100;
-        this.progressBar.style.width = `${progress}%`;
-    }
-    
-    addEventListeners() {
-        // Button controls
-        this.prevBtn.addEventListener('click', () => this.slide('prev'));
-        this.nextBtn.addEventListener('click', () => this.slide('next'));
-        
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') this.slide('prev');
-            if (e.key === 'ArrowRight') this.slide('next');
-        });
-        
-        // Touch events
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        this.track.addEventListener('touchstart', (e) => {
-            touchStartX = e.touches[0].clientX;
-        }, { passive: true });
-        
-        this.track.addEventListener('touchmove', (e) => {
-            touchEndX = e.touches[0].clientX;
-        }, { passive: true });
-        
-        this.track.addEventListener('touchend', () => {
-            const difference = touchStartX - touchEndX;
-            const threshold = 50; // Minimum distance for swipe
-            
-            if (Math.abs(difference) > threshold) {
-                if (difference > 0) {
-                    this.slide('next');
-                } else {
-                    this.slide('prev');
-                }
-            }
-        });
-    }
-    
-    slide(direction) {
-        if (this.isAnimating) return;
-        this.isAnimating = true;
-        
-        const previousIndex = this.currentIndex;
-        
-        if (direction === 'next') {
-            this.currentIndex++;
-        } else {
-            this.currentIndex--;
-        }
-        
-        this.updateSliderPosition();
-        this.updateActiveStates();
-        this.updateProgress();
-        
-        // Handle infinite scroll wraparound
-        setTimeout(() => {
-            if (this.currentIndex >= this.totalItems - 2) {
-                this.currentIndex = 2;
-                this.updateSliderPosition(false);
-            } else if (this.currentIndex <= 1) {
-                this.currentIndex = this.totalItems - 3;
-                this.updateSliderPosition(false);
-            }
+            this.currentIndex = Math.floor(this.items.length / 2);
+            this.itemWidth = 0;
+            this.containerWidth = 0;
             this.isAnimating = false;
-        }, 800);
-    }
-    
-    handleResize() {
-        let resizeTimeout;
-        
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
+            this.isDragging = false;
             
-            resizeTimeout = setTimeout(() => {
-                this.itemWidth = this.items[0].offsetWidth + 30;
-                this.visibleItems = this.calculateVisibleItems();
-                this.updateSliderPosition(false);
-            }, 250);
-        });
-    }
-    
-    setupIntersectionObserver() {
-        const options = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.5
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                }
-            });
-        }, options);
-        
-        this.items.forEach(item => observer.observe(item));
-    }
-}
-
-// Initialize the slider when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    const portfolioSlider = new PremiumPortfolioSlider();
-});
-
-// Add smooth scroll for portfolio links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+            this.initialize();
         }
-    });
-});
-  function initializeTestimonialSlider() {
-    const slider = document.querySelector('.testimonial-slider');
-    const track = document.querySelector('.testimonial-track');
-    const cards = Array.from(document.querySelectorAll('.testimonial-card'));
-    const prevBtn = document.querySelector('.nav-button.prev');
-    const nextBtn = document.querySelector('.nav-button.next');
-    const dotsContainer = document.querySelector('.testimonial-dots');
 
-    if (!slider || !cards.length) return;
+        initialize() {
+            this.setupDimensions();
+            this.setupInfiniteScroll();
+            this.setupEventListeners();
+            this.centerActiveSlide(false);
+            this.updateSliderState();
+            this.setupResizeObserver();
+        }
 
-    let currentIndex = 0;
-    let isAnimating = false;
-    const animationDuration = 800;
+        setupDimensions() {
+            const container = this.track.parentElement;
+            this.containerWidth = container.offsetWidth;
+            this.itemWidth = this.items[0].offsetWidth;
+            const gap = parseInt(window.getComputedStyle(this.track).gap) || 30;
+            this.itemFullWidth = this.itemWidth + gap;
+        }
 
-    // Initialize slider
-    function initializeSlider() {
-        // Create dots
-        cards.forEach((_, index) => {
-            const dot = document.createElement('button');
-            dot.className = `dot ${index === 0 ? 'active' : ''}`;
-            dot.setAttribute('aria-label', `Go to testimonial ${index + 1}`);
-            dot.addEventListener('click', () => !isAnimating && goToSlide(index));
-            dotsContainer.appendChild(dot);
-        });
-
-        // Set initial states
-        updateSlideStates();
-    }
-
-    function updateSlideStates() {
-        cards.forEach((card, index) => {
-            card.className = 'testimonial-card';
-            if (index === currentIndex) {
-                card.classList.add('active');
-            } else if (index < currentIndex) {
-                card.classList.add('prev');
+        setupInfiniteScroll() {
+            const itemsToClone = 2;
+            const originalItems = [...this.items];
+            
+            // Remove existing clones
+            this.track.querySelectorAll('.clone').forEach(clone => clone.remove());
+            
+            // Add new clones
+            for (let i = 0; i < itemsToClone; i++) {
+                const firstClone = originalItems[i].cloneNode(true);
+                const lastClone = originalItems[originalItems.length - 1 - i].cloneNode(true);
+                firstClone.classList.add('clone');
+                lastClone.classList.add('clone');
+                this.track.appendChild(firstClone);
+                this.track.insertBefore(lastClone, this.track.firstChild);
             }
-            card.setAttribute('aria-hidden', index !== currentIndex);
-        });
+            
+            this.items = Array.from(this.track.children);
+        }
 
-        // Update dots
-        document.querySelectorAll('.dot').forEach((dot, index) => {
-            dot.classList.toggle('active', index === currentIndex);
-            dot.setAttribute('aria-current', index === currentIndex);
-        });
-    }
+        setupEventListeners() {
+            this.prevBtn?.addEventListener('click', () => this.slide('prev'));
+            this.nextBtn?.addEventListener('click', () => this.slide('next'));
+            
+            // Touch and drag support
+            this.track.addEventListener('mousedown', this.startDrag.bind(this));
+            window.addEventListener('mousemove', this.drag.bind(this));
+            window.addEventListener('mouseup', this.endDrag.bind(this));
+            
+            this.track.addEventListener('touchstart', e => this.startDrag(e.touches[0]));
+            window.addEventListener('touchmove', e => this.drag(e.touches[0]));
+            window.addEventListener('touchend', () => this.endDrag());
+        }
 
-    function goToSlide(index, direction = null) {
-        if (isAnimating || index === currentIndex) return;
-        isAnimating = true;
+        setupResizeObserver() {
+            const resizeObserver = new ResizeObserver(() => {
+                this.setupDimensions();
+                this.centerActiveSlide(false);
+            });
+            resizeObserver.observe(this.track.parentElement);
+        }
 
-        // Determine animation direction
-        const isNext = direction ?? index > currentIndex;
-        const currentSlide = cards[currentIndex];
-        const nextSlide = cards[index];
-
-        // Set initial positions
-        currentSlide.style.transition = 'none';
-        nextSlide.style.transition = 'none';
-        requestAnimationFrame(() => {
-            currentSlide.classList.add(isNext ? 'sliding-out-left' : 'sliding-out-right');
-            nextSlide.classList.add(isNext ? 'sliding-in-right' : 'sliding-in-left');
+        centerActiveSlide(animate = true) {
+            if (!animate) this.track.style.transition = 'none';
+            
+            const offset = (this.containerWidth - this.itemWidth) / 2;
+            const position = -(this.currentIndex * this.itemFullWidth) + offset;
             
             requestAnimationFrame(() => {
-                currentSlide.style.transition = '';
-                nextSlide.style.transition = '';
-                
-                currentSlide.classList.remove('active');
-                nextSlide.classList.add('active');
-            });
-        });
-
-        // Update state after animation
-        setTimeout(() => {
-            currentIndex = index;
-            updateSlideStates();
-            isAnimating = false;
-        }, animationDuration);
-    }
-
-    function nextSlide() {
-        const nextIndex = (currentIndex + 1) % cards.length;
-        goToSlide(nextIndex, true);
-    }
-
-    function prevSlide() {
-        const prevIndex = (currentIndex - 1 + cards.length) % cards.length;
-        goToSlide(prevIndex, false);
-    }
-
-    // Auto-rotation
-    let autoRotateInterval;
-    
-    function startAutoRotate() {
-        stopAutoRotate();
-        autoRotateInterval = setInterval(nextSlide, 5000);
-    }
-
-    function stopAutoRotate() {
-        if (autoRotateInterval) {
-            clearInterval(autoRotateInterval);
-        }
-    }
-
-    // Event listeners
-    prevBtn.addEventListener('click', () => {
-        stopAutoRotate();
-        prevSlide();
-    });
-
-    nextBtn.addEventListener('click', () => {
-        stopAutoRotate();
-        nextSlide();
-    });
-
-    slider.addEventListener('mouseenter', stopAutoRotate);
-    slider.addEventListener('mouseleave', startAutoRotate);
-
-    // Touch support
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    slider.addEventListener('touchstart', (e) => {
-        touchStartX = e.touches[0].clientX;
-        stopAutoRotate();
-    }, { passive: true });
-
-    slider.addEventListener('touchmove', (e) => {
-        touchEndX = e.touches[0].clientX;
-    }, { passive: true });
-
-    slider.addEventListener('touchend', () => {
-        const diff = touchStartX - touchEndX;
-        if (Math.abs(diff) > 50) { // Minimum swipe distance
-            if (diff > 0) {
-                nextSlide();
-            } else {
-                prevSlide();
-            }
-        }
-        startAutoRotate();
-    });
-
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-        if (document.activeElement.closest('.testimonial-slider')) {
-            if (e.key === 'ArrowLeft') {
-                prevSlide();
-            } else if (e.key === 'ArrowRight') {
-                nextSlide();
-            }
-        }
-    });
-
-    // Visibility change handling
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            stopAutoRotate();
-        } else {
-            startAutoRotate();
-        }
-    });
-
-    // Initialize
-    initializeSlider();
-    startAutoRotate();
-
-    // Cleanup function
-    return () => {
-        stopAutoRotate();
-        slider.removeEventListener('mouseenter', stopAutoRotate);
-        slider.removeEventListener('mouseleave', startAutoRotate);
-    };
-}
-
-    // Header scroll effect
-    function initializeHeaderEffect() {
-        const header = document.querySelector('header');
-        if (!header) return;
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                header.style.background = 'var(--secondary-color)';
-                header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
-            } else {
-                header.style.background = 'transparent';
-                header.style.boxShadow = 'none';
-            }
-        });
-    }
-
-    // Contact Form functionality
-    function initializeContactForm() {
-        const form = document.querySelector('.contact-form');
-        if (!form) return;
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            let isValid = true;
-            const inputs = form.querySelectorAll('input, textarea');
-            
-            inputs.forEach(input => {
-                if (!input.value.trim()) {
-                    isValid = false;
-                    input.parentElement.classList.add('error');
-                } else {
-                    input.parentElement.classList.remove('error');
+                this.track.style.transform = `translateX(${position}px)`;
+                if (!animate) {
+                    this.track.offsetHeight; // Force reflow
+                    this.track.style.transition = '';
                 }
             });
+        }
 
-            if (isValid) {
-                showNotification('Message sent successfully!', 'success');
-                form.reset();
-            } else {
-                showNotification('Please fill in all fields.', 'error');
+        updateSliderState() {
+            this.items.forEach((item, index) => {
+                item.classList.toggle('active', index === this.currentIndex);
+            });
+
+            if (this.progressBar) {
+                const progress = ((this.currentIndex - 2) / (this.items.length - 4)) * 100;
+                this.progressBar.style.width = `${progress}%`;
             }
-        });
+        }
+
+        slide(direction) {
+            if (this.isAnimating) return;
+            this.isAnimating = true;
+            
+            this.currentIndex += direction === 'next' ? 1 : -1;
+            this.centerActiveSlide(true);
+            this.updateSliderState();
+            
+            setTimeout(() => {
+                if (this.currentIndex >= this.items.length - 2) {
+                    this.currentIndex = 2;
+                    this.centerActiveSlide(false);
+                } else if (this.currentIndex <= 1) {
+                    this.currentIndex = this.items.length - 3;
+                    this.centerActiveSlide(false);
+                }
+                this.isAnimating = false;
+            }, 600);
+        }
+
+        startDrag(e) {
+            if (this.isAnimating) return;
+            this.isDragging = true;
+            this.dragStartX = e.clientX;
+            this.dragStartPosition = this.getCurrentPosition();
+            this.track.style.transition = 'none';
+        }
+
+        drag(e) {
+            if (!this.isDragging) return;
+            
+            const deltaX = e.clientX - this.dragStartX;
+            const position = this.dragStartPosition + deltaX;
+            this.track.style.transform = `translateX(${position}px)`;
+        }
+
+        endDrag() {
+            if (!this.isDragging) return;
+            this.isDragging = false;
+            
+            const currentPosition = this.getCurrentPosition();
+            const movement = currentPosition - this.dragStartPosition;
+            
+            if (Math.abs(movement) > this.itemWidth * 0.3) {
+                this.slide(movement > 0 ? 'prev' : 'next');
+            } else {
+                this.centerActiveSlide(true);
+            }
+        }
+
+        getCurrentPosition() {
+            const transform = getComputedStyle(this.track).transform;
+            const matrix = new DOMMatrix(transform);
+            return matrix.m41;
+        }
     }
 
-    // Notification system
-    function showNotification(message, type = 'success') {
-        const notification = document.createElement('div');
-        notification.className = `notification ${type}`;
-        notification.textContent = message;
-        document.body.appendChild(notification);
+    // Testimonial Slider Class
+    class TestimonialSlider {
+        constructor() {
+            this.slider = document.querySelector('.testimonial-slider');
+            this.track = document.querySelector('.testimonial-track');
+            this.cards = Array.from(document.querySelectorAll('.testimonial-card'));
+            this.prevBtn = document.querySelector('.nav-button.prev');
+            this.nextBtn = document.querySelector('.nav-button.next');
+            this.dotsContainer = document.querySelector('.testimonial-dots');
+            
+            if (!this.slider || !this.cards.length) return;
+            
+            this.currentIndex = 0;
+            this.isAnimating = false;
+            this.autoRotateInterval = null;
+            this.animationDuration = 800;
+            
+            this.initialize();
+        }
 
-        setTimeout(() => {
-            notification.classList.add('show');
-        }, 10);
+        initialize() {
+            this.createDots();
+            this.updateSlideStates();
+            this.setupEventListeners();
+            this.startAutoRotate();
+        }
 
-        setTimeout(() => {
-            notification.classList.remove('show');
+        createDots() {
+            this.cards.forEach((_, index) => {
+                const dot = document.createElement('button');
+                dot.className = `dot ${index === 0 ? 'active' : ''}`;
+                dot.setAttribute('aria-label', `Go to testimonial ${index + 1}`);
+                dot.addEventListener('click', () => !this.isAnimating && this.goToSlide(index));
+                this.dotsContainer.appendChild(dot);
+            });
+        }
+
+        updateSlideStates() {
+            this.cards.forEach((card, index) => {
+                card.className = 'testimonial-card';
+                if (index === this.currentIndex) {
+                    card.classList.add('active');
+                } else if (index < this.currentIndex) {
+                    card.classList.add('prev');
+                }
+                card.setAttribute('aria-hidden', index !== this.currentIndex);
+            });
+
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === this.currentIndex);
+                dot.setAttribute('aria-current', index === this.currentIndex);
+            });
+        }
+
+        setupEventListeners() {
+            this.prevBtn?.addEventListener('click', () => {
+                this.stopAutoRotate();
+                this.prevSlide();
+            });
+
+            this.nextBtn?.addEventListener('click', () => {
+                this.stopAutoRotate();
+                this.nextSlide();
+            });
+
+            this.slider.addEventListener('mouseenter', () => this.stopAutoRotate());
+            this.slider.addEventListener('mouseleave', () => this.startAutoRotate());
+
+            // Touch support
+            let touchStartX = 0;
+            this.slider.addEventListener('touchstart', e => {
+                touchStartX = e.touches[0].clientX;
+                this.stopAutoRotate();
+            }, { passive: true });
+
+            this.slider.addEventListener('touchend', e => {
+                const touchEndX = e.changedTouches[0].clientX;
+                const diff = touchStartX - touchEndX;
+                
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0) this.nextSlide();
+                    else this.prevSlide();
+                }
+                
+                this.startAutoRotate();
+            });
+
+            // Visibility change handling
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) this.stopAutoRotate();
+                else this.startAutoRotate();
+            });
+        }
+goToSlide(index, direction = null) {
+            if (this.isAnimating || index === this.currentIndex) return;
+            this.isAnimating = true;
+
+            const isNext = direction ?? index > this.currentIndex;
+            const currentSlide = this.cards[this.currentIndex];
+            const nextSlide = this.cards[index];
+
+            // Set initial positions
+            currentSlide.style.transition = 'none';
+            nextSlide.style.transition = 'none';
+
+            requestAnimationFrame(() => {
+                currentSlide.classList.add(isNext ? 'sliding-out-left' : 'sliding-out-right');
+                nextSlide.classList.add(isNext ? 'sliding-in-right' : 'sliding-in-left');
+                
+                requestAnimationFrame(() => {
+                    currentSlide.style.transition = '';
+                    nextSlide.style.transition = '';
+                    
+                    currentSlide.classList.remove('active');
+                    nextSlide.classList.add('active');
+                });
+            });
+
             setTimeout(() => {
-                document.body.removeChild(notification);
-            }, 300);
-        }, 3000);
+                this.currentIndex = index;
+                this.updateSlideStates();
+                this.isAnimating = false;
+            }, this.animationDuration);
+        }
+
+        nextSlide() {
+            const nextIndex = (this.currentIndex + 1) % this.cards.length;
+            this.goToSlide(nextIndex, true);
+        }
+
+        prevSlide() {
+            const prevIndex = (this.currentIndex - 1 + this.cards.length) % this.cards.length;
+            this.goToSlide(prevIndex, false);
+        }
+
+        startAutoRotate() {
+            this.stopAutoRotate();
+            this.autoRotateInterval = setInterval(() => this.nextSlide(), 5000);
+        }
+
+        stopAutoRotate() {
+            if (this.autoRotateInterval) {
+                clearInterval(this.autoRotateInterval);
+                this.autoRotateInterval = null;
+            }
+        }
     }
 
     // Initialize everything
     try {
-        const smoothScroll = new SmoothScroll();
-        initializeHeaderEffect();
-        initializePortfolioSlider();
-        initializeTestimonialSlider();
-        initializeContactForm();
-
-        if (typeof AOS !== 'undefined') {
-            AOS.init({
-                duration: 1000,
-                once: true,
-                offset: 50,
-                easing: 'ease-in-out'
-            });
-        }
+        new SiteController();
     } catch (error) {
-        console.error('Initialization error:', error);
+        console.error('Site initialization error:', error);
     }
-
-    // Handle window resize
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            initializePortfolioSlider();
-            initializeTestimonialSlider();
-        }, 250);
-    });
-});</script>
+});
+</script>
 </body>
 </html>
