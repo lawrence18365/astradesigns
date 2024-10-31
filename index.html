@@ -2668,186 +2668,211 @@ background: var(--primary-color);
     </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Core site functionality class
-    class SiteController {
-        constructor() {
-            this.initializeLoading();
-            this.initializeScrolling();
-            this.initializePortfolioSlider();
-            this.initializeTestimonialSlider();
-            this.initializeHeader();
-            this.initializeContactForm();
-            this.initializeAOS();
-            this.handleResize();
-        }
+   class LoadingScreen {
+       constructor() {
+           this.loadingScreen = document.querySelector('.loading-screen');
+           this.mainContent = document.querySelector('main');
+           this.initialized = false;
+           
+           this.resourcesLoaded = {
+               dom: false,
+               images: false,
+               scripts: false
+           };
 
-        initializeLoading() {
-            const loadingScreen = document.querySelector('.loading-screen');
-            const mainContent = document.querySelector('main');
-            
-            if (mainContent) mainContent.style.display = 'none';
+           this.init();
+       }
 
-            const hideLoading = () => {
-                if (loadingScreen) {
-                    loadingScreen.style.opacity = '0';
-                    setTimeout(() => {
-                        loadingScreen.style.display = 'none';
-                        if (mainContent) mainContent.style.display = 'block';
-                        document.body.style.overflow = 'visible';
-                    }, 500);
-                }
-            };
+       init() {
+           if (this.mainContent) {
+               this.mainContent.style.display = 'none';
+           }
 
-            if (document.readyState === 'complete') {
-                setTimeout(hideLoading, 1000);
-            } else {
-                window.addEventListener('load', () => setTimeout(hideLoading, 1000));
-            }
-        }
+           if (document.readyState === 'complete') {
+               this.resourcesLoaded.dom = true;
+           } else {
+               document.addEventListener('readystatechange', () => {
+                   if (document.readyState === 'complete') {
+                       this.resourcesLoaded.dom = true;
+                       this.checkAllResourcesLoaded();
+                   }
+               });
+           }
 
-        initializeScrolling() {
-            new SmoothScroll();
-        }
+           const images = document.getElementsByTagName('img');
+           let loadedImages = 0;
+           const totalImages = images.length;
 
-        initializePortfolioSlider() {
-            new PortfolioSlider();
-        }
+           if (totalImages === 0) {
+               this.resourcesLoaded.images = true;
+           } else {
+               Array.from(images).forEach(img => {
+                   if (img.complete) {
+                       loadedImages++;
+                   } else {
+                       img.addEventListener('load', () => {
+                           loadedImages++;
+                           if (loadedImages === totalImages) {
+                               this.resourcesLoaded.images = true;
+                               this.checkAllResourcesLoaded();
+                           }
+                       });
+                   }
+               });
+           }
 
-        initializeTestimonialSlider() {
-            new TestimonialSlider();
-        }
+           const scripts = document.getElementsByTagName('script');
+           let loadedScripts = 0;
+           const totalScripts = scripts.length;
 
-        initializeHeader() {
-            const header = document.querySelector('header');
-            if (!header) return;
+           if (totalScripts === 0) {
+               this.resourcesLoaded.scripts = true;
+           } else {
+               Array.from(scripts).forEach(script => {
+                   if (script.complete || !script.src) {
+                       loadedScripts++;
+                   } else {
+                       script.addEventListener('load', () => {
+                           loadedScripts++;
+                           if (loadedScripts === totalScripts) {
+                               this.resourcesLoaded.scripts = true;
+                               this.checkAllResourcesLoaded();
+                           }
+                       });
+                   }
+               });
+           }
 
-            window.addEventListener('scroll', () => {
-                const shouldBeVisible = window.scrollY > 50;
-                header.style.background = shouldBeVisible ? 'var(--secondary-color)' : 'transparent';
-                header.style.boxShadow = shouldBeVisible ? '0 2px 10px rgba(0,0,0,0.1)' : 'none';
-            });
-        }
+           this.checkAllResourcesLoaded();
+       }
 
-        initializeContactForm() {
-            const form = document.querySelector('.contact-form');
-            if (!form) return;
+       checkAllResourcesLoaded() {
+           if (Object.values(this.resourcesLoaded).every(loaded => loaded)) {
+               setTimeout(() => {
+                   this.hideLoadingScreen();
+               }, 500);
+           }
+       }
 
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                this.handleFormSubmit(form);
-            });
-        }
+       hideLoadingScreen() {
+           if (this.loadingScreen && !this.initialized) {
+               this.initialized = true;
+               this.loadingScreen.style.opacity = '0';
+               
+               setTimeout(() => {
+                   this.loadingScreen.style.display = 'none';
+                   if (this.mainContent) {
+                       this.mainContent.style.display = 'block';
+                       new SiteController();
+                   }
+                   document.body.style.overflow = 'visible';
+               }, 500);
+           }
+       }
+   }
 
-        handleFormSubmit(form) {
-            let isValid = true;
-            const inputs = form.querySelectorAll('input, textarea');
-            
-            inputs.forEach(input => {
-                const isFieldValid = input.value.trim() !== '';
-                input.parentElement.classList.toggle('error', !isFieldValid);
-                if (!isFieldValid) isValid = false;
-            });
+   class SiteController {
+       constructor() {
+           this.initializePortfolioSlider();
+           this.initializeTestimonialSlider();
+           this.initializeHeader();
+           this.initializeAOS();
+           this.handleResize();
+           this.initializeScrolling();
+       }
 
-            if (isValid) {
-                this.showNotification('Message sent successfully!', 'success');
-                form.reset();
-            } else {
-                this.showNotification('Please fill in all fields.', 'error');
-            }
-        }
+       initializeScrolling() {
+           new SmoothScroll();
+       }
 
-        showNotification(message, type = 'success') {
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.textContent = message;
-            document.body.appendChild(notification);
+       initializeHeader() {
+           const header = document.querySelector('header');
+           if (!header) return;
 
-            requestAnimationFrame(() => notification.classList.add('show'));
+           window.addEventListener('scroll', () => {
+               const shouldBeVisible = window.scrollY > 50;
+               header.style.background = shouldBeVisible ? 'var(--secondary-color)' : 'transparent';
+               header.style.boxShadow = shouldBeVisible ? '0 2px 10px rgba(0,0,0,0.1)' : 'none';
+           });
+       }
 
-            setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => notification.remove(), 300);
-            }, 3000);
-        }
+       initializeAOS() {
+           if (typeof AOS !== 'undefined') {
+               AOS.init({
+                   duration: 1000,
+                   once: true,
+                   offset: 50,
+                   easing: 'ease-in-out'
+               });
+           }
+       }
 
-        initializeAOS() {
-            if (typeof AOS !== 'undefined') {
-                AOS.init({
-                    duration: 1000,
-                    once: true,
-                    offset: 50,
-                    easing: 'ease-in-out'
-                });
-            }
-        }
+       handleResize() {
+           let resizeTimeout;
+           window.addEventListener('resize', () => {
+               clearTimeout(resizeTimeout);
+               resizeTimeout = setTimeout(() => {
+                   this.initializePortfolioSlider();
+                   this.initializeTestimonialSlider();
+               }, 250);
+           });
+       }
 
-        handleResize() {
-            let resizeTimeout;
-            window.addEventListener('resize', () => {
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(() => {
-                    this.initializePortfolioSlider();
-                    this.initializeTestimonialSlider();
-                }, 250);
-            });
-        }
-    }
+       initializePortfolioSlider() {
+           new PortfolioSlider();
+       }
 
-    // Smooth Scroll
-    class SmoothScroll {
-        constructor() {
-            this.scrollElement = window.document.scrollingElement || 
-                                window.document.documentElement || 
-                                window.document.body;
-            this.scrollDuration = 1000;
-            this.bindEvents();
-        }
+       initializeTestimonialSlider() {
+           new TestimonialSlider();
+       }
+   }
 
-        bindEvents() {
-            document.querySelectorAll('.nav-link, .cta-button').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const targetId = link.getAttribute('href');
-                    if (targetId && targetId !== '#') {
-                        const targetElement = document.querySelector(targetId);
-                        if (targetElement) this.scrollToElement(targetElement);
-                    }
-                });
-            });
+   class SmoothScroll {
+       constructor() {
+           this.scrollElement = window.document.scrollingElement || 
+                               window.document.documentElement || 
+                               window.document.body;
+           this.scrollDuration = 1000;
+           this.bindEvents();
+       }
 
-            const scrollTopBtn = document.querySelector('.scroll-to-top');
-            if (scrollTopBtn) {
-                scrollTopBtn.addEventListener('click', () => this.scrollToPosition(0));
-                window.addEventListener('scroll', () => {
-                    scrollTopBtn.classList.toggle('show', window.pageYOffset > 300);
-                });
-            }
-        }
+       bindEvents() {
+           document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+               anchor.addEventListener('click', (e) => {
+                   e.preventDefault();
+                   const targetId = anchor.getAttribute('href');
+                   if (targetId && targetId !== '#') {
+                       const targetElement = document.querySelector(targetId);
+                       if (targetElement) this.scrollToElement(targetElement);
+                   }
+               });
+           });
+       }
 
-        scrollToElement(element, offset = 80) {
-            const elementPosition = element.getBoundingClientRect().top + window.pageYOffset - offset;
-            this.scrollToPosition(elementPosition);
-        }
+       scrollToElement(element, offset = 80) {
+           const elementPosition = element.getBoundingClientRect().top + window.pageYOffset - offset;
+           this.scrollToPosition(elementPosition);
+       }
 
-        scrollToPosition(targetPosition) {
-            const startPosition = window.pageYOffset;
-            const distance = targetPosition - startPosition;
-            const startTime = performance.now();
+       scrollToPosition(targetPosition) {
+           const startPosition = window.pageYOffset;
+           const distance = targetPosition - startPosition;
+           const startTime = performance.now();
 
-            const animation = (currentTime) => {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / this.scrollDuration, 1);
-                window.scrollTo(0, startPosition + distance * this.easeOutCubic(progress));
-                if (progress < 1) requestAnimationFrame(animation);
-            };
+           const animation = (currentTime) => {
+               const elapsed = currentTime - startTime;
+               const progress = Math.min(elapsed / this.scrollDuration, 1);
+               window.scrollTo(0, startPosition + distance * this.easeOutCubic(progress));
+               if (progress < 1) requestAnimationFrame(animation);
+           };
 
-            requestAnimationFrame(animation);
-        }
+           requestAnimationFrame(animation);
+       }
 
-        easeOutCubic(t) {
-            return 1 - Math.pow(1 - t, 3);
-        }
-    }
+       easeOutCubic(t) {
+           return 1 - Math.pow(1 - t, 3);
+       }
+   }
 
    class PortfolioSlider {
        constructor() {
@@ -2859,7 +2884,7 @@ document.addEventListener('DOMContentLoaded', function() {
            
            if (!this.track || !this.slides.length) return;
            
-           this.slideWidth = this.slides[0].offsetWidth;
+           this.slideWidth = this.calculateSlideWidth();
            this.currentIndex = 0;
            this.isAnimating = false;
            this.isDragging = false;
@@ -2869,309 +2894,308 @@ document.addEventListener('DOMContentLoaded', function() {
            
            this.init();
        }
-       
-       init() {
-           this.setupClones();
-           this.positionSlides();
-           this.bindEvents();
-           this.updateProgress();
-           this.startAutoplay();
-           this.setupIntersectionObserver();
+
+       calculateSlideWidth() {
+           const containerWidth = this.track.parentElement.offsetWidth;
+           return containerWidth * 0.8; // 80% of container width
        }
        
+       init() {
+           this.setupSlides();
+           this.setupClones();
+           this.bindEvents();
+           this.positionSlides();
+           this.updateProgress();
+           this.startAutoplay();
+       }
+       
+       setupSlides() {
+           this.slides.forEach(slide => {
+               slide.style.width = `${this.slideWidth}px`;
+           });
+       }
+
        setupClones() {
            const firstClone = this.slides[0].cloneNode(true);
            const lastClone = this.slides[this.slides.length - 1].cloneNode(true);
-           firstClone.classList.add('clone');
-           lastClone.classList.add('clone');
+           firstClone.setAttribute('aria-hidden', 'true');
+           lastClone.setAttribute('aria-hidden', 'true');
            this.track.appendChild(firstClone);
            this.track.insertBefore(lastClone, this.slides[0]);
+           
            this.slides = Array.from(document.querySelectorAll('.portfolio-item'));
+           this.currentIndex = 1;
        }
-       
-       positionSlides() {
-           const slideWidth = this.slides[0].offsetWidth;
-           const offset = window.innerWidth / 2 - slideWidth / 2;
-           this.track.style.transform = `translateX(${offset}px)`;
-           this.currentTranslate = offset;
-           this.prevTranslate = offset;
-       }
-       
+
        bindEvents() {
            this.prevBtn?.addEventListener('click', () => this.slide('prev'));
            this.nextBtn?.addEventListener('click', () => this.slide('next'));
            
            this.track.addEventListener('mousedown', this.startDragging.bind(this));
-           this.track.addEventListener('touchstart', this.startDragging.bind(this));
            window.addEventListener('mousemove', this.drag.bind(this));
-           window.addEventListener('touchmove', this.drag.bind(this));
            window.addEventListener('mouseup', this.stopDragging.bind(this));
-           window.addEventListener('touchend', this.stopDragging.bind(this));
-           window.addEventListener('resize', this.handleResize.bind(this));
+           window.addEventListener('mouseleave', this.stopDragging.bind(this));
+           
+           this.track.addEventListener('touchstart', e => {
+               this.startDragging(e.touches[0]);
+           });
+           
+           window.addEventListener('touchmove', e => {
+               this.drag(e.touches[0]);
+           });
+           
+           window.addEventListener('touchend', () => {
+               this.stopDragging();
+           });
+
+           window.addEventListener('resize', () => {
+               this.slideWidth = this.calculateSlideWidth();
+               this.setupSlides();
+               this.positionSlides();
+           });
        }
-       
+
        startDragging(e) {
            if (this.isAnimating) return;
            this.isDragging = true;
-           this.startPos = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+           this.startPos = e.clientX;
+           this.track.style.cursor = 'grabbing';
            this.track.style.transition = 'none';
            this.stopAutoplay();
-           
-           requestAnimationFrame(() => {
-               this.track.style.cursor = 'grabbing';
-               this.slides.forEach(slide => {
-                   slide.style.transition = 'none';
-               });
-           });
        }
-       
+
        drag(e) {
            if (!this.isDragging) return;
-           e.preventDefault();
+           const currentPosition = e.clientX;
+           const diff = currentPosition - this.startPos;
            
-           const currentPos = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
-           const diff = currentPos - this.startPos;
-           this.currentTranslate = this.prevTranslate + diff;
-           
-           requestAnimationFrame(() => {
-               this.track.style.transform = `translateX(${this.currentTranslate}px)`;
-           });
+           this.track.style.transform = `translateX(${this.prevTranslate + diff}px)`;
        }
-       
+
        stopDragging() {
            if (!this.isDragging) return;
            this.isDragging = false;
-           this.track.style.cursor = '';
+           const endPos = this.getCurrentPosition();
+           const diff = endPos - this.prevTranslate;
            
-           const movedBy = this.currentTranslate - this.prevTranslate;
-           if (Math.abs(movedBy) > this.slideWidth * 0.3) {
-               if (movedBy < 0) {
-                   this.slide('next');
-               } else {
+           if (Math.abs(diff) > this.slideWidth * 0.2) {
+               if (diff > 0) {
                    this.slide('prev');
+               } else {
+                   this.slide('next');
                }
            } else {
-               this.snapToSlide();
+               this.track.style.transition = 'transform 0.3s ease-out';
+               this.track.style.transform = `translateX(${this.prevTranslate}px)`;
            }
            
+           this.track.style.cursor = 'grab';
            this.startAutoplay();
        }
-       
+
        slide(direction) {
            if (this.isAnimating) return;
            this.isAnimating = true;
            this.stopAutoplay();
            
            const moveAmount = direction === 'next' ? -this.slideWidth : this.slideWidth;
-           this.currentTranslate += moveAmount;
+           this.currentTranslate = this.prevTranslate + moveAmount;
+           
            this.track.style.transition = 'transform 0.5s ease-out';
            this.track.style.transform = `translateX(${this.currentTranslate}px)`;
            
+           if (direction === 'next') {
+               this.currentIndex++;
+           } else {
+               this.currentIndex--;
+           }
+           
            setTimeout(() => {
-               this.track.style.transition = 'none';
-               if (direction === 'next' && this.currentIndex >= this.slides.length - 3) {
-                   this.currentTranslate = -(this.slideWidth * 2);
-                   this.currentIndex = 0;
-               } else if (direction === 'prev' && this.currentIndex <= 0) {
-                   this.currentTranslate = -(this.slideWidth * (this.slides.length - 3));
-                   this.currentIndex = this.slides.length - 3;
-               } else {
-                   this.currentIndex += direction === 'next' ? 1 : -1;
+               if (this.currentIndex >= this.slides.length - 1) {
+                   this.currentIndex = 1;
+                   this.resetPosition();
+               } else if (this.currentIndex <= 0) {
+                   this.currentIndex = this.slides.length - 2;
+                   this.resetPosition();
                }
-               this.track.style.transform = `translateX(${this.currentTranslate}px)`;
-               this.prevTranslate = this.currentTranslate;
-               this.updateProgress();
+               
                this.isAnimating = false;
                this.startAutoplay();
            }, 500);
+           
+           this.updateProgress();
        }
-       
-       snapToSlide() {
-           this.track.style.transition = 'transform 0.3s ease-out';
-           this.track.style.transform = `translateX(${this.prevTranslate}px)`;
-           this.currentTranslate = this.prevTranslate;
+
+       resetPosition() {
+           this.track.style.transition = 'none';
+           this.currentTranslate = -this.currentIndex * this.slideWidth;
+           this.track.style.transform = `translateX(${this.currentTranslate}px)`;
+           this.prevTranslate = this.currentTranslate;
+           
+           requestAnimationFrame(() => {
+               this.track.style.transition = 'transform 0.5s ease-out';
+           });
        }
-       
+
+       positionSlides() {
+           this.currentTranslate = -this.currentIndex * this.slideWidth;
+           this.prevTranslate = this.currentTranslate;
+           this.track.style.transform = `translateX(${this.currentTranslate}px)`;
+       }
+
        updateProgress() {
-           if (!this.progressBar) return;
-           const progress = ((this.currentIndex + 1) / (this.slides.length - 2)) * 100;
-           this.progressBar.style.width = `${progress}%`;
+           if (this.progressBar) {
+               const progress = ((this.currentIndex - 1) / (this.slides.length - 3)) * 100;
+               this.progressBar.style.width = `${progress}%`;
+           }
        }
-       
+
+       getCurrentPosition() {
+           const transform = getComputedStyle(this.track).transform;
+           const matrix = new DOMMatrix(transform);
+           return matrix.m41;
+       }
+
        startAutoplay(interval = 5000) {
            this.stopAutoplay();
-           this.autoplayInterval = setInterval(() => this.slide('next'), interval);
+           this.autoplayInterval = setInterval(() => {
+               if (!this.isDragging) {
+                   this.slide('next');
+               }
+           }, interval);
        }
-       
+
        stopAutoplay() {
            if (this.autoplayInterval) {
                clearInterval(this.autoplayInterval);
                this.autoplayInterval = null;
            }
        }
-       
-       handleResize() {
-           this.slideWidth = this.slides[0].offsetWidth;
-           this.positionSlides();
-       }
-       
-       setupIntersectionObserver() {
-           const options = {
-               root: null,
-               threshold: 0.5
-           };
-           
-           const observer = new IntersectionObserver((entries) => {
-               entries.forEach(entry => {
-                   if (!entry.isIntersecting) {
-                       this.stopAutoplay();
-                   } else {
-                       this.startAutoplay();
-                   }
-               });
-           }, options);
-           
-           observer.observe(this.track);
-       }
    }
-   
-   new PortfolioSlider();
-});
 
-    // Testimonial Slider
-    class TestimonialSlider {
-        constructor() {
-            this.slider = document.querySelector('.testimonial-slider');
-            this.track = document.querySelector('.testimonial-track');
-            this.cards = Array.from(document.querySelectorAll('.testimonial-card'));
-            this.prevBtn = document.querySelector('.nav-button.prev');
-            this.nextBtn = document.querySelector('.nav-button.next');
-            this.dotsContainer = document.querySelector('.testimonial-dots');
-            
-            if (!this.slider || !this.cards.length) return;
-            
-            this.currentIndex = 0;
-            this.isAnimating = false;
-            this.autoRotateInterval = null;
-            this.animationDuration = 800;
-            
-            this.initialize();
-        }
+   class TestimonialSlider {
+       constructor() {
+           this.slider = document.querySelector('.testimonial-slider');
+           this.track = document.querySelector('.testimonial-track');
+           this.cards = Array.from(document.querySelectorAll('.testimonial-card'));
+           this.prevBtn = document.querySelector('.nav-button.prev');
+           this.nextBtn = document.querySelector('.nav-button.next');
+           this.dotsContainer = document.querySelector('.testimonial-dots');
+           
+           if (!this.slider || !this.cards.length) return;
+           
+           this.currentIndex = 0;
+           this.isAnimating = false;
+           
+           this.initialize();
+       }
 
-        initialize() {
-            this.createDots();
-            this.updateSlideStates();
-            this.setupEventListeners();
-            this.startAutoRotate();
-        }
+       initialize() {
+           this.createDots();
+           this.updateSlideStates();
+           this.setupEventListeners();
+           this.startAutoRotate();
+       }
 
-        createDots() {
-            this.cards.forEach((_, index) => {
-                const dot = document.createElement('button');
-                dot.className = `dot ${index === 0 ? 'active' : ''}`;
-                dot.setAttribute('aria-label', `Go to testimonial ${index + 1}`);
-                dot.addEventListener('click', () => !this.isAnimating && this.goToSlide(index));
-                this.dotsContainer.appendChild(dot);
-            });
-        }
+       createDots() {
+           this.cards.forEach((_, index) => {
+               const dot = document.createElement('button');
+               dot.className = `dot ${index === 0 ? 'active' : ''}`;
+               dot.setAttribute('aria-label', `Go to testimonial ${index + 1}`);
+               dot.addEventListener('click', () => this.goToSlide(index));
+               this.dotsContainer.appendChild(dot);
+           });
+       }
 
-        updateSlideStates() {
-            this.cards.forEach((card, index) => {
-                card.className = 'testimonial-card';
-                if (index === this.currentIndex) {
-                    card.classList.add('active');
-                } else if (index < this.currentIndex) {
-                    card.classList.add('prev');
-                }
-                card.setAttribute('aria-hidden', index !== this.currentIndex);
-            });
+       updateSlideStates() {
+           this.cards.forEach((card, index) => {
+               card.className = 'testimonial-card';
+               if (index === this.currentIndex) {
+                   card.classList.add('active');
+               }
+               card.setAttribute('aria-hidden', index !== this.currentIndex);
+           });
 
-            document.querySelectorAll('.dot').forEach((dot, index) => {
-                dot.classList.toggle('active', index === this.currentIndex);
-                dot.setAttribute('aria-current', index === this.currentIndex);
-            });
-        }
+           this.dotsContainer.querySelectorAll('.dot').forEach((dot, index) => {
+               dot.classList.toggle('active', index === this.currentIndex);
+           });
+       }
 
-        setupEventListeners() {
-            if (this.prevBtn) {
-                this.prevBtn.addEventListener('click', () => {
-                    this.stopAutoRotate();
-                    this.prevSlide();
-                });
-            }
+       setupEventListeners() {
+           this.prevBtn?.addEventListener('click', () => {
+               this.stopAutoRotate();
+               this.prevSlide();
+           });
 
-            if (this.nextBtn) {
-                this.nextBtn.addEventListener('click', () => {
-                    this.stopAutoRotate();
-                    this.nextSlide();
-                });
-            }
+           this.nextBtn?.addEventListener('click', () => {
+               this.stopAutoRotate();
+               this.nextSlide();
+           });
 
-            this.slider.addEventListener('mouseenter', () => this.stopAutoRotate());
-            this.slider.addEventListener('mouseleave', () => this.startAutoRotate());
+           this.slider.addEventListener('mouseenter', () => this.stopAutoRotate());
+           this.slider.addEventListener('mouseleave', () => this.startAutoRotate());
 
-            // Touch support
-            let touchStartX = 0;
-            this.slider.addEventListener('touchstart', e => {
-                touchStartX = e.touches[0].clientX;
-                this.stopAutoRotate();
-            }, { passive: true });
+           let touchStartX = 0;
+this.slider.addEventListener('touchstart', e => {
+               touchStartX = e.touches[0].clientX;
+               this.stopAutoRotate();
+           }, { passive: true });
 
-            this.slider.addEventListener('touchend', e => {
-                const touchEndX = e.changedTouches[0].clientX;
-                const diff = touchStartX - touchEndX;
-                
-                if (Math.abs(diff) > 50) {
-                    if (diff > 0) {
-                        this.nextSlide();
-                    } else {
-                        this.prevSlide();
-                    }
-                }
-                
-                this.startAutoRotate();
-            });
-        }
+           this.slider.addEventListener('touchend', e => {
+               const touchEndX = e.changedTouches[0].clientX;
+               const diff = touchStartX - touchEndX;
+               
+               if (Math.abs(diff) > 50) {
+                   if (diff > 0) {
+                       this.nextSlide();
+                   } else {
+                       this.prevSlide();
+                   }
+               }
+               
+               this.startAutoRotate();
+           });
+       }
 
-        goToSlide(index, direction = null) {
-            if (this.isAnimating || index === this.currentIndex) return;
-            this.isAnimating = true;
+       goToSlide(index) {
+           if (this.isAnimating || index === this.currentIndex) return;
+           this.isAnimating = true;
+           
+           const currentSlide = this.cards[this.currentIndex];
+           const nextSlide = this.cards[index];
+           const direction = index > this.currentIndex ? 'next' : 'prev';
+           
+           currentSlide.style.transition = 'none';
+           nextSlide.style.transition = 'none';
+           
+           requestAnimationFrame(() => {
+               currentSlide.classList.add(direction === 'next' ? 'sliding-out-left' : 'sliding-out-right');
+               nextSlide.classList.add(direction === 'next' ? 'sliding-in-right' : 'sliding-in-left');
+               
+               requestAnimationFrame(() => {
+                   currentSlide.style.transition = '';
+                   nextSlide.style.transition = '';
+                   
+                   currentSlide.classList.remove('active');
+                   nextSlide.classList.add('active');
+               });
+           });
 
-            const isNext = direction ?? index > this.currentIndex;
-            const currentSlide = this.cards[this.currentIndex];
-            const nextSlide = this.cards[index];
-
-            currentSlide.style.transition = 'none';
-            nextSlide.style.transition = 'none';
-
-            requestAnimationFrame(() => {
-                currentSlide.classList.add(isNext ? 'sliding-out-left' : 'sliding-out-right');
-                nextSlide.classList.add(isNext ? 'sliding-in-right' : 'sliding-in-left');
-                
-                requestAnimationFrame(() => {
-                    currentSlide.style.transition = '';
-                    nextSlide.style.transition = '';
-                    
-                    currentSlide.classList.remove('active');
-                    nextSlide.classList.add('active');
-                });
-            });
-
-            setTimeout(() => {
-                this.currentIndex = index;
-                this.updateSlideStates();
-this.isAnimating = false;
-           }, this.animationDuration);
+           setTimeout(() => {
+               this.currentIndex = index;
+               this.updateSlideStates();
+               this.isAnimating = false;
+           }, 600);
        }
 
        nextSlide() {
            const nextIndex = (this.currentIndex + 1) % this.cards.length;
-           this.goToSlide(nextIndex, true);
+           this.goToSlide(nextIndex);
        }
 
        prevSlide() {
            const prevIndex = (this.currentIndex - 1 + this.cards.length) % this.cards.length;
-           this.goToSlide(prevIndex, false);
+           this.goToSlide(prevIndex);
        }
 
        startAutoRotate(interval = 5000) {
@@ -3188,122 +3212,7 @@ this.isAnimating = false;
    }
 
    // Initialize everything
-   try {
-       const siteController = new SiteController();
-       
-       // Handle page visibility changes
-       document.addEventListener('visibilitychange', () => {
-           const portfolioSlider = document.querySelector('.portfolio-track');
-           const testimonialSlider = document.querySelector('.testimonial-track');
-           
-           if (document.hidden) {
-               if (portfolioSlider) portfolioSlider.style.animationPlayState = 'paused';
-               if (testimonialSlider) testimonialSlider.style.animationPlayState = 'paused';
-           } else {
-               if (portfolioSlider) portfolioSlider.style.animationPlayState = 'running';
-               if (testimonialSlider) testimonialSlider.style.animationPlayState = 'running';
-           }
-       });
-
-       // Handle page resize
-       let resizeTimer;
-       window.addEventListener('resize', () => {
-           clearTimeout(resizeTimer);
-           resizeTimer = setTimeout(() => {
-               siteController.initializePortfolioSlider();
-               siteController.initializeTestimonialSlider();
-           }, 250);
-       });
-
-       // Scroll event handling for sticky header
-       window.addEventListener('scroll', () => {
-           requestAnimationFrame(() => {
-               const header = document.querySelector('header');
-               if (header) {
-                   if (window.scrollY > 50) {
-                       header.classList.add('scrolled');
-                   } else {
-                       header.classList.remove('scrolled');
-                   }
-               }
-           });
-       });
-
-       // Initialize AOS
-       if (typeof AOS !== 'undefined') {
-           AOS.init({
-               duration: 1000,
-               easing: 'ease-in-out',
-               once: true,
-               mirror: false
-           });
-       }
-
-       // Form validation and submission handling
-       const forms = document.querySelectorAll('form');
-       forms.forEach(form => {
-           form.addEventListener('submit', (e) => {
-               e.preventDefault();
-               const formData = new FormData(form);
-               const data = {};
-               formData.forEach((value, key) => {
-                   data[key] = value;
-               });
-               
-               // Validate form
-               let isValid = true;
-               form.querySelectorAll('input, textarea').forEach(input => {
-                   if (input.hasAttribute('required') && !input.value.trim()) {
-                       isValid = false;
-                       input.classList.add('error');
-                   } else {
-                       input.classList.remove('error');
-                   }
-               });
-
-               if (isValid) {
-                   console.log('Form submitted:', data);
-                   form.reset();
-               }
-           });
-       });
-
-       // Mobile menu handling
-       const mobileMenuButton = document.querySelector('.mobile-menu-button');
-       const mobileMenu = document.querySelector('.mobile-menu');
-       
-       if (mobileMenuButton && mobileMenu) {
-           mobileMenuButton.addEventListener('click', () => {
-               mobileMenu.classList.toggle('active');
-               mobileMenuButton.classList.toggle('active');
-               document.body.classList.toggle('menu-open');
-           });
-       }
-
-       // Smooth scroll for anchor links
-       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-           anchor.addEventListener('click', function(e) {
-               e.preventDefault();
-               const target = document.querySelector(this.getAttribute('href'));
-               if (target) {
-                   target.scrollIntoView({
-                       behavior: 'smooth',
-                       block: 'start'
-                   });
-                   
-                   // Close mobile menu if open
-                   if (mobileMenu && mobileMenu.classList.contains('active')) {
-                       mobileMenu.classList.remove('active');
-                       mobileMenuButton.classList.remove('active');
-                       document.body.classList.remove('menu-open');
-                   }
-               }
-           });
-       });
-
-   } catch (error) {
-       console.error('Initialization error:', error);
-   }
+   new LoadingScreen();
 });
 </script>
 </body>
