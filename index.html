@@ -2849,151 +2849,194 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Portfolio Slider
-    class PortfolioSlider {
-        constructor() {
-            this.track = document.querySelector('.portfolio-track');
-            this.items = Array.from(document.querySelectorAll('.portfolio-item'));
-            this.prevBtn = document.querySelector('.prev-btn');
-            this.nextBtn = document.querySelector('.next-btn');
-            this.progressBar = document.querySelector('.slider-progress-bar');
-            
-            if (!this.track || !this.items.length) return;
-            
-            this.currentIndex = 0;
-            this.itemWidth = this.items[0].offsetWidth + 30;
-            this.maxIndex = Math.max(0, this.items.length - 3);
-            this.isAnimating = false;
-            this.isDragging = false;
-            this.startX = 0;
-            this.scrollLeft = 0;
-            
-            this.initialize();
-        }
-
-        initialize() {
-            this.setupSlider();
-            this.setupEventListeners();
-            this.updateProgress();
-            this.startAutoPlay();
-        }
-
-        setupSlider() {
-            this.items.forEach((item, index) => {
-                item.setAttribute('drag-index', index);
-                item.style.transform = 'scale(0.9)';
-                item.style.transition = 'all 0.3s ease';
-            });
-            
-            if (this.items[0]) {
-                this.items[0].style.transform = 'scale(1)';
-            }
-        }
-
-        setupEventListeners() {
-            if (this.prevBtn) {
-                this.prevBtn.addEventListener('click', () => this.slide('prev'));
-            }
-            
-            if (this.nextBtn) {
-                this.nextBtn.addEventListener('click', () => this.slide('next'));
-            }
-
-            // Mouse Events
-            this.track.addEventListener('mousedown', (e) => this.startDragging(e));
-            window.addEventListener('mousemove', (e) => this.drag(e));
-            window.addEventListener('mouseup', () => this.stopDragging());
-
-            // Touch Events
-            this.track.addEventListener('touchstart', (e) => this.startDragging(e.touches[0]));
-            this.track.addEventListener('touchmove', (e) => this.drag(e.touches[0]));
-            this.track.addEventListener('touchend', () => this.stopDragging());
-
-            // Prevent context menu on long press
-            this.track.addEventListener('contextmenu', (e) => e.preventDefault());
-        }
-
-        startDragging(e) {
-            this.isDragging = true;
-            this.startX = e.pageX - this.track.offsetLeft;
-            this.scrollLeft = this.track.scrollLeft;
-            this.track.style.cursor = 'grabbing';
-            this.stopAutoPlay();
-        }
-
-        drag(e) {
-            if (!this.isDragging) return;
-            
-            e.preventDefault();
-            const x = e.pageX - this.track.offsetLeft;
-            const walk = (x - this.startX) * 2;
-            this.track.scrollLeft = this.scrollLeft - walk;
-        }
-
-        stopDragging() {
-            this.isDragging = false;
-            this.track.style.cursor = 'grab';
-            this.startAutoPlay();
-        }
-
-        slide(direction) {
-            if (this.isAnimating) return;
-            this.isAnimating = true;
-            this.stopAutoPlay();
-
-            const prevIndex = this.currentIndex;
-            
-            if (direction === 'next') {
-                this.currentIndex = Math.min(this.currentIndex + 1, this.maxIndex);
-            } else {
-                this.currentIndex = Math.max(0, this.currentIndex - 1);
-            }
-
-            this.updateSliderPosition();
-            this.updateProgress();
-            
-            setTimeout(() => {
-                this.isAnimating = false;
-                this.startAutoPlay();
-            }, 500);
-        }
-
-        updateSliderPosition() {
-            const position = -this.currentIndex * this.itemWidth;
-            this.track.style.transform = `translateX(${position}px)`;
-            
-            this.items.forEach((item, index) => {
-                item.style.transform = index === this.currentIndex ? 'scale(1)' : 'scale(0.9)';
-            });
-        }
-
-        updateProgress() {
-            if (this.progressBar) {
-                const progress = (this.currentIndex / this.maxIndex) * 100;
-                this.progressBar.style.width = `${progress}%`;
-            }
-        }
-
-        startAutoPlay(interval = 5000) {
-            this.stopAutoPlay();
-            this.autoPlayInterval = setInterval(() => {
-                if (this.currentIndex < this.maxIndex) {
-                    this.slide('next');
-                } else {
-                    this.currentIndex = 0;
-                    this.updateSliderPosition();
-                    this.updateProgress();
-                }
-            }, interval);
-        }
-
-        stopAutoPlay() {
-            if (this.autoPlayInterval) {
-                clearInterval(this.autoPlayInterval);
-                this.autoPlayInterval = null;
-            }
-        }
-    }
+   class PortfolioSlider {
+       constructor() {
+           this.track = document.querySelector('.portfolio-track');
+           this.slides = Array.from(document.querySelectorAll('.portfolio-item'));
+           this.prevBtn = document.querySelector('.prev-btn');
+           this.nextBtn = document.querySelector('.next-btn');
+           this.progressBar = document.querySelector('.slider-progress-bar');
+           
+           if (!this.track || !this.slides.length) return;
+           
+           this.slideWidth = this.slides[0].offsetWidth;
+           this.currentIndex = 0;
+           this.isAnimating = false;
+           this.isDragging = false;
+           this.startPos = 0;
+           this.currentTranslate = 0;
+           this.prevTranslate = 0;
+           
+           this.init();
+       }
+       
+       init() {
+           this.setupClones();
+           this.positionSlides();
+           this.bindEvents();
+           this.updateProgress();
+           this.startAutoplay();
+           this.setupIntersectionObserver();
+       }
+       
+       setupClones() {
+           const firstClone = this.slides[0].cloneNode(true);
+           const lastClone = this.slides[this.slides.length - 1].cloneNode(true);
+           firstClone.classList.add('clone');
+           lastClone.classList.add('clone');
+           this.track.appendChild(firstClone);
+           this.track.insertBefore(lastClone, this.slides[0]);
+           this.slides = Array.from(document.querySelectorAll('.portfolio-item'));
+       }
+       
+       positionSlides() {
+           const slideWidth = this.slides[0].offsetWidth;
+           const offset = window.innerWidth / 2 - slideWidth / 2;
+           this.track.style.transform = `translateX(${offset}px)`;
+           this.currentTranslate = offset;
+           this.prevTranslate = offset;
+       }
+       
+       bindEvents() {
+           this.prevBtn?.addEventListener('click', () => this.slide('prev'));
+           this.nextBtn?.addEventListener('click', () => this.slide('next'));
+           
+           this.track.addEventListener('mousedown', this.startDragging.bind(this));
+           this.track.addEventListener('touchstart', this.startDragging.bind(this));
+           window.addEventListener('mousemove', this.drag.bind(this));
+           window.addEventListener('touchmove', this.drag.bind(this));
+           window.addEventListener('mouseup', this.stopDragging.bind(this));
+           window.addEventListener('touchend', this.stopDragging.bind(this));
+           window.addEventListener('resize', this.handleResize.bind(this));
+       }
+       
+       startDragging(e) {
+           if (this.isAnimating) return;
+           this.isDragging = true;
+           this.startPos = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+           this.track.style.transition = 'none';
+           this.stopAutoplay();
+           
+           requestAnimationFrame(() => {
+               this.track.style.cursor = 'grabbing';
+               this.slides.forEach(slide => {
+                   slide.style.transition = 'none';
+               });
+           });
+       }
+       
+       drag(e) {
+           if (!this.isDragging) return;
+           e.preventDefault();
+           
+           const currentPos = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+           const diff = currentPos - this.startPos;
+           this.currentTranslate = this.prevTranslate + diff;
+           
+           requestAnimationFrame(() => {
+               this.track.style.transform = `translateX(${this.currentTranslate}px)`;
+           });
+       }
+       
+       stopDragging() {
+           if (!this.isDragging) return;
+           this.isDragging = false;
+           this.track.style.cursor = '';
+           
+           const movedBy = this.currentTranslate - this.prevTranslate;
+           if (Math.abs(movedBy) > this.slideWidth * 0.3) {
+               if (movedBy < 0) {
+                   this.slide('next');
+               } else {
+                   this.slide('prev');
+               }
+           } else {
+               this.snapToSlide();
+           }
+           
+           this.startAutoplay();
+       }
+       
+       slide(direction) {
+           if (this.isAnimating) return;
+           this.isAnimating = true;
+           this.stopAutoplay();
+           
+           const moveAmount = direction === 'next' ? -this.slideWidth : this.slideWidth;
+           this.currentTranslate += moveAmount;
+           this.track.style.transition = 'transform 0.5s ease-out';
+           this.track.style.transform = `translateX(${this.currentTranslate}px)`;
+           
+           setTimeout(() => {
+               this.track.style.transition = 'none';
+               if (direction === 'next' && this.currentIndex >= this.slides.length - 3) {
+                   this.currentTranslate = -(this.slideWidth * 2);
+                   this.currentIndex = 0;
+               } else if (direction === 'prev' && this.currentIndex <= 0) {
+                   this.currentTranslate = -(this.slideWidth * (this.slides.length - 3));
+                   this.currentIndex = this.slides.length - 3;
+               } else {
+                   this.currentIndex += direction === 'next' ? 1 : -1;
+               }
+               this.track.style.transform = `translateX(${this.currentTranslate}px)`;
+               this.prevTranslate = this.currentTranslate;
+               this.updateProgress();
+               this.isAnimating = false;
+               this.startAutoplay();
+           }, 500);
+       }
+       
+       snapToSlide() {
+           this.track.style.transition = 'transform 0.3s ease-out';
+           this.track.style.transform = `translateX(${this.prevTranslate}px)`;
+           this.currentTranslate = this.prevTranslate;
+       }
+       
+       updateProgress() {
+           if (!this.progressBar) return;
+           const progress = ((this.currentIndex + 1) / (this.slides.length - 2)) * 100;
+           this.progressBar.style.width = `${progress}%`;
+       }
+       
+       startAutoplay(interval = 5000) {
+           this.stopAutoplay();
+           this.autoplayInterval = setInterval(() => this.slide('next'), interval);
+       }
+       
+       stopAutoplay() {
+           if (this.autoplayInterval) {
+               clearInterval(this.autoplayInterval);
+               this.autoplayInterval = null;
+           }
+       }
+       
+       handleResize() {
+           this.slideWidth = this.slides[0].offsetWidth;
+           this.positionSlides();
+       }
+       
+       setupIntersectionObserver() {
+           const options = {
+               root: null,
+               threshold: 0.5
+           };
+           
+           const observer = new IntersectionObserver((entries) => {
+               entries.forEach(entry => {
+                   if (!entry.isIntersecting) {
+                       this.stopAutoplay();
+                   } else {
+                       this.startAutoplay();
+                   }
+               });
+           }, options);
+           
+           observer.observe(this.track);
+       }
+   }
+   
+   new PortfolioSlider();
+});
 
     // Testimonial Slider
     class TestimonialSlider {
