@@ -292,94 +292,242 @@
     font-size: 18px;
     margin-bottom: 50px;
 }
-
 .portfolio-showcase {
-   background: var(--primary-color);
-    padding: 100px 0;
-    overflow: hidden;
+    background: var(--primary-color);
+    padding: 120px 0;
     position: relative;
+    overflow: hidden;
+}
+
+.portfolio-showcase::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at top right, rgba(203, 11, 46, 0.8), rgba(0, 23, 79, 0.95));
+    z-index: 1;
+}
+
+.container {
+    position: relative;
+    z-index: 2;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-title {
+    color: var(--accent-color);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 80px;
+    position: relative;
+    letter-spacing: -0.02em;
+}
+
+.section-title-accent {
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--accent-color);
+    margin: 30px auto 0;
+    position: relative;
+    opacity: 0.6;
+}
+
+.section-title-accent::before,
+.section-title-accent::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 4px;
+    height: 4px;
+    background: var(--accent-color);
+    border-radius: 50%;
+}
+
+.section-title-accent::before {
+    left: -10px;
+}
+
+.section-title-accent::after {
+    right: -10px;
 }
 
 .portfolio-slider-container {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
+    margin: 0 -20px;
+    overflow: visible;
     padding: 40px 0;
 }
 
 .portfolio-track {
     display: flex;
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     gap: 30px;
-    position: relative;
+    padding: 0 20px;
 }
 
 .portfolio-item {
-    min-width: 400px;
-background: var(--secondary-color);
-    border-radius: 15px;
-    flex-shrink: 0;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-    overflow: hidden;
+    min-width: clamp(300px, calc(33.333% - 20px), 500px);
+    perspective: 1000px;
 }
 
-.portfolio-item a {
-    text-decoration: none;
-    color: white;
+.portfolio-item-inner {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.portfolio-item img {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.portfolio-item:hover img {
+.portfolio-item.active .portfolio-item-inner {
     transform: scale(1.05);
 }
 
-.portfolio-item h3 {
-    padding: 20px 20px 10px;
-    margin: 0;
-    font-size: 1.5rem;
-    color: white;
+.portfolio-link {
+    display: block;
+    text-decoration: none;
+    background: var(--secondary-color);
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.portfolio-item p {
-    padding: 0 20px 20px;
-    margin: 0;
+.portfolio-image {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+}
+
+.portfolio-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.portfolio-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 23, 79, 0.8) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.portfolio-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 30px;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.portfolio-category {
+    display: inline-block;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    color: var(--accent-color);
+    opacity: 0.8;
+    margin-bottom: 10px;
+    letter-spacing: 0.05em;
+}
+
+.portfolio-content h3 {
+    color: var(--accent-color);
+    font-size: 1.5rem;
+    margin: 0 0 10px;
+    font-weight: 700;
+}
+
+.portfolio-content p {
+    color: var(--accent-color);
     font-size: 1rem;
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    opacity: 0.9;
 }
 
+.portfolio-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent-color);
+    margin-top: 20px;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+}
+
+.portfolio-cta i {
+    font-size: 0.875rem;
+    transition: transform 0.3s ease;
+}
+
+/* Hover Effects */
+.portfolio-link:hover {
+    transform: translateY(-5px);
+}
+
+.portfolio-link:hover .portfolio-image img {
+    transform: scale(1.1);
+}
+
+.portfolio-link:hover .portfolio-overlay {
+    opacity: 1;
+}
+
+.portfolio-link:hover .portfolio-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.portfolio-link:hover .portfolio-cta {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.portfolio-link:hover .portfolio-cta i {
+    transform: translateX(5px);
+}
+
+/* Slider Controls */
 .slider-controls {
     display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 20px;
-    margin-top: 40px;
+    gap: 24px;
+    margin-top: 60px;
 }
 
 .slider-btn {
     background: rgba(255, 255, 255, 0.1);
-    border: none;
-    width: 50px;
-    height: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(10px);
 }
 
 .slider-btn:hover {
     background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
     transform: translateY(-2px);
 }
 
@@ -387,9 +535,48 @@ background: var(--secondary-color);
     transform: translateY(0);
 }
 
+.slider-btn svg {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+}
+
+.slider-btn:hover svg {
+    transform: scale(1.1);
+}
+
+.slider-progress {
+    width: 100px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 1px;
+    overflow: hidden;
+}
+
+.slider-progress-bar {
+    width: 0%;
+    height: 100%;
+    background: var(--accent-color);
+    transition: width 0.3s ease;
+}
+
+@media (max-width: 1200px) {
+    .portfolio-item {
+        min-width: calc(50% - 15px);
+    }
+}
+
 @media (max-width: 768px) {
     .portfolio-item {
-        min-width: 300px;
+        min-width: calc(100% - 30px);
+    }
+    
+    .portfolio-showcase {
+        padding: 80px 0;
+    }
+    
+    .section-title {
+        margin-bottom: 60px;
     }
 }
    
@@ -1969,103 +2156,146 @@ background: var(--primary-color);
         </div>
     </div>
 </section>
-<section id="process" class="process-section">
+<!-- Portfolio Section HTML -->
+<section id="portfolio" class="portfolio-showcase">
     <div class="container">
-        <h2 class="section-titleh2">Our Process</h2>
-        <div class="process-grid">
-            <div class="process-item" data-aos="fade-up">
-                <div class="process-icon">
-                    <i class="fas fa-comments"></i>
-                </div>
-                <div class="process-number">01</div>
-                <h3 class="process-title-text">Strategic Consultation</h3>
-                <p class="process-description">In-depth analysis of your business objectives, market position, and technical requirements to develop a comprehensive digital strategy.</p>
-            </div>
-                <div class="process-item" data-aos="fade-up" data-aos-delay="100">
-                    <div class="process-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                        </svg>
-                    </div>
-                    <div class="process-number">02</div>
-                    <h3 class="process-title-text">Blueprint Development</h3>
-                    <p class="process-description">Creating detailed technical specifications and design frameworks aligned with your business goals and industry standards.</p>
-                </div>
-                <div class="process-item" data-aos="fade-up" data-aos-delay="200">
-                    <div class="process-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                        </svg>
-                    </div>
-                    <div class="process-number">03</div>
-                    <h3 class="process-title-text">Execution & Development</h3>
-                    <p class="process-description">Implementing your digital solution with precision engineering and innovative design methodologies.</p>
-                </div>
-                <div class="process-item" data-aos="fade-up" data-aos-delay="300">
-                    <div class="process-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                    </div>
-                    <div class="process-number">04</div>
-                    <h3 class="process-title-text">Launch & Optimization</h3>
-                    <p class="process-description">Deploying your solution with comprehensive testing and continuous optimization for peak performance.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-   <section id="portfolio" class="portfolio-showcase">
-    <div class="container">
-        <h2 class="section-title">CLIENT SUCCESS STORIES</h2>
+        <h2 class="section-title" data-aos="fade-up">
+            CLIENT SUCCESS STORIES
+            <span class="section-title-accent"></span>
+        </h2>
+        
         <div class="portfolio-slider-container">
             <div class="portfolio-track">
-                <div class="portfolio-item">
-                    <a href="https://goldenslippercleaningservices.com/" class="portfolio-link">
-                        <img src="https://i.ibb.co/R3LzsVP/Screenshot-2024-09-18-at-9-37-34-PM.png" alt="Golden Slipper Cleaning">
-                        <h3>GOLDEN SLIPPER CLEANING</h3>
-                        <p>Revamped a local cleaning company's website, improving its online presence and user experience.</p>
-                    </a>
+                <div class="portfolio-item" data-aos="fade-up" data-aos-delay="100">
+                    <div class="portfolio-item-inner">
+                        <a href="https://goldenslippercleaningservices.com/" class="portfolio-link">
+                            <div class="portfolio-image">
+                                <img src="https://i.ibb.co/R3LzsVP/Screenshot-2024-09-18-at-9-37-34-PM.png" alt="Golden Slipper Cleaning">
+                                <div class="portfolio-overlay"></div>
+                            </div>
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">Web Design</span>
+                                <h3>GOLDEN SLIPPER CLEANING</h3>
+                                <p>Revamped a local cleaning company's website, improving its online presence and user experience.</p>
+                                <span class="portfolio-cta">
+                                    View Project <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-                <div class="portfolio-item">
-                    <a href="https://drh2oplumbing.com/" class="portfolio-link">
-                        <img src="https://i.ibb.co/5YMxGbN/Screenshot-2024-09-18-at-9-37-24-PM.png" alt="DRH2O Plumbing">
-                        <h3>DRH2O PLUMBING</h3>
-                        <p>Redesigned the website for a plumbing startup, improving user experience and service descriptions.</p>
-                    </a>
+
+                <div class="portfolio-item" data-aos="fade-up" data-aos-delay="200">
+                    <div class="portfolio-item-inner">
+                        <a href="https://drh2oplumbing.com/" class="portfolio-link">
+                            <div class="portfolio-image">
+                                <img src="https://i.ibb.co/5YMxGbN/Screenshot-2024-09-18-at-9-37-24-PM.png" alt="DRH2O Plumbing">
+                                <div class="portfolio-overlay"></div>
+                            </div>
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">Development</span>
+                                <h3>DRH2O PLUMBING</h3>
+                                <p>Redesigned the website for a plumbing startup, improving user experience and service descriptions.</p>
+                                <span class="portfolio-cta">
+                                    View Project <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-                <div class="portfolio-item">
-                    <a href="https://memoshotsauce.com/" class="portfolio-link">
-                        <img src="https://i.ibb.co/F3LwmgL/Screenshot-2024-09-18-at-9-36-01-PM.png" alt="Memo's Hot Sauce">
-                        <h3>MEMO'S HOT SAUCE</h3>
-                        <p>Built a custom sales dashboard with direct stripe integration to avoid costly shopify fees.</p>
-                    </a>
+
+                <div class="portfolio-item" data-aos="fade-up" data-aos-delay="300">
+                    <div class="portfolio-item-inner">
+                        <a href="https://memoshotsauce.com/" class="portfolio-link">
+                            <div class="portfolio-image">
+                                <img src="https://i.ibb.co/F3LwmgL/Screenshot-2024-09-18-at-9-36-01-PM.png" alt="Memo's Hot Sauce">
+                                <div class="portfolio-overlay"></div>
+                            </div>
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">E-Commerce</span>
+                                <h3>MEMO'S HOT SAUCE</h3>
+                                <p>Built a custom sales dashboard with direct stripe integration to avoid costly shopify fees.</p>
+                                <span class="portfolio-cta">
+                                    View Project <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-                <div class="portfolio-item">
-                    <a href="https://www.aaapluscleaning.com.au/" class="portfolio-link">
-                        <img src="/path-to-aaaplus-image.jpg" alt="AAAPlus Cleaning">
-                        <h3>AAAPLUS CLEANING</h3>
-                        <p>Created a modern, user-friendly website showcasing premium cleaning services with integrated booking system.</p>
-                    </a>
+
+                <div class="portfolio-item" data-aos="fade-up" data-aos-delay="400">
+                    <div class="portfolio-item-inner">
+                        <a href="https://www.aaapluscleaning.com.au/" class="portfolio-link">
+                            <div class="portfolio-image">
+                                <img src="/path-to-aaaplus-image.jpg" alt="AAAPlus Cleaning">
+                                <div class="portfolio-overlay"></div>
+                            </div>
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">Web Development</span>
+                                <h3>AAAPLUS CLEANING</h3>
+                                <p>Created a modern, user-friendly website showcasing premium cleaning services with integrated booking system.</p>
+                                <span class="portfolio-cta">
+                                    View Project <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-                <div class="portfolio-item">
-                    <a href="https://www.procleanone.com.au/" class="portfolio-link">
-                        <img src="/path-to-proclean-image.jpg" alt="ProClean Professional">
-                        <h3>PROCLEAN PROFESSIONAL</h3>
-                        <p>Developed a comprehensive service platform highlighting eco-friendly cleaning solutions and online quotes.</p>
-                    </a>
+
+                <div class="portfolio-item" data-aos="fade-up" data-aos-delay="500">
+                    <div class="portfolio-item-inner">
+                        <a href="https://www.procleanone.com.au/" class="portfolio-link">
+                            <div class="portfolio-image">
+                                <img src="/path-to-proclean-image.jpg" alt="ProClean Professional">
+                                <div class="portfolio-overlay"></div>
+                            </div>
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">UX Design</span>
+                                <h3>PROCLEAN PROFESSIONAL</h3>
+                                <p>Developed a comprehensive service platform highlighting eco-friendly cleaning solutions and online quotes.</p>
+                                <span class="portfolio-cta">
+                                    View Project <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-                <div class="portfolio-item">
-                    <a href="https://tufanpestcontrol.com/" class="portfolio-link">
-                        <img src="/path-to-tufan-image.jpg" alt="Tufan Pest Control">
-                        <h3>TUFAN PEST CONTROL</h3>
-                        <p>Built a conversion-focused website featuring pest control services with integrated booking and review system.</p>
-                    </a>
+
+                <div class="portfolio-item" data-aos="fade-up" data-aos-delay="600">
+                    <div class="portfolio-item-inner">
+                        <a href="https://tufanpestcontrol.com/" class="portfolio-link">
+                            <div class="portfolio-image">
+                                <img src="/path-to-tufan-image.jpg" alt="Tufan Pest Control">
+                                <div class="portfolio-overlay"></div>
+                            </div>
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">Web Design</span>
+                                <h3>TUFAN PEST CONTROL</h3>
+                                <p>Built a conversion-focused website featuring pest control services with integrated booking and review system.</p>
+                                <span class="portfolio-cta">
+                                    View Project <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
+
         <div class="slider-controls">
-            <button class="slider-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
-            <button class="slider-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+            <button class="slider-btn prev-btn" aria-label="Previous project">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            <div class="slider-progress">
+                <div class="slider-progress-bar"></div>
+            </div>
+            <button class="slider-btn next-btn" aria-label="Next project">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </button>
         </div>
     </div>
 </section>
@@ -2440,38 +2670,222 @@ background: var(--primary-color);
         }
     }
 
-    // Portfolio Slider functionality
-    function initializePortfolioSlider() {
-        const track = document.querySelector('.portfolio-track');
-        const items = document.querySelectorAll('.portfolio-item');
-        const prevBtn = document.querySelector('.prev-btn');
-        const nextBtn = document.querySelector('.next-btn');
+   class PremiumPortfolioSlider {
+    constructor() {
+        this.track = document.querySelector('.portfolio-track');
+        this.items = Array.from(document.querySelectorAll('.portfolio-item'));
+        this.prevBtn = document.querySelector('.prev-btn');
+        this.nextBtn = document.querySelector('.next-btn');
+        this.progressBar = document.querySelector('.slider-progress-bar');
         
-        if (!track || !items.length) return;
-
-        let currentIndex = 0;
-        const itemWidth = items[0].offsetWidth + 30;
-        const maxIndex = Math.max(0, items.length - 3);
-
-        function updateSliderPosition() {
-            track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
-        }
-
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
-                currentIndex = Math.max(0, currentIndex - 1);
-                updateSliderPosition();
-            });
-        }
-
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                currentIndex = Math.min(maxIndex, currentIndex + 1);
-                updateSliderPosition();
-            });
-        }
+        this.currentIndex = 0;
+        this.itemWidth = this.items[0].offsetWidth + 30; // Including gap
+        this.totalItems = this.items.length;
+        this.visibleItems = this.calculateVisibleItems();
+        this.isAnimating = false;
+        
+        this.init();
     }
+    
+    init() {
+        // Clone items for infinite scroll
+        this.setupInfiniteScroll();
+        
+        // Initialize position and states
+        this.updateSliderPosition();
+        this.updateActiveStates();
+        this.updateProgress();
+        
+        // Add event listeners
+        this.addEventListeners();
+        
+        // Add resize handler
+        this.handleResize();
+        
+        // Add intersection observer for viewport checks
+        this.setupIntersectionObserver();
+    }
+    
+    setupInfiniteScroll() {
+        // Clone first and last sets of items
+        const itemsToClone = 2; // Number of items to clone on each end
+        
+        // Clone start items
+        for (let i = 0; i < itemsToClone; i++) {
+            const clone = this.items[i].cloneNode(true);
+            this.track.appendChild(clone);
+        }
+        
+        // Clone end items
+        for (let i = this.items.length - 1; i > this.items.length - 1 - itemsToClone; i--) {
+            const clone = this.items[i].cloneNode(true);
+            this.track.prepend(clone);
+        }
+        
+        this.items = Array.from(document.querySelectorAll('.portfolio-item'));
+        this.totalItems = this.items.length;
+        this.currentIndex = itemsToClone; // Start after cloned items
+    }
+    
+    calculateVisibleItems() {
+        const containerWidth = document.querySelector('.portfolio-slider-container').offsetWidth;
+        return Math.floor(containerWidth / this.itemWidth);
+    }
+    
+    updateSliderPosition(animate = true) {
+        if (!animate) {
+            this.track.style.transition = 'none';
+        }
+        
+        const offset = (window.innerWidth - this.itemWidth) / 2;
+        const position = -(this.currentIndex * this.itemWidth) + offset;
+        
+        requestAnimationFrame(() => {
+            this.track.style.transform = `translateX(${position}px)`;
+            
+            if (!animate) {
+                // Force reflow
+                this.track.offsetHeight;
+                this.track.style.transition = 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+            }
+        });
+    }
+    
+    updateActiveStates() {
+        this.items.forEach((item, index) => {
+            const isActive = index === this.currentIndex;
+            item.classList.toggle('active', isActive);
+            
+            // Add classes for items adjacent to active item
+            const isPrev = index === this.currentIndex - 1;
+            const isNext = index === this.currentIndex + 1;
+            item.classList.toggle('prev', isPrev);
+            item.classList.toggle('next', isNext);
+        });
+    }
+    
+    updateProgress() {
+        const progress = (this.currentIndex / (this.totalItems - 1)) * 100;
+        this.progressBar.style.width = `${progress}%`;
+    }
+    
+    addEventListeners() {
+        // Button controls
+        this.prevBtn.addEventListener('click', () => this.slide('prev'));
+        this.nextBtn.addEventListener('click', () => this.slide('next'));
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') this.slide('prev');
+            if (e.key === 'ArrowRight') this.slide('next');
+        });
+        
+        // Touch events
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        this.track.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+        
+        this.track.addEventListener('touchmove', (e) => {
+            touchEndX = e.touches[0].clientX;
+        }, { passive: true });
+        
+        this.track.addEventListener('touchend', () => {
+            const difference = touchStartX - touchEndX;
+            const threshold = 50; // Minimum distance for swipe
+            
+            if (Math.abs(difference) > threshold) {
+                if (difference > 0) {
+                    this.slide('next');
+                } else {
+                    this.slide('prev');
+                }
+            }
+        });
+    }
+    
+    slide(direction) {
+        if (this.isAnimating) return;
+        this.isAnimating = true;
+        
+        const previousIndex = this.currentIndex;
+        
+        if (direction === 'next') {
+            this.currentIndex++;
+        } else {
+            this.currentIndex--;
+        }
+        
+        this.updateSliderPosition();
+        this.updateActiveStates();
+        this.updateProgress();
+        
+        // Handle infinite scroll wraparound
+        setTimeout(() => {
+            if (this.currentIndex >= this.totalItems - 2) {
+                this.currentIndex = 2;
+                this.updateSliderPosition(false);
+            } else if (this.currentIndex <= 1) {
+                this.currentIndex = this.totalItems - 3;
+                this.updateSliderPosition(false);
+            }
+            this.isAnimating = false;
+        }, 800);
+    }
+    
+    handleResize() {
+        let resizeTimeout;
+        
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            
+            resizeTimeout = setTimeout(() => {
+                this.itemWidth = this.items[0].offsetWidth + 30;
+                this.visibleItems = this.calculateVisibleItems();
+                this.updateSliderPosition(false);
+            }, 250);
+        });
+    }
+    
+    setupIntersectionObserver() {
+        const options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                }
+            });
+        }, options);
+        
+        this.items.forEach(item => observer.observe(item));
+    }
+}
 
+// Initialize the slider when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    const portfolioSlider = new PremiumPortfolioSlider();
+});
+
+// Add smooth scroll for portfolio links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
   function initializeTestimonialSlider() {
     const slider = document.querySelector('.testimonial-slider');
     const track = document.querySelector('.testimonial-track');
