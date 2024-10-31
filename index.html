@@ -2668,58 +2668,86 @@ background: var(--primary-color);
     </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-   class LoadingScreen {
-       constructor() {
-           this.loadingScreen = document.querySelector('.loading-screen');
-           this.mainContent = document.querySelector('main');
-           this.initialized = false;
-           
-           this.resourcesLoaded = {
-               dom: false,
-               images: false,
-               scripts: false
-           };
+class LoadingScreen {
+    constructor() {
+        this.loadingScreen = document.querySelector('.loading-screen');
+        this.mainContent = document.querySelector('main');
+        this.initialized = false;
+        
+        this.resourcesLoaded = {
+            dom: false,
+            images: false,
+            scripts: true  // Set this to true by default since we'll check differently
+        };
 
-           this.init();
-       }
+        this.init();
+    }
 
-       init() {
-           if (this.mainContent) {
-               this.mainContent.style.display = 'none';
-           }
+    init() {
+        if (this.mainContent) {
+            this.mainContent.style.display = 'none';
+        }
 
-           if (document.readyState === 'complete') {
-               this.resourcesLoaded.dom = true;
-           } else {
-               document.addEventListener('readystatechange', () => {
-                   if (document.readyState === 'complete') {
-                       this.resourcesLoaded.dom = true;
-                       this.checkAllResourcesLoaded();
-                   }
-               });
-           }
+        // Simplified DOM ready check
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                this.resourcesLoaded.dom = true;
+                this.checkAllResourcesLoaded();
+            });
+        } else {
+            this.resourcesLoaded.dom = true;
+        }
 
-           const images = document.getElementsByTagName('img');
-           let loadedImages = 0;
-           const totalImages = images.length;
+        // Simplified image loading check
+        const images = Array.from(document.images);
+        const loadedImages = images.filter(img => img.complete);
+        
+        if (images.length === loadedImages.length) {
+            this.resourcesLoaded.images = true;
+            this.checkAllResourcesLoaded();
+        } else {
+            let loadedCount = loadedImages.length;
+            images.forEach(img => {
+                if (!img.complete) {
+                    img.addEventListener('load', () => {
+                        loadedCount++;
+                        if (loadedCount === images.length) {
+                            this.resourcesLoaded.images = true;
+                            this.checkAllResourcesLoaded();
+                        }
+                    });
+                }
+            });
+        }
 
-           if (totalImages === 0) {
-               this.resourcesLoaded.images = true;
-           } else {
-               Array.from(images).forEach(img => {
-                   if (img.complete) {
-                       loadedImages++;
-                   } else {
-                       img.addEventListener('load', () => {
-                           loadedImages++;
-                           if (loadedImages === totalImages) {
-                               this.resourcesLoaded.images = true;
-                               this.checkAllResourcesLoaded();
-                           }
-                       });
-                   }
-               });
-           }
+        // Initial check
+        this.checkAllResourcesLoaded();
+    }
+
+    checkAllResourcesLoaded() {
+        if (Object.values(this.resourcesLoaded).every(loaded => loaded)) {
+            setTimeout(() => {
+                this.hideLoadingScreen();
+            }, 1000); // Give a minimum time for loader to show
+        }
+    }
+
+    hideLoadingScreen() {
+        if (this.loadingScreen && !this.initialized) {
+            this.initialized = true;
+            this.loadingScreen.style.opacity = '0';
+            
+            setTimeout(() => {
+                this.loadingScreen.style.display = 'none';
+                if (this.mainContent) {
+                    this.mainContent.style.display = 'block';
+                    new SiteController();
+                }
+                document.body.style.overflow = 'visible';
+            }, 500);
+        }
+    }
+}
 
            const scripts = document.getElementsByTagName('script');
            let loadedScripts = 0;
