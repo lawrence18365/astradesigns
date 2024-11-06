@@ -280,7 +280,286 @@
     width: 100% /* Allow the container to stretch with high priority */
 }
       
+/* Premium Services Section */
+.services {
+    background: var(--secondary-color);
+    position: relative;
+    padding: 120px 0;
+    overflow: hidden;
+    isolation: isolate;
+}
 
+/* Dynamic Background */
+.services::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+        linear-gradient(125deg, 
+            rgba(0, 23, 79, 0.98) 0%,
+            rgba(0, 23, 79, 0.95) 60%,
+            rgba(203, 11, 46, 0.90) 100%
+        );
+    z-index: -2;
+}
+
+.services::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+        radial-gradient(circle at 0% 0%, rgba(203, 11, 46, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 100% 100%, rgba(203, 11, 46, 0.15) 0%, transparent 50%);
+    z-index: -1;
+    animation: pulseGradient 10s ease-in-out infinite alternate;
+}
+
+@keyframes pulseGradient {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Container */
+.services .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* Services Grid */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
+    position: relative;
+}
+
+/* Service Card */
+.service-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 32px;
+    padding: 60px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Card Background Effects */
+.service-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        125deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.03) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+/* Premium Icon Style */
+.service-icon {
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 35px;
+    position: relative;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.service-icon::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(
+        135deg,
+        var(--primary-color) 0%,
+        rgba(203, 11, 46, 0.5) 100%
+    );
+    border-radius: 30px;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.service-icon i {
+    font-size: 48px;
+    background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    z-index: 2;
+    transition: all 0.6s ease;
+}
+
+/* Content Styling */
+.service-title {
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+    position: relative;
+}
+
+.service-card p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 18px;
+    line-height: 1.7;
+    margin: 0;
+    position: relative;
+}
+
+/* Premium Hover Effects */
+.service-card:hover {
+    transform: translateY(-15px);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.3),
+        0 0 30px rgba(203, 11, 46, 0.2);
+}
+
+.service-card:hover::before {
+    opacity: 1;
+}
+
+.service-card:hover .service-icon {
+    transform: scale(1.05);
+    background: rgba(203, 11, 46, 0.1);
+}
+
+.service-card:hover .service-icon::before {
+    opacity: 1;
+}
+
+.service-card:hover .service-icon i {
+    background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+    -webkit-background-clip: text;
+    transform: scale(1.1);
+}
+
+.service-card:hover p {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Enhanced Mobile Experience */
+@media (max-width: 768px) {
+    .services {
+        padding: 80px 0;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 0 16px;
+    }
+
+    .service-card {
+        padding: 40px 30px;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 400px;
+        border-radius: 24px;
+        transform: none !important;
+    }
+
+    .service-icon {
+        width: 100px;
+        height: 100px;
+        border-radius: 24px;
+        margin-bottom: 25px;
+    }
+
+    .service-icon i {
+        font-size: 40px;
+    }
+
+    .service-title {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    .service-card p {
+        font-size: 16px;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    /* Mobile Touch Feedback */
+    .service-card:active {
+        transform: scale(0.98) !important;
+        background: rgba(203, 11, 46, 0.08);
+        border-color: var(--primary-color);
+    }
+
+    .service-card:active .service-icon {
+        transform: scale(0.95);
+    }
+}
+
+/* Tablet Experience */
+@media (min-width: 769px) and (max-width: 1200px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+        padding: 0 30px;
+    }
+
+    .service-card {
+        padding: 50px 35px;
+    }
+}
+
+/* Animation Classes */
+.service-card {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: cardAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.service-card:nth-child(1) { animation-delay: 0.1s; }
+.service-card:nth-child(2) { animation-delay: 0.2s; }
+.service-card:nth-child(3) { animation-delay: 0.3s; }
+.service-card:nth-child(4) { animation-delay: 0.4s; }
+.service-card:nth-child(5) { animation-delay: 0.5s; }
+.service-card:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes cardAppear {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* High-Performance Displays */
+@media (min-resolution: 192dpi) {
+    .service-card {
+        border-width: 0.5px;
+    }
+    
+    .service-icon i {
+        -webkit-font-smoothing: antialiased;
+    }
+}
+
+/* Dark Mode Enhancements */
+@media (prefers-color-scheme: dark) {
+    .service-card {
+        background: rgba(255, 255, 255, 0.02);
+    }
+}
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -291,25 +570,6 @@
     text-align: center;
     font-size: 18px;
     margin-bottom: 50px;
-}
-/* Portfolio Section Base */
-.portfolio-showcase {
-    background: var(--primary-color);
-    padding: 120px 0;
-    position: relative;
-    overflow: hidden;
-}
-
-.portfolio-showcase::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        135deg,
-        rgba(0, 23, 79, 0.95) 0%,
-        rgba(203, 11, 46, 0.80) 100%
-    );
-    z-index: 1;
 }
 
 /* Container Structure */
@@ -361,46 +621,59 @@
     right: -10px;
 }
 
-/* Slider Container */
+/* Portfolio Section Base */
+.portfolio-showcase {
+    background: var(--primary-color);
+    padding: 120px 0;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    isolation: isolate;
+}
+
+.portfolio-showcase::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0, 23, 79, 0.95) 0%, rgba(203, 11, 46, 0.80) 100%);
+    z-index: 1;
+}
+
 .portfolio-slider-container {
+    position: relative;
+    width: 100%;
     margin: 0;
     padding: 60px 0;
     overflow: visible;
-    position: relative;
-}
-
-/* Track */
-.portfolio-track {
-    display: flex;
-    gap: 40px;
-    padding: 20px 0;
-    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform;
-    user-select: none;
-    touch-action: pan-y pinch-zoom;
-}
-
-/* Portfolio Items */
-.portfolio-item {
-    min-width: clamp(280px, calc(33.333% - 40px), 460px);
-    opacity: 0.4;
-    transform: scale(0.9);
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    filter: grayscale(0.6);
-    user-select: none;
-    -webkit-user-drag: none;
-    position: relative;
-}
-
-.portfolio-item.active {
-    opacity: 1;
-    transform: scale(1);
-    filter: grayscale(0);
     z-index: 2;
 }
 
-.portfolio-item.clone {
-    pointer-events: none;
+.portfolio-track {
+    display: flex;
+    position: relative;
+    width: 100%;
+    padding: 20px calc((100% - min(85vw, 400px)) / 2);
+    gap: 40px;
+    transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    will-change: transform;
+    touch-action: pan-y;
+    transform: translateX(0);
+    z-index: 40;
+}
+
+.portfolio-item {
+    flex: 0 0 min(85vw, 400px);
+    width: min(85vw, 400px);
+    position: relative;
+    transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    filter: grayscale(1);
+    scroll-snap-align: center;
+    user-select: none;
+}
+
+.portfolio-item.active {
+    transform: scale(1);
+    filter: grayscale(1);
 }
 
 .portfolio-item-inner {
@@ -409,14 +682,13 @@
     overflow: hidden;
     background: var(--secondary-color);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    transform-style: preserve-3d;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    aspect-ratio: 16/9;
 }
 
-/* Image Styles */
 .portfolio-image {
     position: relative;
-    aspect-ratio: 16/9;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
 }
 
@@ -424,103 +696,60 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
     backface-visibility: hidden;
+    transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
-/* Content Overlay */
 .portfolio-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        to bottom,
-        transparent 0%,
-        rgba(0, 0, 0, 0.7) 50%,
-        rgba(0, 0, 0, 0.9) 100%
-    );
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8));
     opacity: 0;
-    transition: opacity 0.6s ease;
-    -webkit-backdrop-filter: blur(4px);
-    backdrop-filter: blur(4px);
+    transition: opacity 0.4s ease;
 }
 
-/* Content Area */
 .portfolio-content {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     padding: 30px;
-    color: white;
-    transform: translateY(20px);
+    transform: translateY(10px);
     opacity: 0;
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.4s ease;
     z-index: 2;
-    max-height: calc(100% - 40px);
-    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.portfolio-category {
-    display: inline-block;
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    color: var(--accent-color);
-    background: rgba(0, 0, 0, 0.5);
-    padding: 4px 12px;
-    border-radius: 12px;
-    margin-bottom: 12px;
-    letter-spacing: 0.05em;
-}
-
-.portfolio-content h3 {
-    font-size: 1.5rem;
-    margin: 0 0 12px;
-    color: white;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    font-weight: 700;
-}
-
+/* Hide all text elements */
+.portfolio-category,
+.portfolio-content h3,
 .portfolio-content p {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin: 0 0 15px;
-    opacity: 0.9;
-    max-height: 4.8em;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 10px;
-    border-radius: 8px;
-    backdrop-filter: blur(4px);
+    display: none;
 }
 
-/* CTA Button */
 .portfolio-cta {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 20px;
+    justify-content: center;
+    padding: 12px 24px;
     background: var(--primary-color);
-    border-radius: 20px;
+    border-radius: 24px;
     color: white;
     font-weight: 500;
     opacity: 0;
     transform: translateY(10px);
     transition: all 0.3s ease;
     text-decoration: none;
+    backdrop-filter: blur(4px);
 }
 
 .portfolio-cta i {
-    font-size: 0.875rem;
-    transition: transform 0.3s ease;
-}
-
-/* Hover Effects */
-.portfolio-item:hover .portfolio-image img {
-    transform: scale(1.1);
+    font-size: 1rem;
+    margin-left: 8px;
 }
 
 .portfolio-item:hover .portfolio-overlay {
@@ -528,8 +757,8 @@
 }
 
 .portfolio-item:hover .portfolio-content {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
 }
 
 .portfolio-item:hover .portfolio-cta {
@@ -537,19 +766,15 @@
     transform: translateY(0);
 }
 
-.portfolio-item:hover .portfolio-cta i {
-    transform: translateX(5px);
-}
-
-/* Slider Controls */
 .slider-controls {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 24px;
-    margin-top: 60px;
-    position: relative;
-    z-index: 5;
+    margin-top: 40px;
+    z-index: 50;
+    pointer-events: none;
 }
 
 .slider-btn {
@@ -565,120 +790,115 @@
     justify-content: center;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     backdrop-filter: blur(10px);
-    position: relative;
-    z-index: 10;
-}
-
-.slider-btn::after {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    pointer-events: auto;
+    z-index: 60;
 }
 
 .slider-btn:hover {
-    transform: translateY(-2px);
     background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
 }
 
-.slider-btn:hover::after {
-    opacity: 1;
+.slider-btn:active {
+    transform: translateY(0);
 }
 
-.slider-btn svg {
-    width: 24px;
-    height: 24px;
-    transition: transform 0.3s ease;
-}
-
-.slider-btn:hover svg {
-    transform: scale(1.1);
-}
-
-/* Progress Bar */
 .slider-progress {
     width: 120px;
     height: 3px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 2px;
     overflow: hidden;
+    pointer-events: none;
 }
 
 .slider-progress-bar {
     height: 100%;
-    background: linear-gradient(
-        90deg,
-        var(--primary-color),
-        var(--accent-color)
-    );
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
     transition: width 0.3s ease;
 }
 
-/* Responsive Design */
-@media (max-width: 1200px) {
+/* Desktop Styles */
+@media (min-width: 1024px) {
+    .portfolio-track {
+        padding: 20px calc((100% - (400px * 3 + 80px)) / 2);
+        gap: 40px;
+    }
+
     .portfolio-item {
-        min-width: calc(50% - 30px);
-    }
-    
-    .portfolio-content h3 {
-        font-size: 1.25rem;
-    }
-    
-    .portfolio-content p {
-        font-size: 0.875rem;
+        flex: 0 0 400px;
+        width: 400px;
     }
 }
 
-@media (max-width: 768px) {
-    .portfolio-showcase {
-        padding: 80px 0;
+/* Tablet Styles */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .portfolio-track {
+        padding: 20px calc((100% - (400px * 2 + 40px)) / 2);
+        gap: 40px;
     }
 
     .portfolio-item {
-        min-width: 85vw;
+        flex: 0 0 400px;
+        width: 400px;
     }
-    
-    .portfolio-content {
-        padding: 20px;
-        transform: translateY(0);
-        opacity: 1;
-        background: linear-gradient(
-            to top,
-            rgba(0, 0, 0, 0.9) 0%,
-            rgba(0, 0, 0, 0.7) 70%,
-            transparent 100%
-        );
+}
+
+/* Mobile Enhancement */
+@media (max-width: 767px) {
+    .portfolio-track {
+        padding: 20px calc((100% - min(85vw, 400px)) / 2);
+        gap: 20px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
     }
-    
-    .portfolio-cta {
-        opacity: 1;
-        transform: none;
+
+    .portfolio-item {
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
     }
-    
+
     .slider-btn {
         width: 48px;
         height: 48px;
     }
 
-    .section-title {
-        margin-bottom: 60px;
+    .slider-controls {
+        bottom: -60px;
+    }
+
+    .portfolio-content {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .portfolio-item:hover .portfolio-cta,
+    .portfolio-item.active .portfolio-cta {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .portfolio-overlay {
+        background: linear-gradient(
+            to top,
+            rgba(0, 0, 0, 0.8) 0%,
+            rgba(0, 0, 0, 0.4) 50%,
+            transparent 100%
+        );
     }
 }
 
 /* Safari Fixes */
 @supports (-webkit-touch-callout: none) {
-    .portfolio-item {
-        -webkit-transform: translateZ(0);
+    .portfolio-track {
+        -webkit-overflow-scrolling: touch;
     }
     
     .portfolio-overlay {
         -webkit-backdrop-filter: blur(4px);
     }
 }
-   
+
 .section-title {
     text-align: center;
     color: white;
@@ -701,16 +921,7 @@
 }
 
 
-  /* Update the services section */
-        .services {
-            background-color: var(--secondary-color);
-            position: relative;
-            z-index: 1; /* Ensure the services section is above the hero gradient */
-        }
-        .features, .benefits, .services, .testimonials, .how-it-works, .team {
-            padding: 8rem 0;
-        }
-       
+
         .benefits, .testimonials, .team {
 background: var(--primary-color);
             color: var(--bg-color);
@@ -1313,42 +1524,14 @@ background-color: var(--secondary-color);
         .benefits .section-title, .testimonials .section-title, .team .section-title {
             color: var(--bg-color);
         }
-        .features-grid, .benefits-grid, .services-grid, .team-grid {
-            display: grid;
-            gap: 2rem;
-        }
-        .features-grid, .services-grid {
-            grid-template-columns: repeat(3, 1fr);
-        }
+       
         .benefits-grid {
             grid-template-columns: repeat(3, 1fr);
         }
         .team-grid {
             grid-template-columns: repeat(3, 1fr);
         }
-        .feature-card, .service-card {
-            background-color: var(--card-bg);
-            padding: 2rem;
-            border-radius: 15px;
-            text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border: 5px solid var(--primary-color);
-        }
-        .feature-card:hover, .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(44, 62, 80, 0.2);
-border: 10px solid var(--primary-color);
-        }
-        .feature-icon, .benefit-icon, .service-icon {
-            font-size: 3rem;
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
-        }
-        .feature-title, .benefit-title, .service-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
+        
         .benefit-card {
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 8px;
@@ -1831,15 +2014,7 @@ background: var(--primary-color);
             box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
         }
       
-      
-        @media (max-width: 1200px) {
-            .features-grid,
-            .benefits-grid,
-            .services-grid,
-            .team-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
+     
        @media (max-width: 768px) {
             .hero {
                 padding-left: 0;
@@ -2181,44 +2356,66 @@ background: var(--primary-color);
         </section>
         
 
-        <section id="services" class="services">
+<section id="services" class="services" aria-label="Our Web Design and Digital Services">
     <div class="container">
-        <h2 class="section-title">Services</h2>
+        <h2 class="section-title">What We Do Best</h2>
         <div class="services-grid">
-            <div class="service-card">
-                <i class="fas fa-laptop-code service-icon"></i>
-                <h3 class="service-title">Web Design & Development</h3>
-                <p>We make safe, strong, and attractive websites that are quick and easy to use. Perfect for any business wanting to improve their online presence with a professional and interesting site made just for you.</p>
+            <!-- Web Design Card -->
+            <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="service-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <h3 class="service-title">Custom Website Design</h3>
+                <p>Get a website that makes you proud. We build fast, reliable, and eye-catching websites that help your business grow online. Whether you need a simple business site or a full online platform, we'll create something that fits your style and works great for your customers.</p>
             </div>
-            <div class="service-card">
-                <i class="fas fa-mobile-alt service-icon"></i>
-                <h3 class="service-title">Mobile-Friendly Design</h3>
-                <p>We design awesome websites that work great on any device. Using a mobile-first method, each site adjusts perfectly, so your users have a smooth and fun experience whether they’re on a phone, tablet, or computer.</p>
+
+            <!-- Mobile Design Card -->
+            <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="service-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3 class="service-title">Mobile-Ready Websites</h3>
+                <p>Your website should work perfectly on every device. We make sure your site looks great and works smoothly on phones, tablets, and computers. No more pinching to zoom or hard-to-click buttons - just a smooth experience for all your visitors.</p>
             </div>
-            <div class="service-card">
-                <i class="fas fa-search service-icon"></i>
-                <h3 class="service-title">SEO<br>Optimization</h3>
-                <p>Boost your online presence and get more visitors to your website with our complete SEO plans. We use the latest methods to improve your site, helping it rank higher on search engines and making it easier for people to find your business.</p>
+
+            <!-- SEO Card -->
+            <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="service-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3 class="service-title">Local SEO</h3>
+                <p>Get found by more local customers. We help your website rank higher on Google and other search engines, making it easier for people in your area to find your business. Our SEO strategies are built specifically for local businesses like yours.</p>
             </div>
-            <div class="service-card">
-                <i class="fas fa-bullhorn service-icon"></i>
+
+            <!-- Digital Marketing Card -->
+            <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="service-icon">
+                    <i class="fas fa-bullhorn"></i>
+                </div>
                 <h3 class="service-title">Digital Marketing</h3>
-                <p>Create and carry out smart digital marketing plans to grow your brand. We aim to increase how much customers interact with you and turn them into buyers across all platforms, making sure your marketing reaches the right people and shows real results.</p>
+                <p>Turn more visitors into customers. We create marketing plans that actually work, helping you connect with the right people at the right time. From social media to email campaigns, we'll help you grow your business online without the confusion.</p>
             </div>
-            <div class="service-card">
-                <i class="fas fa-shopping-cart service-icon"></i>
-                <h3 class="service-title">E-Commerce Solutions</h3>
-                <p>Build strong, safe, and easy-to-use online stores that increase sales. Our solutions make shopping online better for your customers by providing easy navigation, secure payments, and smooth performance to help your business grow.</p>
+
+            <!-- E-commerce Card -->
+            <div class="service-card" data-aos="fade-up" data-aos-delay="500">
+                <div class="service-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <h3 class="service-title">Online Stores</h3>
+                <p>Start selling online with confidence. We build secure, easy-to-use online stores that your customers will love. From product listings to checkout, we make sure everything works smoothly so you can focus on growing your business.</p>
             </div>
-            <div class="service-card">
-                <i class="fas fa-chart-bar service-icon"></i>
-                <h3 class="service-title">Data Analytics</h3>
-                <p>Use the power of data with our top-notch analytics solutions. We give you useful insights that help you make smart business choices and plans, helping you understand your market, improve your operations, and reach your company’s goals.</p>
+
+            <!-- Analytics Card -->
+            <div class="service-card" data-aos="fade-up" data-aos-delay="600">
+                <div class="service-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <h3 class="service-title">Business Growth Tools</h3>
+                <p>Make smarter business decisions with real data. We set up tools that show you exactly how your website is performing and what your customers want. Get clear, useful insights that help you grow your business, without the technical headaches.</p>
             </div>
         </div>
     </div>
-</section>
-<section class="trust-badges-section">
+</section><section class="trust-badges-section">
     <div class="container">
         <div class="trust-badges-container">
             <div class="trust-badge">
@@ -2715,144 +2912,190 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Portfolio Slider
-    class PortfolioSlider {
-        constructor() {
-            this.container = document.querySelector('.portfolio-showcase');
-            this.track = this.container?.querySelector('.portfolio-track');
-            this.items = this.track?.querySelectorAll('.portfolio-item');
-            this.prevBtn = this.container?.querySelector('.prev-btn');
-            this.nextBtn = this.container?.querySelector('.next-btn');
-            this.progressBar = this.container?.querySelector('.slider-progress-bar');
+class PortfolioSlider {
+    constructor() {
+        this.container = document.querySelector('.portfolio-showcase');
+        this.track = this.container?.querySelector('.portfolio-track');
+        this.items = Array.from(this.track?.querySelectorAll('.portfolio-item') || []);
+        this.prevBtn = this.container?.querySelector('.prev-btn');
+        this.nextBtn = this.container?.querySelector('.next-btn');
+        this.progressBar = this.container?.querySelector('.slider-progress-bar');
+        
+        if (!this.track || !this.items.length) return;
+        
+        this.currentIndex = 0;
+        this.itemWidth = 0;
+        this.isAnimating = false;
+        this.isDragging = false;
+        this.startPos = 0;
+        this.currentTranslate = 0;
+        this.previousTranslate = 0;
+        this.isMobile = window.innerWidth < 768;
+        
+        this.init();
+    }
 
-            if (!this.track || !this.items.length) return;
+    init() {
+        this.calculateDimensions();
+        this.setupInfiniteLoop();
+        this.bindEvents();
+        this.updateSlider(true);
+    }
 
-            this.currentIndex = 0;
-            this.isAnimating = false;
-            this.slideWidth = this.calculateSlideWidth();
+    calculateDimensions() {
+        const containerWidth = this.container.offsetWidth;
+        this.itemWidth = this.isMobile ? 
+            Math.min(containerWidth * 0.85, 400) : 
+            400;
+        
+        this.items.forEach(item => {
+            item.style.width = `${this.itemWidth}px`;
+        });
 
-            this.setupSlider();
-            this.bindEvents();
-            this.startAutoplay();
-        }
-
-        calculateSlideWidth() {
-            return window.innerWidth > 768 ? 
-                this.container.offsetWidth * 0.33 : 
-                this.container.offsetWidth * 0.85;
-        }
-
-        setupSlider() {
-            // Clone first and last slides
-            const firstClone = this.items[0].cloneNode(true);
-            const lastClone = this.items[this.items.length - 1].cloneNode(true);
-            
-            this.track.appendChild(firstClone);
-            this.track.insertBefore(lastClone, this.items[0]);
-            
-            this.items = this.track.querySelectorAll('.portfolio-item');
-            this.currentIndex = 1;
-
-            this.items.forEach(item => {
-                item.style.width = `${this.slideWidth}px`;
-            });
-
-            this.track.style.transform = `translateX(-${this.slideWidth}px)`;
-        }
-
-        bindEvents() {
-            this.prevBtn?.addEventListener('click', () => this.slide('prev'));
-            this.nextBtn?.addEventListener('click', () => this.slide('next'));
-
-            // Touch events
-            let startX = 0;
-            let isDragging = false;
-
-            this.track.addEventListener('touchstart', e => {
-                startX = e.touches[0].clientX;
-                isDragging = true;
-                this.stopAutoplay();
-            }, { passive: true });
-
-            this.track.addEventListener('touchmove', e => {
-                if (!isDragging) return;
-                const currentX = e.touches[0].clientX;
-                const diff = startX - currentX;
-
-                if (Math.abs(diff) > 50) {
-                    this.slide(diff > 0 ? 'next' : 'prev');
-                    isDragging = false;
-                }
-            }, { passive: true });
-
-            this.track.addEventListener('touchend', () => {
-                isDragging = false;
-                this.startAutoplay();
-            });
-
-            // Transition end
-            this.track.addEventListener('transitionend', () => {
-                if (this.currentIndex === 0) {
-                    this.track.style.transition = 'none';
-                    this.currentIndex = this.items.length - 2;
-                    this.track.style.transform = `translateX(-${this.currentIndex * this.slideWidth}px)`;
-                }
-                if (this.currentIndex === this.items.length - 1) {
-                    this.track.style.transition = 'none';
-                    this.currentIndex = 1;
-                    this.track.style.transform = `translateX(-${this.currentIndex * this.slideWidth}px)`;
-                }
-                this.isAnimating = false;
-            });
-
-            // Window resize
-            window.addEventListener('resize', () => {
-                this.slideWidth = this.calculateSlideWidth();
-                this.items.forEach(item => {
-                    item.style.width = `${this.slideWidth}px`;
-                });
-                this.track.style.transform = `translateX(-${this.currentIndex * this.slideWidth}px)`;
-            });
-        }
-
-        slide(direction) {
-            if (this.isAnimating) return;
-            this.isAnimating = true;
-            this.stopAutoplay();
-
-            this.track.style.transition = 'transform 0.5s ease-in-out';
-            if (direction === 'next') {
-                this.currentIndex++;
-            } else {
-                this.currentIndex--;
-            }
-            
-            this.track.style.transform = `translateX(-${this.currentIndex * this.slideWidth}px)`;
-            this.updateProgress();
-            this.startAutoplay();
-        }
-
-        updateProgress() {
-            if (!this.progressBar) return;
-            const progress = ((this.currentIndex - 1) / (this.items.length - 3)) * 100;
-            this.progressBar.style.width = `${progress}%`;
-        }
-
-        startAutoplay(interval = 5000) {
-            this.stopAutoplay();
-            this.autoplayInterval = setInterval(() => {
-                if (!document.hidden && !this.isAnimating) {
-                    this.slide('next');
-                }
-            }, interval);
-        }
-
-        stopAutoplay() {
-            if (this.autoplayInterval) {
-                clearInterval(this.autoplayInterval);
-                this.autoplayInterval = null;
-            }
+        // Center first slide
+        if (this.isMobile) {
+            const offset = (containerWidth - this.itemWidth) / 2;
+            this.track.style.paddingLeft = `${offset}px`;
+            this.track.style.paddingRight = `${offset}px`;
         }
     }
+
+    setupInfiniteLoop() {
+        const firstClone = this.items[0].cloneNode(true);
+        const lastClone = this.items[this.items.length - 1].cloneNode(true);
+        const secondClone = this.items[1]?.cloneNode(true);
+        const secondLastClone = this.items[this.items.length - 2]?.cloneNode(true);
+
+        [firstClone, lastClone, secondClone, secondLastClone].forEach(clone => {
+            if (clone) {
+                clone.setAttribute('aria-hidden', 'true');
+                clone.classList.add('clone');
+            }
+        });
+
+        this.track.appendChild(firstClone);
+        secondClone && this.track.appendChild(secondClone);
+        this.track.insertBefore(lastClone, this.items[0]);
+        secondLastClone && this.track.insertBefore(secondLastClone, this.items[0]);
+
+        this.items = Array.from(this.track.querySelectorAll('.portfolio-item'));
+        this.currentIndex = 2;
+    }
+
+    updateSlider(immediate = false) {
+        const gap = this.isMobile ? 20 : 40;
+        const offset = -this.currentIndex * (this.itemWidth + gap);
+        
+        this.track.style.transition = immediate ? 'none' : 'transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)';
+        this.track.style.transform = `translateX(${offset}px)`;
+        
+        this.items.forEach((item, index) => {
+            item.classList.toggle('active', index === this.currentIndex);
+        });
+        
+        this.updateProgress();
+    }
+
+    updateProgress() {
+        if (!this.progressBar) return;
+        const total = this.items.length - 4;
+        const current = this.currentIndex - 2;
+        const progress = (current / total) * 100;
+        this.progressBar.style.width = `${progress}%`;
+    }
+
+    slide(direction) {
+        if (this.isAnimating) return;
+        this.isAnimating = true;
+
+        this.currentIndex += direction === 'next' ? 1 : -1;
+        this.updateSlider();
+
+        this.track.addEventListener('transitionend', () => {
+            this.isAnimating = false;
+            
+            if (this.currentIndex <= 1) {
+                this.currentIndex = this.items.length - 4;
+                this.updateSlider(true);
+            } else if (this.currentIndex >= this.items.length - 2) {
+                this.currentIndex = 2;
+                this.updateSlider(true);
+            }
+        }, { once: true });
+    }
+
+    bindEvents() {
+        // Button Controls
+        this.prevBtn?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.slide('prev');
+        });
+
+        this.nextBtn?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.slide('next');
+        });
+
+        // Touch Events
+        let startX = 0;
+        let isDragging = false;
+
+        const handleStart = (e) => {
+            startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+            isDragging = true;
+            this.track.style.cursor = 'grabbing';
+        };
+
+        const handleMove = (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            
+            const currentX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+            const diff = currentX - startX;
+            
+            if (Math.abs(diff) > 50) {
+                this.slide(diff > 0 ? 'prev' : 'next');
+                isDragging = false;
+                this.track.style.cursor = '';
+            }
+        };
+
+        const handleEnd = () => {
+            isDragging = false;
+            this.track.style.cursor = '';
+        };
+
+        this.track.addEventListener('touchstart', handleStart, { passive: true });
+        this.track.addEventListener('touchmove', handleMove, { passive: false });
+        this.track.addEventListener('touchend', handleEnd);
+        
+        if (!this.isMobile) {
+            this.track.addEventListener('mousedown', handleStart);
+            window.addEventListener('mousemove', handleMove);
+            window.addEventListener('mouseup', handleEnd);
+        }
+
+        // Resize Handler
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                this.isMobile = window.innerWidth < 768;
+                this.calculateDimensions();
+                this.updateSlider(true);
+            }, 250);
+        });
+    }
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    new PortfolioSlider();
+});
+// Initialize on DOM load
+document.addEventListener('DOMContentLoaded', () => {
+    new PortfolioSlider();
+});
 
     // Testimonial Slider
     class TestimonialSlider {
