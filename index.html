@@ -2451,6 +2451,42 @@ background: var(--primary-color);
         font-size: 1.1rem;
     }
 }
+
+/* Mobile-specific fixes */
+@media (max-width: 768px) {
+    /* Prevent horizontal scroll on mobile */
+    .hero-content {
+        width: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
+        margin: 0;
+    }
+    
+    /* Fix grid layouts */
+    .services-grid,
+    .pricing-grid,
+    .benefits-grid,
+    .team-grid {
+        width: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
+        margin: 0;
+    }
+    
+    /* Fix contact section */
+    .contact-wrapper {
+        width: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
+    }
+    
+    /* Ensure footer stays within bounds */
+    .footer-grid {
+        width: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
+    }
+}
     </style>
 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 </head>
