@@ -2451,6 +2451,37 @@ background: var(--primary-color);
         font-size: 1.1rem;
     }
 }
+/* Add these styles immediately after your existing CSS reset */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
+}
+
+/* Update container styles */
+.container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* Ensure all sections respect viewport boundaries */
+section {
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
+}
+
+/* Fix portfolio track overflow */
+.portfolio-track {
+    width: 100%;
+    overflow: visible;
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+}
 
 /* Mobile-specific fixes */
 @media (max-width: 768px) {
@@ -2487,7 +2518,161 @@ background: var(--primary-color);
         box-sizing: border-box;
     }
 }
-    </style>
+    /* Mobile Styles for CTA, Footer, and Team sections */
+@media (max-width: 768px) {
+    /* CTA Section Mobile Optimization */
+    .cta {
+        padding: 4rem 0;
+        text-align: center;
+    }
+
+    .cta h2 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        padding: 0 20px;
+    }
+
+    /* Footer Mobile Optimization */
+    footer {
+        padding: 3rem 0 1.5rem;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .footer-section {
+        padding: 0 20px;
+    }
+
+    .footer-section h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .footer-section p {
+        font-size: 1rem;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .footer-links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-links li {
+        margin-bottom: 0.75rem;
+    }
+
+    .social-links {
+        justify-content: center;
+        margin-top: 1rem;
+    }
+
+    .social-links a {
+        font-size: 1.75rem;
+        padding: 0.5rem;
+    }
+
+    .footer-bottom {
+        margin-top: 2rem;
+        padding: 1.5rem 20px 0;
+        font-size: 0.9rem;
+    }
+
+    /* Team Section Mobile Optimization */
+    .team-container {
+        flex-direction: column;
+        gap: 3rem;
+        padding: 1rem 20px;
+    }
+
+    .team-member {
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto;
+    }
+
+    .team-member img {
+        width: 180px;
+        height: 180px;
+        border-width: 3px;
+    }
+
+    .team-member-name {
+        font-size: 1.3rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .team-member-role {
+        font-size: 0.9rem;
+    }
+
+    /* Touch Interactions */
+    .team-member:active img {
+        transform: scale(0.98);
+        transition: transform 0.2s ease;
+    }
+
+    .social-links a:active {
+        transform: scale(0.9);
+        transition: transform 0.2s ease;
+    }
+
+    .footer-links a:active {
+        opacity: 0.7;
+        transition: opacity 0.2s ease;
+    }
+}
+
+/* Small Mobile Devices */
+@media (max-width: 480px) {
+    .cta h2 {
+        font-size: 1.75rem;
+    }
+
+    .team-member img {
+        width: 150px;
+        height: 150px;
+    }
+
+    .footer-section h3 {
+        font-size: 1.3rem;
+    }
+
+    .social-links {
+        gap: 0.75rem;
+    }
+
+    .social-links a {
+        font-size: 1.5rem;
+    }
+}
+
+/* Handle Landscape Mode */
+@media (max-width: 768px) and (orientation: landscape) {
+    .team-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 2rem;
+    }
+
+    .team-member {
+        flex: 0 1 calc(50% - 2rem);
+        max-width: 220px;
+    }
+
+    .team-member img {
+        width: 140px;
+        height: 140px;
+    }
+}</style>
 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 </head>
 <body>
