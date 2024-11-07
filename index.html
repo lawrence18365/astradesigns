@@ -99,77 +99,179 @@
             text-decoration: none;
             text-transform: uppercase;
             letter-spacing: 2px;
-        }
-.loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--primary-color);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            opacity: 1;
-            transition: opacity 0.3s ease-out;
-        }
-
-        .loading-screen.fade-out {
-            opacity: 0;
-        }
-
-        .logo-text {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 600;
-            color: white;
-            letter-spacing: 4px;
-            margin-bottom: 40px;
-        }
-
-        .loading-indicator {
-            width: 60px;
-            height: 60px;
-            position: relative;
-        }
-
-        .loading-circle {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .progress-circle {
-         position: absolute;
+        }/* Reset for loader */
+html.loading,
+body.loading {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: fixed;
     width: 100%;
     height: 100%;
+}
+
+/* Loading Screen Container */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Fallback */
+    height: 100dvh; /* Modern mobile viewport height */
+    background: var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+    overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+}
+
+/* Content wrapper for better centering */
+.loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    transform: translateY(-5%); /* Slight offset for visual balance */
+}
+
+/* Logo Text */
+.logo-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(2.5rem, 10vw, 3.5rem);
+    font-weight: 600;
+    color: white;
+    letter-spacing: clamp(2px, 1vw, 4px);
+    margin-bottom: clamp(20px, 5vh, 40px);
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease forwards 0.2s;
+}
+
+/* Loading Indicator */
+.loading-indicator {
+    width: clamp(40px, 15vw, 60px);
+    height: clamp(40px, 15vw, 60px);
+    position: relative;
+    opacity: 0;
+    animation: fadeIn 0.6s ease forwards 0.4s;
+}
+
+/* Loading Circle */
+.loading-circle {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    transform: translateZ(0);
+}
+
+/* Progress Circle */
+.progress-circle {
+    position: absolute;
+    inset: 0;
     border-radius: 50%;
     border: 2px solid transparent;
-    border-left-color: var(--primary-color);
+    border-left-color: white; /* Changed to white for better visibility */
     transform-origin: center;
-    animation: loadProgress 1.5s linear infinite;
-        }
+    animation: loadProgress 1.2s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+    will-change: transform;
+}
 
-        .loading-text {
-            color: rgba(255, 255, 255, 0.8);
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
-            margin-top: 30px;
-            font-weight: 300;
-        }
+/* Loading Text */
+.loading-text {
+    color: rgba(255, 255, 255, 0.9);
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+    margin-top: clamp(20px, 5vh, 30px);
+    font-weight: 300;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeInDown 0.6s ease forwards 0.6s;
+}
 
-        @keyframes loadProgress {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
+/* Hide loader */
+.loading-screen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes loadProgress {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* iOS Safari Fixes */
+@supports (-webkit-touch-callout: none) {
+    .loading-screen {
+        height: -webkit-fill-available;
+    }
+}
+
+/* Landscape Mode Optimization */
+@media (max-height: 500px) and (orientation: landscape) {
+    .loader-content {
+        transform: translateY(0);
+        flex-direction: row;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .logo-text {
+        margin-bottom: 0;
+        font-size: clamp(2rem, 6vw, 2.5rem);
+    }
+
+    .loading-text {
+        display: none; /* Hide text in landscape for better spacing */
+    }
+}
         .nav-links {
             display: flex;
             gap: 2rem;
@@ -2678,6 +2780,7 @@ section {
 <body>
     <header>
 <div class="loading-screen">
+    <div class="loader-content">
         <div class="logo-text">ASTRA</div>
         <div class="loading-indicator">
             <div class="loading-circle"></div>
@@ -2685,6 +2788,7 @@ section {
         </div>
         <div class="loading-text">Almost there...</div>
     </div>
+</div>
 
         <div class="container">
             <nav>
@@ -3187,427 +3291,91 @@ section {
         <i class="fas fa-arrow-up"></i>
     </div>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Loading Screen
-    class LoadingScreen {
-        constructor() {
-            this.mainContent = document.querySelector('main');
-            this.loadingScreen = document.querySelector('.loading-screen');
-            this.initialized = false;
-
-            this.mainContent.style.display = 'none';
-            setTimeout(() => this.hideLoadingScreen(), 2000);
-        }
-
-        hideLoadingScreen() {
-            if (this.initialized) return;
-            this.initialized = true;
-
-            this.loadingScreen.style.opacity = '0';
-            setTimeout(() => {
-                this.loadingScreen.style.display = 'none';
-                this.mainContent.style.display = 'block';
-                this.mainContent.style.opacity = '1';
-                document.body.style.overflow = 'visible';
-                this.initializeSite();
-            }, 500);
-        }
-
-        initializeSite() {
-            new SiteController();
-        }
-    }
-
-    // Main Site Controller
-    class SiteController {
-        constructor() {
-            this.initializePortfolio();
-            this.initializeTestimonials();
-            this.initializeHeader();
-            this.initializeScrolling();
-            if (typeof AOS !== 'undefined') {
-                AOS.init({
-                    duration: 1000,
-                    once: true,
-                    offset: 50
-                });
-            }
-        }
-
-        initializeHeader() {
-            const header = document.querySelector('header');
-            if (header) {
-                window.addEventListener('scroll', () => {
-                    header.classList.toggle('scrolled', window.scrollY > 50);
-                });
-            }
-        }
-
-        initializeScrolling() {
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const target = document.querySelector(anchor.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
-            });
-        }
-
-        initializePortfolio() {
-            new PortfolioSlider();
-        }
-
-        initializeTestimonials() {
-            new TestimonialSlider();
-        }
-    }
-
-    // Portfolio Slider
-class PortfolioSlider {
+// Loader Management
+class LoaderManager {
     constructor() {
-        this.container = document.querySelector('.portfolio-showcase');
-        this.track = this.container?.querySelector('.portfolio-track');
-        this.items = Array.from(this.track?.querySelectorAll('.portfolio-item') || []);
-        this.prevBtn = this.container?.querySelector('.prev-btn');
-        this.nextBtn = this.container?.querySelector('.next-btn');
-        this.progressBar = this.container?.querySelector('.slider-progress-bar');
-        
-        if (!this.track || !this.items.length) return;
-        
-        this.currentIndex = 0;
-        this.itemWidth = 0;
-        this.isAnimating = false;
-        this.isDragging = false;
-        this.startPos = 0;
-        this.currentTranslate = 0;
-        this.previousTranslate = 0;
-        this.isMobile = window.innerWidth < 768;
-        
+        this.html = document.documentElement;
+        this.body = document.body;
+        this.loader = document.querySelector('.loading-screen');
+        this.mainContent = document.querySelector('main');
+        this.initialized = false;
+
         this.init();
     }
 
     init() {
-        this.calculateDimensions();
-        this.setupInfiniteLoop();
+        // Set initial states
+        this.html.classList.add('loading');
+        this.body.classList.add('loading');
+        this.mainContent.style.opacity = '0';
+        this.mainContent.style.display = 'none';
+
+        // Bind events
         this.bindEvents();
-        this.updateSlider(true);
-    }
 
-    calculateDimensions() {
-        const containerWidth = this.container.offsetWidth;
-        this.itemWidth = this.isMobile ? 
-            Math.min(containerWidth * 0.85, 400) : 
-            400;
-        
-        this.items.forEach(item => {
-            item.style.width = `${this.itemWidth}px`;
-        });
-
-        // Center first slide
-        if (this.isMobile) {
-            const offset = (containerWidth - this.itemWidth) / 2;
-            this.track.style.paddingLeft = `${offset}px`;
-            this.track.style.paddingRight = `${offset}px`;
-        }
-    }
-
-    setupInfiniteLoop() {
-        const firstClone = this.items[0].cloneNode(true);
-        const lastClone = this.items[this.items.length - 1].cloneNode(true);
-        const secondClone = this.items[1]?.cloneNode(true);
-        const secondLastClone = this.items[this.items.length - 2]?.cloneNode(true);
-
-        [firstClone, lastClone, secondClone, secondLastClone].forEach(clone => {
-            if (clone) {
-                clone.setAttribute('aria-hidden', 'true');
-                clone.classList.add('clone');
-            }
-        });
-
-        this.track.appendChild(firstClone);
-        secondClone && this.track.appendChild(secondClone);
-        this.track.insertBefore(lastClone, this.items[0]);
-        secondLastClone && this.track.insertBefore(secondLastClone, this.items[0]);
-
-        this.items = Array.from(this.track.querySelectorAll('.portfolio-item'));
-        this.currentIndex = 2;
-    }
-
-    updateSlider(immediate = false) {
-        const gap = this.isMobile ? 20 : 40;
-        const offset = -this.currentIndex * (this.itemWidth + gap);
-        
-        this.track.style.transition = immediate ? 'none' : 'transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)';
-        this.track.style.transform = `translateX(${offset}px)`;
-        
-        this.items.forEach((item, index) => {
-            item.classList.toggle('active', index === this.currentIndex);
-        });
-        
-        this.updateProgress();
-    }
-
-    updateProgress() {
-        if (!this.progressBar) return;
-        const total = this.items.length - 4;
-        const current = this.currentIndex - 2;
-        const progress = (current / total) * 100;
-        this.progressBar.style.width = `${progress}%`;
-    }
-
-    slide(direction) {
-        if (this.isAnimating) return;
-        this.isAnimating = true;
-
-        this.currentIndex += direction === 'next' ? 1 : -1;
-        this.updateSlider();
-
-        this.track.addEventListener('transitionend', () => {
-            this.isAnimating = false;
-            
-            if (this.currentIndex <= 1) {
-                this.currentIndex = this.items.length - 4;
-                this.updateSlider(true);
-            } else if (this.currentIndex >= this.items.length - 2) {
-                this.currentIndex = 2;
-                this.updateSlider(true);
-            }
-        }, { once: true });
+        // Set timeout for loader
+        this.setLoaderTimeout();
     }
 
     bindEvents() {
-        // Button Controls
-        this.prevBtn?.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.slide('prev');
+        // Handle page load
+        window.addEventListener('load', () => {
+            this.hideLoader();
         });
 
-        this.nextBtn?.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.slide('next');
-        });
-
-        // Touch Events
-        let startX = 0;
-        let isDragging = false;
-
-        const handleStart = (e) => {
-            startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-            isDragging = true;
-            this.track.style.cursor = 'grabbing';
-        };
-
-        const handleMove = (e) => {
-            if (!isDragging) return;
-            e.preventDefault();
-            
-            const currentX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-            const diff = currentX - startX;
-            
-            if (Math.abs(diff) > 50) {
-                this.slide(diff > 0 ? 'prev' : 'next');
-                isDragging = false;
-                this.track.style.cursor = '';
+        // Handle visibility change
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && !this.initialized) {
+                this.hideLoader();
             }
-        };
-
-        const handleEnd = () => {
-            isDragging = false;
-            this.track.style.cursor = '';
-        };
-
-        this.track.addEventListener('touchstart', handleStart, { passive: true });
-        this.track.addEventListener('touchmove', handleMove, { passive: false });
-        this.track.addEventListener('touchend', handleEnd);
-        
-        if (!this.isMobile) {
-            this.track.addEventListener('mousedown', handleStart);
-            window.addEventListener('mousemove', handleMove);
-            window.addEventListener('mouseup', handleEnd);
-        }
-
-        // Resize Handler
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                this.isMobile = window.innerWidth < 768;
-                this.calculateDimensions();
-                this.updateSlider(true);
-            }, 250);
         });
+    }
+
+    setLoaderTimeout() {
+        // Fallback timeout
+        setTimeout(() => {
+            if (!this.initialized) {
+                this.hideLoader();
+            }
+        }, 3000);
+    }
+
+    hideLoader() {
+        if (this.initialized) return;
+        this.initialized = true;
+
+        // Fade out loader
+        requestAnimationFrame(() => {
+            this.loader.classList.add('fade-out');
+
+            setTimeout(() => {
+                // Remove loading classes
+                this.html.classList.remove('loading');
+                this.body.classList.remove('loading');
+
+                // Show main content
+                this.mainContent.style.display = 'block';
+                requestAnimationFrame(() => {
+                    this.mainContent.style.opacity = '1';
+                });
+
+                // Initialize site functionality
+                this.initializeSite();
+            }, 500);
+        });
+    }
+
+    initializeSite() {
+        // Initialize your SiteController here
+        new SiteController();
     }
 }
 
-// Initialize
+// Initialize loader when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    new PortfolioSlider();
-});
-// Initialize on DOM load
-document.addEventListener('DOMContentLoaded', () => {
-    new PortfolioSlider();
+    new LoaderManager();
 });
 
-    // Testimonial Slider
-    class TestimonialSlider {
-        constructor() {
-            this.slider = document.querySelector('.testimonial-slider');
-            this.track = document.querySelector('.testimonial-track');
-            this.cards = Array.from(document.querySelectorAll('.testimonial-card'));
-            this.prevBtn = document.querySelector('.nav-button.prev');
-            this.nextBtn = document.querySelector('.nav-button.next');
-            this.dots = document.querySelector('.testimonial-dots');
-
-            if (!this.slider || !this.cards.length) return;
-
-            this.currentIndex = 0;
-            this.isAnimating = false;
-
-            this.init();
-        }
-
-        init() {
-            this.createDots();
-            this.updateActiveStates();
-            this.bindEvents();
-            this.startAutoplay();
-        }
-
-        createDots() {
-            if (!this.dots) return;
-
-            this.cards.forEach((_, index) => {
-                const dot = document.createElement('button');
-                dot.className = `dot ${index === 0 ? 'active' : ''}`;
-                dot.addEventListener('click', () => this.goToSlide(index));
-                this.dots.appendChild(dot);
-            });
-        }
-
-        updateActiveStates() {
-            this.cards.forEach((card, index) => {
-                const isActive = index === this.currentIndex;
-                card.classList.toggle('active', isActive);
-                card.setAttribute('aria-hidden', !isActive);
-            });
-
-            if (this.dots) {
-                this.dots.querySelectorAll('.dot').forEach((dot, index) => {
-                    dot.classList.toggle('active', index === this.currentIndex);
-                });
-            }
-        }
-
-        bindEvents() {
-            this.prevBtn?.addEventListener('click', () => this.slide('prev'));
-            this.nextBtn?.addEventListener('click', () => this.slide('next'));
-
-            // Touch support
-            let touchStartX = 0;
-            this.slider.addEventListener('touchstart', e => {
-                touchStartX = e.touches[0].clientX;
-                this.stopAutoplay();
-            }, { passive: true });
-
-            this.slider.addEventListener('touchend', e => {
-                const touchEndX = e.changedTouches[0].clientX;
-                const diff = touchStartX - touchEndX;
-
-                if (Math.abs(diff) > 50) {
-                    this.slide(diff > 0 ? 'next' : 'prev');
-                }
-                this.startAutoplay();
-            }, { passive: true });
-
-            this.slider.addEventListener('mouseenter', () => this.stopAutoplay());
-            this.slider.addEventListener('mouseleave', () => this.startAutoplay());
-        }
-
-        slide(direction) {
-            if (this.isAnimating) return;
-            this.isAnimating = true;
-
-            const nextIndex = direction === 'next'
-                ? (this.currentIndex + 1) % this.cards.length
-                : (this.currentIndex - 1 + this.cards.length) % this.cards.length;
-
-            this.goToSlide(nextIndex);
-        }
-
-        goToSlide(index) {
-            if (this.isAnimating || index === this.currentIndex) return;
-            this.isAnimating = true;
-
-            const currentSlide = this.cards[this.currentIndex];
-            const nextSlide = this.cards[index];
-            const direction = index > this.currentIndex ? 'next' : 'prev';
-
-            currentSlide.classList.add(direction === 'next' ? 'slide-out-left' : 'slide-out-right');
-            nextSlide.classList.add(direction === 'next' ? 'slide-in-right' : 'slide-in-left');
-
-            setTimeout(() => {
-                this.currentIndex = index;
-                this.updateActiveStates();
-                this.isAnimating = false;
-
-                currentSlide.classList.remove('slide-out-left', 'slide-out-right');
-                nextSlide.classList.remove('slide-in-right', 'slide-in-left');
-            }, 500);
-        }
-
-        startAutoplay(interval = 5000) {
-            this.stopAutoplay();
-            this.autoplayInterval = setInterval(() => {
-                if (!document.hidden && !this.isAnimating) {
-                    this.slide('next');
-                }
-            }, interval);
-        }
-
-        stopAutoplay() {
-            if (this.autoplayInterval) {
-                clearInterval(this.autoplayInterval);
-                this.autoplayInterval = null;
-            }
-        }
-    }
-
-    // Initialize everything
-    try {
-        new LoadingScreen();
-    } catch (error) {
-        console.error('Error initializing site:', error);
-        new SiteController();
-    }
-
-    // Handle visibility change
-    document.addEventListener('visibilitychange', () => {
-        const sliders = [
-            document.querySelector('.portfolio-slider'),
-            document.querySelector('.testimonial-slider')
-        ];
-
-        sliders.forEach(slider => {
-            if (slider?.sliderInstance) {
-                if (document.hidden) {
-                    slider.sliderInstance.stopAutoplay();
-                } else {
-                    slider.sliderInstance.startAutoplay();
-                }
-            }
-        });
-    });
-
-    // Handle page load
-    window.addEventListener('load', () => {
-        document.body.classList.add('loaded');
-    });
-});
 document.addEventListener('DOMContentLoaded', function() {
     class TestimonialSlider {
         constructor() {
