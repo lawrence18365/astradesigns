@@ -3209,34 +3209,7 @@ section {
                         </div>
                     </div>
                 </div>
-<article class="testimonial-card">
-    <div class="quote-icon">
-        <i class="fas fa-quote-left" aria-hidden="true"></i>
-    </div>
-    <blockquote class="testimonial-text">
-        "Astra Designs were complete professionals. From the first meeting to completion of the website Haylee and Lawrence were efficient, catered to my desired design/style and competitively priced. Would definitely recommend them. Great job!"
-    </blockquote>
-    <div class="testimonial-footer">
-        <div class="testimonial-meta">
-            <div class="testimonial-author">
-                <div class="author-info">
-                    <h4>Thanousay Oudomvilay</h4>
-                    <p>Hedgehog Trees & Trimming</p>
-                </div>
-            </div>
-            <div class="testimonial-details">
-                <div class="testimonial-rating" aria-label="5 out of 5 stars">
-                    <i class="fas fa-star" aria-hidden="true"></i>
-                    <i class="fas fa-star" aria-hidden="true"></i>
-                    <i class="fas fa-star" aria-hidden="true"></i>
-                    <i class="fas fa-star" aria-hidden="true"></i>
-                    <i class="fas fa-star" aria-hidden="true"></i>
-                </div>
-                <span class="testimonial-service">Web Design</span>
-            </div>
-        </div>
-    </div>
-</article>
+
                 <!-- Testimonial 2 -->
                 <div class="testimonial-card" data-index="1">
                     <div class="testimonial-inner">
@@ -3645,25 +3618,23 @@ class SalesPopup {
     constructor() {
         this.popup = document.getElementById('salesPopup');
         this.form = document.getElementById('leadForm');
-        this.closeBtn = this.popup.querySelector('.modal-close');
-        this.declineBtn = this.popup.querySelector('.modal-decline');
+        this.closeBtn = this.popup.querySelector('.modal-close'); // Fixed this line
+        this.declineBtn = this.popup.querySelector('.modal-decline'); // Fixed this line
         this.shown = false;
+        this.webhookUrl = 'https://hook.eu2.make.com/5kcyabr3rktcvo53ix4526serwfftr0c';
         
         this.init();
     }
 
     init() {
-        // Show popup after 5 seconds if not shown before
         if (!this.getCookie('popupShown')) {
             setTimeout(() => this.showPopup(), 5000);
         }
 
-        // Event listeners
         this.closeBtn.addEventListener('click', () => this.hidePopup());
         this.declineBtn.addEventListener('click', () => this.hidePopup());
         this.form.addEventListener('submit', (e) => this.handleSubmit(e));
 
-        // Exit intent detection
         document.addEventListener('mouseleave', (e) => {
             if (!this.shown && !this.getCookie('popupShown') && e.clientY <= 0) {
                 this.showPopup();
@@ -3683,23 +3654,65 @@ class SalesPopup {
         this.setCookie('popupShown', 'true', 7);
     }
 
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
         const email = this.form.querySelector('input[type="email"]').value;
         
-        // Show success message
-        this.form.innerHTML = `
-            <div style="color: #4CAF50; background: rgba(255,255,255,0.9); padding: 20px; border-radius: 10px; text-align: center;">
-                <i class="fas fa-check-circle" style="font-size: 24px; margin-bottom: 10px;"></i>
-                <p style="font-weight: 600;">Thanks! Your analysis is on the way.</p>
-            </div>
-        `;
-        
-        // Close popup after 2 seconds
-        setTimeout(() => this.hidePopup(), 2000);
+        try {
+            // Send data to webhook
+            const response = await fetch(this.webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    source: 'Website Popup',
+                    timestamp: new Date().toISOString(),
+                    pageUrl: window.location.href
+                })
+            });
 
-        // Here you would typically send the email to your server
-        console.log('Email captured:', email);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            // Show success message
+            this.form.innerHTML = `
+                <div style="color: #4CAF50; background: rgba(255,255,255,0.9); padding: 20px; border-radius: 10px; text-align: center;">
+                    <i class="fas fa-check-circle" style="font-size: 24px; margin-bottom: 10px;"></i>
+                    <p style="font-weight: 600;">Thanks! Your analysis is on the way.</p>
+                </div>
+            `;
+
+            // Close popup after 2 seconds
+            setTimeout(() => this.hidePopup(), 2000);
+
+        } catch (error) {
+            console.error('Error sending data:', error);
+            // Show error message to user
+            this.form.innerHTML = `
+                <div style="color: #f44336; background: rgba(255,255,255,0.9); padding: 20px; border-radius: 10px; text-align: center;">
+                    <i class="fas fa-exclamation-circle" style="font-size: 24px; margin-bottom: 10px;"></i>
+                    <p style="font-weight: 600;">Oops! Something went wrong. Please try again.</p>
+                </div>
+            `;
+
+            // Reset form after 2 seconds
+            setTimeout(() => {
+                this.form.innerHTML = `
+                    <input 
+                        type="email" 
+                        class="modal-input" 
+                        placeholder="Enter your email" 
+                        required
+                    >
+                    <button type="submit" class="modal-button">
+                        Get Free Analysis
+                    </button>
+                `;
+            }, 2000);
+        }
     }
 
     setCookie(name, value, days) {
