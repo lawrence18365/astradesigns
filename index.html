@@ -2808,7 +2808,8 @@ section {
         width: 140px;
         height: 140px;
     }
-}</style>
+}
+</style>
 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 </head>
 <body>
@@ -3376,6 +3377,15 @@ section {
     <div class="scroll-to-top">
         <i class="fas fa-arrow-up"></i>
     </div>
+<script>
+// Load popup HTML
+fetch('lead-popup.html')
+    .then(response => response.text())
+    .then(html => {
+        document.body.insertAdjacentHTML('beforeend', html);
+    });
+</script>
+</body>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Loading Screen
