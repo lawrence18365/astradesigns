@@ -396,38 +396,47 @@ body.loading {
       
 /* Premium Services Section */
 .services {
-    background: var(--deep-blue);
+    background: linear-gradient(160deg, #00174F 0%, #2B1644 50%, #CB0B2E 100%);
     position: relative;
     padding: 120px 0;
     overflow: hidden;
     margin-bottom: 0;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    perspective: 1000;
-    will-change: transform;
 }
 
-/* Static Gradient Background */
+/* Dynamic Background - Services */
 .services::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(160deg, #00174F 0%, #2B1644 50%, #CB0B2E 100%);
-    opacity: 1;
+    background: linear-gradient(135deg, 
+        rgba(0, 23, 79, 0.98) 0%,
+        rgba(43, 22, 68, 0.95) 50%,
+        rgba(203, 11, 46, 0.90) 100%
+    );
+    z-index: -2;
     pointer-events: none;
 }
 
-
-/* Remove animated overlay completely */
 .services::after {
-    display: none;
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 100% 100%, 
+        rgba(203, 11, 46, 0.15) 0%, 
+        transparent 50%
+    );
+    z-index: -1;
+    opacity: 0.6;
+    pointer-events: none;
 }
 
-/* Container Optimization */
+/* Container - Optimized */
 .services .container {
-    position: relative;
-    z-index: 2;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
     transform: translateZ(0);
+    will-change: transform;
 }
 
 /* Services Grid - Optimized */
@@ -441,29 +450,27 @@ body.loading {
     perspective: 1000px;
 }
 
-/* Service Card Optimization */
+/* Service Card - Optimized */
 .service-card {
     background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 32px;
     padding: 60px 40px;
     position: relative;
     overflow: hidden;
     height: 100%;
-    transition: transform 0.3s ease;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-}
-
-/* Optimize backdrop-filter usage */
-@supports (backdrop-filter: blur(20px)) {
-    .service-card {
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-    }
-}
-.service-card {
-    will-change: auto;
+    transform: translate3d(0, 0, 0);
+    will-change: transform, opacity;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 /* Card Background Effects - Optimized */
@@ -501,45 +508,20 @@ body.loading {
     background: linear-gradient(135deg, var(--primary-color) 0%, rgba(203, 11, 46, 0.5) 100%);
     border-radius: 30px;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.4s ease;
+    will-change: opacity;
 }
 
-/* Optimize icon gradients */
 .service-icon i {
     font-size: 48px;
-    color: #ffffff;
+    background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     position: relative;
     z-index: 2;
-}
-/* Mobile Optimizations */
-@media (max-width: 768px) {
-    .service-card {
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-        transform: none !important;
-    }
-
-    .service-icon {
-        transform: none;
-    }
-    
-    .services {
-        padding: 60px 0;
-    }
-}
-
-/* Performance Optimization for high-density displays */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .service-card {
-        backface-visibility: hidden;
-    }
-}
-
-/* Prevent text rendering issues */
-.service-title, 
-.service-card p {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    transform: translateZ(0);
+    will-change: transform;
+    transition: transform 0.4s ease;
 }
 
 /* Content Styling - Optimized */
@@ -563,11 +545,11 @@ body.loading {
 }
 
 /* Premium Hover Effects - Optimized */
-.service-card:hover {
-    will-change: transform;
-    transform: translateY(-5px);
-}
 
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
 
 .service-card:hover .service-icon {
     transform: scale3d(1.05, 1.05, 1);
@@ -596,9 +578,7 @@ body.loading {
     }
 .trust-badges-section {
         margin-top: -1px;
-        background: linear-gradient(188deg, #CB0B2E 0%, #2B1644 50%, #00174F 100%);
     }
-    
 
     .services-grid {
         grid-template-columns: 1fr;
@@ -619,17 +599,12 @@ body.loading {
     }
 
     .service-icon {
-    width: 120px;
-    height: 120px;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 35px;
-    position: relative;
-    transform: translateZ(0);
-}
+        width: 100px;
+        height: 100px;
+        border-radius: 24px;
+        margin-bottom: 25px;
+        transition: transform 0.3s ease;
+    }
 
     .service-icon i {
         font-size: 40px;
@@ -1444,7 +1419,6 @@ background: linear-gradient(184deg, #CB0B2E 0%, #2B1644 50%, #00174F 100%);    p
 @media (max-width: 768px) {
     .testimonials {
         padding: 60px 0;
-        background: linear-gradient(183deg, #CB0B2E 0%, #2B1644 50%, #00174F 100%);
     }
 
     .testimonial-track {
@@ -1710,12 +1684,6 @@ background: linear-gradient(184deg, #CB0B2E 0%, #2B1644 50%, #00174F 100%);    p
             color: var(--accent-color);
             margin-bottom: 1rem;
         }
-         @media (max-width: 768px) {
-            background: linear-gradient(209deg, #CB0B2E 0%, #2B1644 50%, #00174F 100%);
-            }
-        }
-        </style>
-        <style>
        .pricing {
 background: linear-gradient(194deg, #CB0B2E 0%, #2B1644 50%, #00174F 100%);    padding: 10px 0;
     position: relative;
@@ -1860,9 +1828,6 @@ background: linear-gradient(194deg, #CB0B2E 0%, #2B1644 50%, #00174F 100%);    p
 }
 
 @media (max-width: 1024px) {
-    .pricing {
-        background: linear-gradient(206deg, #CB0B2E 0%, #2B1644 50%, #00174F 100%);
-    }
     .pricing-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
@@ -2596,7 +2561,6 @@ background: linear-gradient(190deg, #CB0B2E 0%, #2B1644 50%, #00174F 100%);    p
 @media (max-width: 768px) {
     .trust-badges-section {
         padding: 80px 0;
-        background: linear-gradient(188deg, #CB0B2E 0%, #2B1644 50%, #00174F 100%);
     }
     
     .trust-badges-container {
@@ -2704,7 +2668,6 @@ section {
     /* Footer Mobile Optimization */
     footer {
         padding: 3rem 0 1.5rem;
-        background: linear-gradient(191deg, #CB0B2E 0%, #2B1644 50%, #00174F 100%);
     }
 
     .footer-grid {
@@ -2981,97 +2944,8 @@ section {
         
         <div class="portfolio-slider-container">
             <div class="portfolio-track">
+                <!-- ProClean Professional -->
                 <div class="portfolio-item" data-aos="fade-up" data-aos-delay="100">
-                    <div class="portfolio-item-inner">
-                        <a href="https://goldenslippercleaningservices.com/" class="portfolio-link">
-                            <div class="portfolio-image">
-                                <img src="https://i.ibb.co/R3LzsVP/Screenshot-2024-09-18-at-9-37-34-PM.png" alt="Golden Slipper Cleaning">
-                                <div class="portfolio-overlay"></div>
-                            </div>
-                            <div class="portfolio-content">
-                                <span class="portfolio-category">Web Design</span>
-                                <h3>GOLDEN SLIPPER CLEANING</h3>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="portfolio-item" data-aos="fade-up" data-aos-delay="600">
-                    <div class="portfolio-item-inner">
-                        <a href="https://downtowndoggies.com.au/" class="portfolio-link">
-                            <div class="portfolio-image">
-                                <img src="https://i.postimg.cc/6QxwB1s0/Screen-Shot-2024-11-07-at-1-22-24-pm.webp" alt="Downtown Doggies">
-                                <div class="portfolio-overlay"></div>
-                            </div>
-                            <div class="portfolio-content">
-                                <span class="portfolio-category">Web Design</span>
-                                <h3>DOWNTOWN DOGGIES</h3>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="portfolio-item" data-aos="fade-up" data-aos-delay="600">
-                    <div class="portfolio-item-inner">
-                        <a href="https://www.hedgehogtreesandtrimming.com/" class="portfolio-link">
-                            <div class="portfolio-image">
-                                <img src="https://i.postimg.cc/MGQMmV58/Screen-Shot-2024-11-10-at-10-44-58-am-min.webp" alt="Hedgehog Trees & Trimming">
-                                <div class="portfolio-overlay"></div>
-                            </div>
-                            <div class="portfolio-content">
-                                <span class="portfolio-category">Web Design</span>
-                                <h3>HEDGEHOG TREES & TRIMMING</h3>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="portfolio-item" data-aos="fade-up" data-aos-delay="200">
-                    <div class="portfolio-item-inner">
-                        <a href="https://drh2oplumbing.com/" class="portfolio-link">
-                            <div class="portfolio-image">
-                                <img src="https://i.ibb.co/5YMxGbN/Screenshot-2024-09-18-at-9-37-24-PM.png" alt="DRH2O Plumbing">
-                                <div class="portfolio-overlay"></div>
-                            </div>
-                            <div class="portfolio-content">
-                                <span class="portfolio-category">Development</span>
-                                <h3>DRH2O PLUMBING</h3>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="portfolio-item" data-aos="fade-up" data-aos-delay="300">
-                    <div class="portfolio-item-inner">
-                        <a href="https://memoshotsauce.com/" class="portfolio-link">
-                            <div class="portfolio-image">
-                                <img src="https://i.ibb.co/F3LwmgL/Screenshot-2024-09-18-at-9-36-01-PM.png" alt="Memo's Hot Sauce">
-                                <div class="portfolio-overlay"></div>
-                            </div>
-                            <div class="portfolio-content">
-                                <span class="portfolio-category">E-Commerce</span>
-                                <h3>MEMO'S HOT SAUCE</h3>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="portfolio-item" data-aos="fade-up" data-aos-delay="400">
-                    <div class="portfolio-item-inner">
-                        <a href="https://www.aaapluscleaning.com.au/" class="portfolio-link">
-                            <div class="portfolio-image">
-                                <img src="https://i.postimg.cc/C1q7CTRp/Screen-Shot-2024-10-31-at-12-51-49-pm.png" alt="AAAPlus Cleaning">
-                                <div class="portfolio-overlay"></div>
-                            </div>
-                            <div class="portfolio-content">
-                                <span class="portfolio-category">Web Development</span>
-                                <h3>AAAPLUS CLEANING</h3>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="portfolio-item" data-aos="fade-up" data-aos-delay="500">
                     <div class="portfolio-item-inner">
                         <a href="https://www.procleanone.com.au/" class="portfolio-link">
                             <div class="portfolio-image">
@@ -3086,7 +2960,88 @@ section {
                     </div>
                 </div>
 
+                <!-- Downtown Doggies -->
+                <div class="portfolio-item" data-aos="fade-up" data-aos-delay="200">
+                    <div class="portfolio-item-inner">
+                        <a href="https://downtowndoggies.com.au/" class="portfolio-link">
+                            <div class="portfolio-image">
+                                <img src="https://i.postimg.cc/6QxwB1s0/Screen-Shot-2024-11-07-at-1-22-24-pm.webp" alt="Downtown Doggies">
+                                <div class="portfolio-overlay"></div>
+                            </div>
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">Web Design</span>
+                                <h3>DOWNTOWN DOGGIES</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Urban Core Essentials -->
+                <div class="portfolio-item" data-aos="fade-up" data-aos-delay="300">
+                    <div class="portfolio-item-inner">
+                        <a href="https://urbancorehq.com.au/" class="portfolio-link">
+                            <div class="portfolio-image">
+                                <img src="https://i.postimg.cc/Gm79Bzh7/Screen-Shot2024-11-20at3-02-07pm-ezgif-com-optiwebp.webp" alt="Urban Core Essentials">
+                                <div class="portfolio-overlay"></div>
+                            </div>
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">Web Design</span>
+                                <h3>URBAN CORE ESSENTIALS</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hedgehog Trees & Trimming -->
+                <div class="portfolio-item" data-aos="fade-up" data-aos-delay="400">
+                    <div class="portfolio-item-inner">
+                        <a href="https://www.hedgehogtreesandtrimming.com/" class="portfolio-link">
+                            <div class="portfolio-image">
+                                <img src="https://i.postimg.cc/MGQMmV58/Screen-Shot-2024-11-10-at-10-44-58-am-min.webp" alt="Hedgehog Trees & Trimming">
+                                <div class="portfolio-overlay"></div>
+                            </div>
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">Web Design</span>
+                                <h3>HEDGEHOG TREES & TRIMMING</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- AAAPlus Cleaning -->
+                <div class="portfolio-item" data-aos="fade-up" data-aos-delay="500">
+                    <div class="portfolio-item-inner">
+                        <a href="https://www.aaapluscleaning.com.au/" class="portfolio-link">
+                            <div class="portfolio-image">
+                                <img src="https://i.postimg.cc/C1q7CTRp/Screen-Shot-2024-10-31-at-12-51-49-pm.png" alt="AAAPlus Cleaning">
+                                <div class="portfolio-overlay"></div>
+                            </div>
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">Web Development</span>
+                                <h3>AAAPLUS CLEANING</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Golden Slipper Cleaning -->
                 <div class="portfolio-item" data-aos="fade-up" data-aos-delay="600">
+                    <div class="portfolio-item-inner">
+                        <a href="https://goldenslippercleaningservices.com/" class="portfolio-link">
+                            <div class="portfolio-image">
+                                <img src="https://i.ibb.co/R3LzsVP/Screenshot-2024-09-18-at-9-37-34-PM.png" alt="Golden Slipper Cleaning">
+                                <div class="portfolio-overlay"></div>
+                            </div>
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">Web Design</span>
+                                <h3>GOLDEN SLIPPER CLEANING</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tufan Pest Control -->
+                <div class="portfolio-item" data-aos="fade-up" data-aos-delay="700">
                     <div class="portfolio-item-inner">
                         <a href="https://tufanpestcontrol.com/" class="portfolio-link">
                             <div class="portfolio-image">
@@ -3096,6 +3051,38 @@ section {
                             <div class="portfolio-content">
                                 <span class="portfolio-category">Web Design</span>
                                 <h3>TUFAN PEST CONTROL</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Memo's Hot Sauce -->
+                <div class="portfolio-item" data-aos="fade-up" data-aos-delay="800">
+                    <div class="portfolio-item-inner">
+                        <a href="https://memoshotsauce.com/" class="portfolio-link">
+                            <div class="portfolio-image">
+                                <img src="https://i.ibb.co/F3LwmgL/Screenshot-2024-09-18-at-9-36-01-PM.png" alt="Memo's Hot Sauce">
+                                <div class="portfolio-overlay"></div>
+                            </div>
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">E-Commerce</span>
+                                <h3>MEMO'S HOT SAUCE</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- DRH2O Plumbing -->
+                <div class="portfolio-item" data-aos="fade-up" data-aos-delay="900">
+                    <div class="portfolio-item-inner">
+                        <a href="https://drh2oplumbing.com/" class="portfolio-link">
+                            <div class="portfolio-image">
+                                <img src="https://i.ibb.co/5YMxGbN/Screenshot-2024-09-18-at-9-37-24-PM.png" alt="DRH2O Plumbing">
+                                <div class="portfolio-overlay"></div>
+                            </div>
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">Development</span>
+                                <h3>DRH2O PLUMBING</h3>
                             </div>
                         </a>
                     </div>
@@ -3119,8 +3106,7 @@ section {
             </button>
         </div>
     </div>
-</section>
- 
+</section> 
    <section id="pricing" class="pricing">
     <div class="pricing-container">
         <h2 class="section-titleh2">Packages</h2>
