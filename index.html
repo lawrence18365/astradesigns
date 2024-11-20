@@ -3377,13 +3377,138 @@ section {
     <div class="scroll-to-top">
         <i class="fas fa-arrow-up"></i>
     </div>
+<!-- Add this right before </body> -->
+<div id="leadPopup" class="popup-wrapper">
+    <div class="popup-overlay"></div>
+    <div class="popup-container">
+        <button class="popup-close">&times;</button>
+        
+        <div class="popup-header">
+            <span class="popup-emoji">⚡️</span>
+            <h2 class="popup-title">Is Your Website Costing You Sales?</h2>
+            <p class="popup-subtitle">82% of customers won't return to a slow website. Get our expert analysis of what's holding your site back.</p>
+        </div>
+
+        <div class="popup-benefits">
+            <div class="benefit-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Speed Analysis</span>
+            </div>
+            <div class="benefit-item">
+                <i class="fas fa-mobile-alt"></i>
+                <span>Mobile Performance</span>
+            </div>
+            <div class="benefit-item">
+                <i class="fas fa-search"></i>
+                <span>SEO Quick Wins</span>
+            </div>
+            <div class="benefit-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Conversion Tips</span>
+            </div>
+        </div>
+
+        <form class="popup-form" id="leadForm">
+            <input 
+                type="email" 
+                class="popup-input" 
+                placeholder="Enter your email" 
+                required
+            >
+            <button type="submit" class="popup-submit">
+                Get Free Analysis
+            </button>
+        </form>
+
+        <div class="popup-footer">
+            We respect your privacy. Unsubscribe anytime.
+        </div>
+
+        <div class="popup-decline">
+            No thanks, I'm happy losing customers
+        </div>
+    </div>
+</div>
+
 <script>
-// Load popup HTML
-fetch('lead-popup.html')
-    .then(response => response.text())
-    .then(html => {
-        document.body.insertAdjacentHTML('beforeend', html);
-    });
+class LeadPopup {
+    constructor() {
+        this.popup = document.getElementById('leadPopup');
+        this.form = document.getElementById('leadForm');
+        this.closeBtn = this.popup.querySelector('.popup-close');
+        this.declineBtn = this.popup.querySelector('.popup-decline');
+        this.overlay = this.popup.querySelector('.popup-overlay');
+        this.emailInput = this.popup.querySelector('input[type="email"]');
+        
+        this.init();
+    }
+
+    init() {
+        // Show popup after 5 seconds if not shown before
+        if (!this.getCookie('popupShown')) {
+            setTimeout(() => this.showPopup(), 5000);
+        }
+
+        // Event listeners
+        this.closeBtn.addEventListener('click', () => this.hidePopup());
+        this.declineBtn.addEventListener('click', () => this.hidePopup());
+        this.overlay.addEventListener('click', (e) => {
+            if (e.target === this.overlay) this.hidePopup();
+        });
+
+        // Form submission
+        this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+
+        // Exit intent detection
+        document.addEventListener('mouseleave', (e) => {
+            if (!this.getCookie('popupShown') && e.clientY <= 0) {
+                this.showPopup();
+            }
+        });
+    }
+
+    showPopup() {
+        this.popup.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    hidePopup() {
+        this.popup.classList.remove('active');
+        document.body.style.overflow = '';
+        this.setCookie('popupShown', 'true', 7);
+    }
+
+    async handleSubmit(e) {
+        e.preventDefault();
+        const email = this.emailInput.value;
+
+        // Show success message
+        this.form.innerHTML = `
+            <div style="color: #4CAF50; background: rgba(255,255,255,0.9); padding: 20px; border-radius: 12px; text-align: center;">
+                <i class="fas fa-check-circle" style="font-size: 24px; margin-bottom: 8px;"></i>
+                <p style="font-weight: 600;">Thanks! Check your inbox shortly.</p>
+            </div>
+        `;
+        
+        // Close popup after 2 seconds
+        setTimeout(() => this.hidePopup(), 2000);
+    }
+
+    setCookie(name, value, days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
+    }
+
+    getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+}
+
+// Initialize popup when DOM is ready
+document.addEventListener('DOMContentLoaded', () => new LeadPopup());
 </script>
 </body>
 <script>
