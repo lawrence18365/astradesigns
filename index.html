@@ -435,8 +435,7 @@ background: linear-gradient(119deg, #00174F 0%, #2B1644 50%, #CB0B2E 100%);    p
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 24px;
-    transform: translateZ(0);
-    will-change: transform;
+   
 }
 
 /* Services Grid - Optimized */
@@ -445,9 +444,7 @@ background: linear-gradient(119deg, #00174F 0%, #2B1644 50%, #CB0B2E 100%);    p
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 40px;
     position: relative;
-    transform: translateZ(0);
-    will-change: transform;
-    perspective: 1000px;
+   
 }
 
 /* Service Card - Optimized */
@@ -461,7 +458,6 @@ background: linear-gradient(119deg, #00174F 0%, #2B1644 50%, #CB0B2E 100%);    p
     position: relative;
     overflow: hidden;
     height: 100%;
-    transform: translate3d(0, 0, 0);
     will-change: transform, opacity;
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
                 background-color 0.3s ease,
