@@ -593,3 +593,239 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize the slider
     new TestimonialSlider();
 });
+// Contact Form Handler
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForms = document.querySelectorAll('form.contact-form');
+    
+    contactForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form elements
+            const nameInput = form.querySelector('input[name="name"]');
+            const emailInput = form.querySelector('input[name="email"]');
+            const phoneInput = form.querySelector('input[name="phone"]');
+            const messageInput = form.querySelector('textarea[name="message"]');
+            
+            // Validate form
+            let isValid = true;
+            
+            if (!nameInput || !nameInput.value.trim()) {
+                markInvalid(nameInput);
+                isValid = false;
+            } else {
+                markValid(nameInput);
+            }
+            
+            if (!emailInput || !isValidEmail(emailInput.value)) {
+                markInvalid(emailInput);
+                isValid = false;
+            } else {
+                markValid(emailInput);
+            }
+            
+            if (!phoneInput || !phoneInput.value.trim()) {
+                markInvalid(phoneInput);
+                isValid = false;
+            } else {
+                markValid(phoneInput);
+            }
+            
+            if (!messageInput || !messageInput.value.trim()) {
+                markInvalid(messageInput);
+                isValid = false;
+            } else {
+                markValid(messageInput);
+            }
+            
+            if (!isValid) {
+                return;
+            }
+            
+            // Prepare data for submission
+            const formData = {
+                name: nameInput ? nameInput.value.trim() : '',
+                email: emailInput ? emailInput.value.trim() : '',
+                phone: phoneInput ? phoneInput.value.trim() : '',
+                message: messageInput ? messageInput.value.trim() : '',
+                source: window.location.href,
+                timestamp: new Date().toISOString(),
+                language: document.documentElement.lang || 'en'
+            };
+            
+            // Disable form during submission
+            toggleFormState(form, true);
+            
+            // Show loading state
+            const submitBtn = form.querySelector('.submit-btn');
+            const originalBtnText = submitBtn ? submitBtn.textContent : 'Send Message';
+            if (submitBtn) {
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + 
+                    (document.documentElement.lang === 'es' ? 'Enviando...' : 'Sending...');
+            }
+            
+            // Submit form
+            fetch('https://hook.eu2.make.com/ru1mnhhsxy2dzbavygmhr5th4j3harhx', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                // Don't try to parse as JSON, just return the response
+                return response.text();
+            })
+            .then(data => {
+                // Show success message
+                showFormMessage(
+                    form, 
+                    document.documentElement.lang === 'es' 
+                        ? '¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.' 
+                        : 'Message sent successfully! We\'ll be in touch soon.', 
+                    'success'
+                );
+                
+                // Reset form
+                form.reset();
+                form.classList.add('form-success');
+            })
+            .catch(error => {
+                // Show error message
+                showFormMessage(
+                    form, 
+                    document.documentElement.lang === 'es' 
+                        ? 'Ocurrió un error. Por favor, intenta nuevamente.' 
+                        : 'An error occurred. Please try again.', 
+                    'error'
+                );
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                // Re-enable form
+                toggleFormState(form, false);
+                if (submitBtn) {
+                    submitBtn.textContent = originalBtnText;
+                }
+            });
+        });
+    });
+    
+    // Helper functions
+    function isValidEmail(email) {
+        if (!email) return false;
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+    
+    function markInvalid(element) {
+        if (!element) return;
+        element.classList.add('invalid');
+        const parent = element.parentElement;
+        if (parent) parent.classList.add('error');
+    }
+    
+    function markValid(element) {
+        if (!element) return;
+        element.classList.remove('invalid');
+        const parent = element.parentElement;
+        if (parent) parent.classList.remove('error');
+    }
+    
+    function toggleFormState(form, isDisabled) {
+        if (!form) return;
+        const elements = form.querySelectorAll('input, textarea, button');
+        elements.forEach(element => {
+            if (element) element.disabled = isDisabled;
+        });
+    }
+    
+    function showFormMessage(form, message, type) {
+        if (!form) return;
+        
+        // Remove any existing message
+        const existingMessages = document.querySelectorAll('.form-message');
+        existingMessages.forEach(msg => {
+            if (msg) msg.remove();
+        });
+        
+        // Create message element
+        const messageElement = document.createElement('div');
+        messageElement.className = `form-message ${type || 'success'}`;
+        messageElement.textContent = message;
+        
+        // Add success icon for better visibility
+        if (type === 'success') {
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-check-circle';
+            icon.style.display = 'block';
+            icon.style.fontSize = '24px';
+            icon.style.marginBottom = '10px';
+            messageElement.prepend(icon);
+        } else if (type === 'error') {
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-exclamation-circle';
+            icon.style.display = 'block';
+            icon.style.fontSize = '24px';
+            icon.style.marginBottom = '10px';
+            messageElement.prepend(icon);
+        }
+        
+        // Style the message for better visibility
+        messageElement.style.padding = '20px';
+        messageElement.style.borderRadius = '10px';
+        messageElement.style.textAlign = 'center';
+        messageElement.style.margin = '20px 0';
+        messageElement.style.fontWeight = '600';
+        messageElement.style.position = 'relative';
+        messageElement.style.animation = 'fadeIn 0.5s ease-in-out';
+        
+        if (type === 'success') {
+            messageElement.style.backgroundColor = 'rgba(39, 174, 96, 0.9)';
+            messageElement.style.color = 'white';
+            messageElement.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+            messageElement.style.boxShadow = '0 10px 30px rgba(39, 174, 96, 0.2)';
+        } else {
+            messageElement.style.backgroundColor = 'rgba(231, 76, 60, 0.9)';
+            messageElement.style.color = 'white';
+            messageElement.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+            messageElement.style.boxShadow = '0 10px 30px rgba(231, 76, 60, 0.2)';
+        }
+        
+        // Add animation style
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Insert after the form
+        if (form.parentNode) {
+            form.parentNode.insertBefore(messageElement, form.nextSibling);
+        } else {
+            // Fallback - append to the form itself
+            form.appendChild(messageElement);
+        }
+        
+        // Remove message after 5 seconds
+        setTimeout(() => {
+            if (messageElement.parentNode) {
+                messageElement.style.opacity = '0';
+                messageElement.style.transform = 'translateY(-10px)';
+                messageElement.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                
+                setTimeout(() => {
+                    if (messageElement.parentNode) {
+                        messageElement.remove();
+                    }
+                }, 500);
+            }
+        }, 5000);
+    }
+});
